@@ -10,6 +10,14 @@ var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 var app = express();
 
+var SpotifyWebApi = require('spotify-web-api-node');
+
+// credentials are optional
+var spotifyApi = new SpotifyWebApi({
+  clientId: '833afa7786d94fda8f46a899e2be4448',
+  clientSecret: '749b7a1e48b244f1ae1aafa6179d5e4b',
+  redirectUri: 'http://localhost:8888/callback'
+});
 
 const bodyParser = require('body-parser').urlencoded({extended: true});
 const PORT = process.env.PORT || 3000;

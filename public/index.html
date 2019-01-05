@@ -119,6 +119,8 @@
               }
             }).done(function(data) {
               access_token = data.access_token;
+              localStorage.setItem("access_token", access_token);
+              localStorage.setItem('I did that', access_token);
               oauthPlaceholder.innerHTML = oauthTemplate({
                 access_token: access_token,
                 refresh_token: refresh_token
@@ -128,6 +130,9 @@
         }
       })();
     </script>
+    <script type='text/javascript' src='scripts/scripts.js'> </script>
+    <script type='text/javascript' src='scripts/spotify-web-api.js'> </script>
+
     <!-- <section id="wrapper">
     <div id="listPane">
   </div>
