@@ -20,3 +20,18 @@
 #loggedin {
   display: none;
 }
+
+#login, #loggedin {
+  display: none;
+}
+
+#playlistButton{
+  display: none;
+}
+
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 500px;
+}

@@ -1,5 +1,5 @@
 
-document.getElementById('get-top-tracks').addEventListener('click', function() {
+document.getElementById('playlistButton').addEventListener('click', function() {
   var access_token = localStorage.getItem("access_token")
   getTopTracks(access_token);
 });
@@ -7,7 +7,7 @@ document.getElementById('get-top-tracks').addEventListener('click', function() {
 function getTopTracks(access_token) {
   console.log('getting tracks')
   $.ajax({
-    url: 'https://api.spotify.com/v1/me/top/tracks?limit=10',
+    url: 'https://api.spotify.com/v1/me/playlists',
     headers: {
       'Authorization':'Bearer ' + access_token
     },
