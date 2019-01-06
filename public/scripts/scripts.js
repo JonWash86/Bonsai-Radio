@@ -15,7 +15,11 @@ function getTopTracks(access_token) {
       console.log('hi!')
       console.log(response.items);
       $(".recommendations").show();
-      mapOverSongs(response.items);
+      mapOverPlaylists(response.items);
     }
   });
+}
+
+function mapOverPlaylists(){
+  
 }
