@@ -42,7 +42,7 @@ function getPlaylistTracks(access_token){
     success: function(response) {
       console.log('hi!')
       console.log(response.items);
-      $(".recommendations").show();
+      $("#trackList").children().remove();
       mapOverTracks(response.items);
     }
   });
