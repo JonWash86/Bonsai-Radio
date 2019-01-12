@@ -1,8 +1,8 @@
 
-document.getElementById('playlistButton').addEventListener('click', function() {
-  var access_token = localStorage.getItem("access_token")
-  getPlaylists(access_token);
-});
+// document.getElementById('playlistButton').addEventListener('click', function() {
+//   var access_token = localStorage.getItem("access_token")
+//   getPlaylists(access_token);
+// });
 
 //This function gets a list of the user's playlists
 function getPlaylists(access_token) {
