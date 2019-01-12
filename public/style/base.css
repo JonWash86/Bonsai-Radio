@@ -1,23 +1,36 @@
-/* #wrapper{
+#header {
   position: fixed;
-  display:flex;
-} */
+  width: 100%;
+  height: 60px;
+  background-color: #000000;
+  border-style: solid;
+  border-color: #1db954;
+  border-width: 0px 0px 5px 0px;
+}
 
 #listPane{
-  background-color:green;
+  background-color:#000000;
+  color:#1db954;
   /* flex: 0 0 50%; */
   height:100%;
   position: fixed;
   overflow: auto;
   width: 400px;
+  margin-top: 60px;
   /* height: 400px; */
+  border-style: solid;
+  border-color: #1db954;
+  border-width: 0px 5px 0px 0px;
 }
 
 #infoPane{
-  /* position:fixed; */
-  background-color:blue;
+  position:fixed;
+  background-color:#000000;
   flex: 1;
   margin-left:400px;
+  margin-top: 60px;
+  width: 100%;
+  height: 100%;
 }
 
 #login {
@@ -34,6 +47,20 @@
 
 #playlistList{
   display: none;
+}
+
+#trackList{
+  list-style-type: none;
+  padding:0;
+  margin:0;
+}
+
+.playlistItem{
+  padding-top:2px;
+  padding-bottom:2px;
+  border-style: solid;
+  border-color: #1db954;
+  border-width: 0px 0px 3px 0px;
 }
 
 .text-overflow {
