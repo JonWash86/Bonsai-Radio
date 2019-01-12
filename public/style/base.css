@@ -1,16 +1,23 @@
-#wrapper{
+/* #wrapper{
+  position: fixed;
   display:flex;
-}
+} */
 
 #listPane{
   background-color:green;
-  flex: 0 0 50%;
-  height:100px;
+  /* flex: 0 0 50%; */
+  height:100%;
+  position: fixed;
+  overflow: auto;
+  width: 400px;
+  /* height: 400px; */
 }
 
 #infoPane{
+  /* position:fixed; */
   background-color:blue;
   flex: 1;
+  margin-left:400px;
 }
 
 #login {
