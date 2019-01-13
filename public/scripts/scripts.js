@@ -21,7 +21,7 @@ function getPlaylists(access_token) {
 
 function mapOverPlaylists(playlists){
   playlists.map(function(playlist){
-    var list = "<option value=" + playlist.id + " class='playlistItem'> <img src='" + playlist.images[0].url + "' height='75px'>" + playlist.name + "</option>"
+    var list = "<option value=" + playlist.id + " class='playlistItem'>" + playlist.name + "</option>"
     document.getElementById('playlistList').innerHTML += list;
   })
   $('#playlistList').on('change', function() {
@@ -50,7 +50,7 @@ function getPlaylistTracks(access_token){
 
 function mapOverTracks(tracks){
   tracks.map(function(track){
-    var list = "<li id=" + track.track.name + " class='playlistItem'>" + track.track.name + ", by " + track.track.artists[0].name + "</li>"
+    var list = "<li id=" + track.track.name + " class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
     document.getElementById('trackList').innerHTML += list;
   })
   $('li.playlistItem').click(function() {
