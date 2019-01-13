@@ -1,31 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <title>Welcome, Station Manager!</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style/base.css"</link>
+    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="style/reset.css"></link>
+    <link rel="stylesheet" href="style/base.css"></link>
   </head>
 
   <body>
-    <!-- <section id="wrapper"> -->
+    <div id="header">
+      <img src="img/radio.svg" alt="radio!" id="icon"><h1 id="welcome">&nbsp Welcome, Station Manager!</h1>
+    </div>
+    <section id="mainWrap">
       <div id="listPane">
         <ul id="trackList">
         </ul>
       </div>
       <div id="infoPane">
         <a href="/login" class="btn btn-primary">Connect to Spotify</a>
-        <button type="button" id="playlistButton" class="spotify-button">get your playlists</button>
+        <!-- <button type="button" id="playlistButton" class="spotify-button">get your playlists</button> -->
         <select id="playlistList">
           <option>-select a playlist-</option>
         </select>
-    </div>
-    <!-- </section> -->
-
-    <div class="container">
-      <div id="login">
-        <h1>This is an example of the Authorization Code flow</h1>
-
       </div>
+    </section>
+    <div id="footer">
+    </div>
+
+    <!-- <div class="container"> -->
       <div id="loggedin">
         <div id="user-profile">
         </div>
@@ -33,7 +35,7 @@
         </div>
         <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
       </div>
-    </div>
+    <!-- </div> -->
 
     <script id="user-profile-template" type="text/x-handlebars-template">
       <h1>Logged in as {{display_name}}</h1>
@@ -65,10 +67,8 @@
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script type='text/javascript' src='scripts/spotifyAuth.js'></script>
-<script type='text/javascript' src='scripts/scripts.js'></script>
-<script type='text/javascript' src='scripts/last.js'></script>
-
-
+    <script type='text/javascript' src='scripts/scripts.js'></script>
+  <script type='text/javascript' src='scripts/spotifyAuth.js'></script>
+  <script type='text/javascript' src='scripts/last.js'></script>
   </body>
 </html>

@@ -1,3 +1,4 @@
+// Code based on Spotify's auth flow sample code, with (some) ancillary code removed.
 (function() {
   /**
    * Obtains parameters from the hash of the URL
@@ -27,7 +28,10 @@
   } else {
     if (access_token) {
       localStorage.setItem('access_token', access_token);
-      $("#playlistButton").show();
+      var access_token = localStorage.getItem("access_token")
+      getPlaylists(access_token);
+      $("#playlistList").show();
+      // $("#playlistButton").show();
       // render oauth info
       oauthPlaceholder.innerHTML = oauthTemplate({
         access_token: access_token,

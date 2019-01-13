@@ -1,23 +1,93 @@
-/* #wrapper{
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400, 600 | Roboto 100, 300');
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+h1{
+  color: #29335C;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 20px;
+  font-size: 28px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+a{
+  font-family: 'Roboto', sans-serif;
+}
+
+a:visited{
+  color: #1DB954;
+}
+
+#mainWrap{
+  margin-bottom: 50px;
+}
+
+
+#header {
+  /* position: fixed; */
+  width: 100%;
+  height: 60px;
+  background-color: #94B9AF;
+  border-style: solid;
+  border-color: #94B9AF;
+  border-width: 0px 0px 5px 0px;
+  /* z-index:2; */
+}
+
+#footer{
   position: fixed;
-  display:flex;
-} */
+  left: 0;
+  bottom: 0;
+  width:100%;
+  height: 25px;
+  background-color: #94B9AF;
+  z-index: 2;
+}
+
+#icon{
+  height: 55px;
+  margin-left: 10px;
+  margin-top: 2px;
+  display: inline-block;
+  color: #29335C;
+}
 
 #listPane{
-  background-color:green;
+  background-color: #000000;
+  color: #94B9AF;
   /* flex: 0 0 50%; */
-  height:100%;
+  height: 100%;
   position: fixed;
   overflow: auto;
   width: 400px;
-  /* height: 400px; */
+  /* margin-top: 60px; */
+  /* padding-bottom: 50px; */
+  padding-top: 5px;
+  height: calc(100% - 94px);
+  border-style: solid;
+  border-color: #94B9AF;
+  border-width: 0px 5px 5px 5px;
+  z-index: 1;
 }
 
 #infoPane{
-  /* position:fixed; */
-  background-color:blue;
-  flex: 1;
-  margin-left:400px;
+  position: fixed;
+  background-color: #000000;
+  /* flex: 1; */
+  padding-left: 420px;
+  /* margin-top: 60px; */
+  /* padding-left: 10px; */
+  padding-top: 10px;
+  width: calc(100% - 425px);
+  height: 100%;
+  border-style: solid;
+  border-color: #94B9AF;
+  border-width: 0px 5px 0px 0px;
+  /* z-index: -1; */
 }
 
 #login {
@@ -32,8 +102,26 @@
   display: none;
 }
 
-#playlistButton{
+#playlistList{
   display: none;
+}
+
+#trackList{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+.playlistItem{
+  font-size: 16px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 10px;
+  border-style: solid;
+  border-color: #94B9AF;
+  border-width: 0px 0px 3px 0px;
 }
 
 .text-overflow {
@@ -41,4 +129,11 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 500px;
+}
+
+.trackArtist{
+  font-style: italic;
+  font-size: 12px;
+  font-weight: 100;
+  color: #56CBF9;
 }
