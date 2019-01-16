@@ -100,6 +100,7 @@ a:visited{
 
 #infoPane{
   position: fixed;
+  color: #94B9AF;
   background-color: #000000;
   text-align: center;
   /* flex: 1; */
@@ -127,8 +128,11 @@ a:visited{
   display: none;
 }
 
-#playlistList{
+#playlistFetcher{
   display: none;
+}
+
+#playlistList{
   font-size: 20px;
 }
 
