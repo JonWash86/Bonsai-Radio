@@ -27,15 +27,27 @@ function getLastPlayed() {
 }
 
 // the following code is meant to grab today's date, then slot in the day before it and convert that day @11:59 UTC to a UNIX timestamp
-var dateToday = Date.now();
-var unixToday = (dateToday / 1000|0);
+function getYesterday(){
+  var yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  yesterday.setHours(11,59);
+  return(yesterday / 1000|0);
+};
 
-var d = new Date();
-d.setDate(d.getDate() - 1);
-d.setHours(11,59);
-var itsBeenOneWeek = ((d - 7) / 1000|0);
+// there are 604800 seconds in a week and 2419200 seconds in 28 days (exactly four weeks)
+function getLastWeek(){
+  return(getYesterday() - 604800);
+}
+
+function getFourWeeks(){
+  return(getYesterday() - 2419200);
+}
+
+var oneWeek = yesterday.setDate(yesterday.getDate() - 7);
+
+var itsBeenOneWeek = (oneWeek / 1000|0);
 // var itsBeenOneWeek = ((d - 7)/ 1000|0);
-var unixYesterD = (d / 1000|0);
+var unixYesterD = (yesterday / 1000|0);
 
 
 //yesterDd is the number of today's date.
