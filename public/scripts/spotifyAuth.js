@@ -30,7 +30,8 @@
       localStorage.setItem('access_token', access_token);
       var access_token = localStorage.getItem("access_token")
       getPlaylists(access_token);
-      $("#playlistList").show();
+      $("#spotifyButton").hide();
+      $("#playlistFetcher").show();
       // $("#playlistButton").show();
       // render oauth info
       oauthPlaceholder.innerHTML = oauthTemplate({

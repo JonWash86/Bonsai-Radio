@@ -19,8 +19,32 @@ a{
 }
 
 a:visited{
-  color: #1DB954;
+  color: black;
+  text-decoration: none;
 }
+
+.btn {
+  border: none;
+  color:black;
+  border-radius:25px;
+  background-color: #1DB954;
+  padding: 14px 28px;
+  font-size: 16px;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 50px;
+}
+
+.btn:hover{
+  cursor: pointer;
+  background-color: #137c38;
+}
+
+.btn:active {
+  transform: translateY(4px);
+}
+
 
 #mainWrap{
   margin-bottom: 50px;
@@ -76,7 +100,9 @@ a:visited{
 
 #infoPane{
   position: fixed;
+  color: #94B9AF;
   background-color: #000000;
+  text-align: center;
   /* flex: 1; */
   padding-left: 420px;
   /* margin-top: 60px; */
@@ -102,8 +128,12 @@ a:visited{
   display: none;
 }
 
-#playlistList{
+#playlistFetcher{
   display: none;
+}
+
+#playlistList{
+  font-size: 20px;
 }
 
 #trackList{
