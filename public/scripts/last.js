@@ -34,38 +34,53 @@ function getYesterday(){
   return(yesterday / 1000|0);
 };
 
-// there are 604800 seconds in a week and 2419200 seconds in 28 days (exactly four weeks)
+// there are 604800 seconds in a week ...
 function getLastWeek(){
   return(getYesterday() - 604800);
-}
+};
 
+// ...and 2419200 seconds in 28 days (exactly four weeks)
 function getFourWeeks(){
   return(getYesterday() - 2419200);
-}
+};
 
-var oneWeek = yesterday.setDate(yesterday.getDate() - 7);
-
-var itsBeenOneWeek = (oneWeek / 1000|0);
-// var itsBeenOneWeek = ((d - 7)/ 1000|0);
-var unixYesterD = (yesterday / 1000|0);
-
-
-//yesterDd is the number of today's date.
-var today = new Date();
-var yesterDd = (today.getDate() - 1);
-
-// this function check the last.fm id field and retrieves the most recently played tracks for that user.
-function getTrackForUser() {
+// this function check the last.fm id field and retrieves the most recently played tracks for that user. It then passes the length of the ensuing list to the getFullWeek function to loop over the pages of results.
+function getTrackForUser(previousDate, todayDate) {
   var userLastId = $("#lastId").val();
-  console.log(userLastId);
   $.ajax({
     type:'POST',
-    url: 'http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&api_key=100a45f60fce336c43b1dac55062e23a&username=' + userLastId + '&from=1546992000&to=1547611107&format=json',
+    url: 'http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&api_key=100a45f60fce336c43b1dac55062e23a&username=' + userLastId + '&from='+ previousDate +'&to='+ todayDate +'&page?&format=json',
     success: function(response) {
-      console.log(response);
+      console.log(response.recenttracks)
+      var requestLength = response.recenttracks["@attr"].totalPages;
+      console.log(response.recenttracks["@attr"].total);
+      getFullWeek(requestLength, previousDate, todayDate);
     },
     error: function(code, message){
       console.log('it didn\'t work!');
     }
   });
+}
+
+var allCallSongs = [];
+
+function getFullWeek(requestLength, previousDate, todayDate) {
+  var userLastId = $("#lastId").val();
+  for (i = 1; i <= requestLength; i ++){
+    console.log(i);
+    $.ajax({
+      type:'POST',
+      url: 'http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&api_key=100a45f60fce336c43b1dac55062e23a&username=' + userLastId + '&from='+ previousDate +'&to='+ todayDate +'&page='+ i +'&format=json',
+      success: function(response) {
+        for (i = 0; i <= (response.recenttracks.track.length - 1); i ++){
+          allCallSongs.push(response.recenttracks.track[i]);
+        }
+      },
+      error: function(code, message){
+        console.log('it didn\'t work!');
+      }
+    });
+  }
+  console.log(allCallSongs);
+  return(allCallSongs);
 }
