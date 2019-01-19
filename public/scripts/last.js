@@ -51,7 +51,9 @@ function getTrackForUser(previousDate, todayDate) {
     type:'POST',
     url: 'http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&api_key=100a45f60fce336c43b1dac55062e23a&username=' + userLastId + '&from='+ previousDate +'&to='+ todayDate +'&page?&format=json',
     success: function(response) {
+      console.log(response.recenttracks)
       var requestLength = response.recenttracks["@attr"].totalPages;
+      console.log(response.recenttracks["@attr"].total);
       getFullWeek(requestLength, previousDate, todayDate);
     },
     error: function(code, message){
@@ -60,16 +62,17 @@ function getTrackForUser(previousDate, todayDate) {
   });
 }
 
+var allCallSongs = [];
+
 function getFullWeek(requestLength, previousDate, todayDate) {
   var userLastId = $("#lastId").val();
-  var allCallSongs = [];
   for (i = 1; i <= requestLength; i ++){
     console.log(i);
     $.ajax({
       type:'POST',
       url: 'http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&api_key=100a45f60fce336c43b1dac55062e23a&username=' + userLastId + '&from='+ previousDate +'&to='+ todayDate +'&page='+ i +'&format=json',
       success: function(response) {
-        for (i = 0; i <= response.recenttracks.track.length; i ++){
+        for (i = 0; i <= (response.recenttracks.track.length - 1); i ++){
           allCallSongs.push(response.recenttracks.track[i]);
         }
       },
@@ -79,4 +82,5 @@ function getFullWeek(requestLength, previousDate, todayDate) {
     });
   }
   console.log(allCallSongs);
+  return(allCallSongs);
 }

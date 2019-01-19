@@ -50,11 +50,21 @@ function getPlaylistTracks(access_token){
 
 function mapOverTracks(tracks){
   tracks.map(function(track){
-    var list = "<li id=" + track.track.name + " class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
+    var list = "<li id=\"" + track.track.name + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
     document.getElementById('trackList').innerHTML += list;
   })
   $('li.playlistItem').click(function() {
     var access_token = localStorage.getItem("access_token");
-    getPlaylistTracks(access_token);
+    // getPlaylistTracks(access_token);
+    var playCount = 0;
+    for (i = 0; i <= (allCallSongs.length - 1); i++){
+      console.log("we have just processed number"+ i +", which is " + allCallSongs[i].name)
+      if (this.id == allCallSongs[i].name){
+        console.log('we have a match!')
+        playCount ++;
+      }
+    }
+    console.log(this.id)
+    console.log(playCount)
   })
 }
