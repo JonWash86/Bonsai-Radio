@@ -6,4 +6,6 @@ Back in college, when having a "system" for listening to music was more of a goi
 
 Now it's 2018, and iTunes is a very different application. Meanwhile, streaming music brings the world to your fingertips, but without the management; you either have to know what you want to listen to by name, or let the service serve up its own recommendations. It's only an illusion of power; I'm usually paralyzed by the choices and often retreat to old favorites instead of forging forward.
 
+For more information on connecting your last.fm account to track your spotify plays, check out this article from spotify support: https://support.spotify.com/us/using_spotify/app_integrations/scrobble-to-last-fm/
+
 ### The spotify green hex is #1db954
