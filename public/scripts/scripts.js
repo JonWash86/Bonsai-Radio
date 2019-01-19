@@ -64,7 +64,7 @@ function mapOverTracks(tracks){
         playCount ++;
       }
     }
-    console.log(this.id)
-    console.log(playCount)
+    console.log(this.id);
+    console.log("This song has been played " + playCount + " times.");
   })
 }
