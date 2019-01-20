@@ -63,9 +63,6 @@ function mapOverTracks(tracks){
     playCounter(idMatcher(this.id));
     console.log(this.id);
     console.log("This song has been played " + playCounter(idMatcher(this.id)) + " times.");
-    var trackStats = "<img src="+ this.id +"><h1>" + this.id + "</h1>"
-    console.log(trackStats);
-    // document.getElementById('songInfo').innerHTML = trackStats;
   })
 }
 
@@ -91,5 +88,9 @@ function playCounter(track){
       playCount ++;
     }
   };
+  console.log(track.track.album.images[0].url);
+  var trackStats = "<img src="+ track.track.album.images[0].url +" height=\"250px\"><h1>" + track.track.name + "</h1>"
+  console.log(trackStats);
+  document.getElementById('songInfo').innerHTML = trackStats;
   return playCount;
 }
