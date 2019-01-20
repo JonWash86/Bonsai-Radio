@@ -54,24 +54,42 @@ var playListTracks =[];
 // this function goes over every track and writes it to the list pane and adds an onclick listener to each track which will check the playcount and write the track's metadata to the infopane
 function mapOverTracks(tracks){
   tracks.map(function(track){
-    var list = "<li id=\"" + track.track.name + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
+    var list = "<li id=\"" + track.track.id + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
     document.getElementById('trackList').innerHTML += list;
     playListTracks.push(track);
-    console.log(playListTracks)
   })
-  // return(playListTracks);
   $('li.playlistItem').click(function() {
-    var playCount = 0;
-    for (i = 0; i <= (allCallSongs.length - 1); i++){
-      // console.log("we have just processed number"+ i +", which is " + allCallSongs[i].name)
-      if (this.id.toLowerCase() == allCallSongs[i].name.toLowerCase()){
-        console.log('we have a match! Played at ' + allCallSongs[i].date.uts + " UTS.");
-        playCount ++;
-      }
-    }
+    // idMatcher(this.id);
+    playCounter(idMatcher(this.id));
     console.log(this.id);
-    console.log("This song has been played " + playCount + " times.");
+    console.log("This song has been played " + playCounter(idMatcher(this.id)) + " times.");
     var trackStats = "<img src="+ this.id +"><h1>" + this.id + "</h1>"
-    document.getElementById('songInfo').innerHTML = trackStats;
+    console.log(trackStats);
+    // document.getElementById('songInfo').innerHTML = trackStats;
   })
+}
+
+function idMatcher(identification){
+  console.log('checking!')
+  for (i = 0; i <= playListTracks.length; i++){
+    console.log(playListTracks[i]);
+    if (identification == playListTracks[i].track.id){
+      console.log('id match!');
+      var thisTrack = playListTracks[i];
+      console.log(thisTrack);
+      return(thisTrack);
+    }
+  }
+}
+
+function playCounter(track){
+  var playCount = 0;
+  for (i = 0; i <= (allCallSongs.length - 1); i++){
+    // console.log("we have just processed number"+ i +", which is " + allCallSongs[i].name)
+    if (track.track.name.toLowerCase() == allCallSongs[i].name.toLowerCase()){
+      console.log('we have a match! Played at ' + allCallSongs[i].date.uts + " UTS.");
+      playCount ++;
+    }
+  };
+  return playCount;
 }
