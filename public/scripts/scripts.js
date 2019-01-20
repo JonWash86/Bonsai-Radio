@@ -33,7 +33,8 @@ function mapOverPlaylists(playlists){
 
 //This function will use the access token to retrieve a list of the songs in a given playlist.
 function getPlaylistTracks(access_token){
-  console.log('getting tracks' + $('select option:selected').val())
+  console.log('getting tracks' + $('select option:selected').val());
+  playListTracks.length = 0;
   $.ajax({
     url: 'https://api.spotify.com/v1/playlists/' + $('select option:selected').val() + '/tracks',
     headers: {
@@ -48,23 +49,29 @@ function getPlaylistTracks(access_token){
   });
 }
 
+var playListTracks =[];
+
+// this function goes over every track and writes it to the list pane and adds an onclick listener to each track which will check the playcount and write the track's metadata to the infopane
 function mapOverTracks(tracks){
   tracks.map(function(track){
     var list = "<li id=\"" + track.track.name + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
     document.getElementById('trackList').innerHTML += list;
+    playListTracks.push(track);
+    console.log(playListTracks)
   })
+  // return(playListTracks);
   $('li.playlistItem').click(function() {
-    var access_token = localStorage.getItem("access_token");
-    // getPlaylistTracks(access_token);
     var playCount = 0;
     for (i = 0; i <= (allCallSongs.length - 1); i++){
-      console.log("we have just processed number"+ i +", which is " + allCallSongs[i].name)
-      if (this.id == allCallSongs[i].name){
-        console.log('we have a match!')
+      // console.log("we have just processed number"+ i +", which is " + allCallSongs[i].name)
+      if (this.id.toLowerCase() == allCallSongs[i].name.toLowerCase()){
+        console.log('we have a match! Played at ' + allCallSongs[i].date.uts + " UTS.");
         playCount ++;
       }
     }
     console.log(this.id);
     console.log("This song has been played " + playCount + " times.");
+    var trackStats = "<img src="+ this.id +"><h1>" + this.id + "</h1>"
+    document.getElementById('songInfo').innerHTML = trackStats;
   })
 }
