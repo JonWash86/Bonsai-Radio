@@ -82,15 +82,12 @@ function idMatcher(identification){
 function playCounter(track){
   var playCount = 0;
   for (i = 0; i <= (allCallSongs.length - 1); i++){
-    // console.log("we have just processed number"+ i +", which is " + allCallSongs[i].name)
     if (track.track.name.toLowerCase() == allCallSongs[i].name.toLowerCase()){
       console.log('we have a match! Played at ' + allCallSongs[i].date.uts + " UTS.");
       playCount ++;
     }
   };
-  console.log(track.track.album.images[0].url);
-  var trackStats = "<img src="+ track.track.album.images[0].url +" height=\"250px\"><h1>" + track.track.name + "</h1>"
-  console.log(trackStats);
+  var trackStats = "<img id=\"albumThumb\" src="+ track.track.album.images[0].url +" height=\"250px\"><h3 id=\"trackTitle\">" + track.track.name + "</h3><br><br><span class=\"trackFacts\"><h2>by "+ track.track.artists[0].name +"</h2></span><br><span class=\"trackFacts\">from "+ track.track.album.name + "</span><br><br><span class=\"trackStatistics\">Added on "+ track.added_at +"</span><br><br><span class=\"trackStatistics\">Played "+ playCount +" times.</span>"
   document.getElementById('songInfo').innerHTML = trackStats;
   return playCount;
 }
