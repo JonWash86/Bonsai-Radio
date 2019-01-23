@@ -1,0 +1,28 @@
+{
+  "name": "Station-Manager",
+  "version": "1.0.0",
+  "description": "Station manager is an application made to bring the power back into playlist management. Pairing the Spotify and Last.fm APIs, this application allows the user to assess",
+  "main": "server.js",
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonWash86/Station-Manager.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JonWash86/Station-Manager/issues"
+  },
+  "homepage": "https://github.com/JonWash86/Station-Manager#readme"
+}
