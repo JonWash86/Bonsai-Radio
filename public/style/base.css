@@ -37,7 +37,7 @@ a:visited{
   text-decoration: none;
   cursor: pointer;
   display: inline-block;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 .btn:hover{
@@ -49,6 +49,21 @@ a:visited{
   transform: translateY(4px);
 }
 
+input {
+  width: 200px;
+  height: 28px;
+  font-size: 24px;
+  font-family: 'Montserrat', sans-serif;
+  color: #EDFFAB;
+  border: none;
+  border-bottom: 2px solid #EDFFAB;
+  background-color: black;
+  text-align: center;
+}
+
+input:focus {
+  outline-width: 0;
+}
 
 #mainWrap{
   margin-bottom: 50px;
