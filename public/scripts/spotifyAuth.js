@@ -30,6 +30,8 @@
       localStorage.setItem('access_token', access_token);
       var access_token = localStorage.getItem("access_token")
       getPlaylists(access_token);
+      var userLastId = $("#lastId").val();
+      localStorage.setItem("userLastId", userLastId);
       $("#authenticatorPanel").hide();
       $("#playlistFetcher").show();
       // $("#playlistButton").show();

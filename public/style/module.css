@@ -3,6 +3,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  padding: 10px;
   width: 400px;
   height: 300px;
   z-index: 25;
