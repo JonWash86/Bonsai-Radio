@@ -13,38 +13,57 @@ function getPlaylists(access_token) {
     },
     success: function(response) {
       $(".recommendations").show();
-      mapOverPlaylists(response.items);
+      generatePlaylistDropdown(response.items);
     }
   });
 }
 
 
-function mapOverPlaylists(playlists){
+function generatePlaylistDropdown(playlists){
   playlists.map(function(playlist){
     var list = "<option value=" + playlist.id + " class='playlistItem'>" + playlist.name + "</option>"
     document.getElementById('playlistList').innerHTML += list;
   })
   $('#playlistList').on('change', function() {
-    console.log('you selected a playlist!')
+    $("#trackList").children().remove();
     var access_token = localStorage.getItem("access_token");
     getPlaylistTracks(access_token);
+    playListTracks.length = 0;
   })
 }
 
 //This function will use the access token to retrieve a list of the songs in a given playlist.
-function getPlaylistTracks(access_token){
-  console.log('getting tracks' + $('select option:selected').val());
-  playListTracks.length = 0;
+function getPlaylistTracks(access_token, request_url){
+  var url = request_url || 'https://api.spotify.com/v1/playlists/' + $('select option:selected').val() + '/tracks'
+
   $.ajax({
-    url: 'https://api.spotify.com/v1/playlists/' + $('select option:selected').val() + '/tracks',
+    url: url,
     headers: {
       'Authorization':'Bearer ' + access_token
     },
     success: function(response) {
-      console.log('hi!')
-      console.log(response.items);
-      $("#trackList").children().remove();
-      mapOverTracks(response.items);
+      generateTrackList(response.items);
+      if(response.next) {
+        // keep chaining getPlaylistTracks calls until
+        // there isn't a response.next any more!
+        // at that point, we've gotten all the tracks!
+        getPlaylistTracks(access_token, response.next);
+        //generateTrackList(response.items);
+      }
+
+      // to figure out num pages, an example:
+      // 137 total items
+      // 10 items per page
+      // in that case, response.total will be 137
+      // response.limit will be 10
+      // the actual number of pages will be 14
+
+      // then the code to figure out the number of pages is:
+      // var pages = round_up(response.total / response.limit)
+
+      // SO ALL THAT STUFF ABOVE was just assuming
+      // that we really cared about the number of pages
+
     }
   });
 }
@@ -52,7 +71,7 @@ function getPlaylistTracks(access_token){
 var playListTracks =[];
 
 // this function goes over every track and writes it to the list pane and adds an onclick listener to each track which will check the playcount and write the track's metadata to the infopane
-function mapOverTracks(tracks){
+function generateTrackList(tracks){
   tracks.map(function(track){
     var list = "<li id=\"" + track.track.id + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
     document.getElementById('trackList').innerHTML += list;
@@ -61,7 +80,6 @@ function mapOverTracks(tracks){
   $('li.playlistItem').click(function() {
     // idMatcher(this.id);
     playCounter(idMatcher(this.id));
-    console.log(this.id);
     console.log("This song has been played " + playCounter(idMatcher(this.id)) + " times.");
   })
 }

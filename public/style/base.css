@@ -163,6 +163,11 @@ a:visited{
   border-width: 0px 0px 3px 0px;
 }
 
+li.playlistItem:hover{
+  cursor:pointer;
+  background-color: ;
+}
+
 .text-overflow {
   overflow: hidden;
   text-overflow: ellipsis;
