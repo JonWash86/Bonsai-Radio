@@ -44,6 +44,11 @@ function getFourWeeks(){
   return(getYesterday() - 2419200);
 };
 
+// Now, this function grabs the last 183 days, just .5 days over the length of half a year.
+function getSixMonths(){
+  return(getYesterday() - 15811200);
+}
+
 // this function check the last.fm id field and retrieves the most recently played tracks for that user. It then passes the length of the ensuing list to the getFullWeek function to loop over the pages of results.
 function getTrackForUser(previousDate, todayDate) {
   //TODO: Rename this function to be more descriptive of what it does
