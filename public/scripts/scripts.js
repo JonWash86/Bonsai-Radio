@@ -25,26 +25,50 @@ function mapOverPlaylists(playlists){
     document.getElementById('playlistList').innerHTML += list;
   })
   $('#playlistList').on('change', function() {
+    $("#trackList").children().remove();
     console.log('you selected a playlist!')
     var access_token = localStorage.getItem("access_token");
     getPlaylistTracks(access_token);
+    playListTracks.length = 0;
   })
 }
 
 //This function will use the access token to retrieve a list of the songs in a given playlist.
-function getPlaylistTracks(access_token){
+function getPlaylistTracks(access_token, request_url){
   console.log('getting tracks' + $('select option:selected').val());
-  playListTracks.length = 0;
+  var url = request_url || 'https://api.spotify.com/v1/playlists/' + $('select option:selected').val() + '/tracks'
+
   $.ajax({
-    url: 'https://api.spotify.com/v1/playlists/' + $('select option:selected').val() + '/tracks',
+    url: url,
     headers: {
       'Authorization':'Bearer ' + access_token
     },
     success: function(response) {
       console.log('hi!')
-      console.log(response.items);
-      $("#trackList").children().remove();
+      console.log(response);
       mapOverTracks(response.items);
+
+      if(response.next) {
+        // keep chaining getPlaylistTracks calls until
+        // there isn't a response.next any more!
+        // at that point, we've gotten all the tracks!
+        getPlaylistTracks(access_token, response.next);
+        //mapOverTracks(response.items);
+      }
+
+      // to figure out num pages, an example:
+      // 137 total items
+      // 10 items per page
+      // in that case, response.total will be 137
+      // response.limit will be 10
+      // the actual number of pages will be 14
+
+      // then the code to figure out the number of pages is:
+      // var pages = round_up(response.total / response.limit)
+
+      // SO ALL THAT STUFF ABOVE was just assuming
+      // that we really cared about the number of pages
+
     }
   });
 }
@@ -57,6 +81,7 @@ function mapOverTracks(tracks){
     var list = "<li id=\"" + track.track.id + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
     document.getElementById('trackList').innerHTML += list;
     playListTracks.push(track);
+    console.log(playListTracks)
   })
   $('li.playlistItem').click(function() {
     // idMatcher(this.id);
