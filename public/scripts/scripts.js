@@ -13,20 +13,19 @@ function getPlaylists(access_token) {
     },
     success: function(response) {
       $(".recommendations").show();
-      mapOverPlaylists(response.items);
+      generatePlaylistDropdown(response.items);
     }
   });
 }
 
 
-function mapOverPlaylists(playlists){
+function generatePlaylistDropdown(playlists){
   playlists.map(function(playlist){
     var list = "<option value=" + playlist.id + " class='playlistItem'>" + playlist.name + "</option>"
     document.getElementById('playlistList').innerHTML += list;
   })
   $('#playlistList').on('change', function() {
     $("#trackList").children().remove();
-    console.log('you selected a playlist!')
     var access_token = localStorage.getItem("access_token");
     getPlaylistTracks(access_token);
     playListTracks.length = 0;
@@ -35,7 +34,6 @@ function mapOverPlaylists(playlists){
 
 //This function will use the access token to retrieve a list of the songs in a given playlist.
 function getPlaylistTracks(access_token, request_url){
-  console.log('getting tracks' + $('select option:selected').val());
   var url = request_url || 'https://api.spotify.com/v1/playlists/' + $('select option:selected').val() + '/tracks'
 
   $.ajax({
@@ -44,16 +42,13 @@ function getPlaylistTracks(access_token, request_url){
       'Authorization':'Bearer ' + access_token
     },
     success: function(response) {
-      console.log('hi!')
-      console.log(response);
-      mapOverTracks(response.items);
-
+      generateTrackList(response.items);
       if(response.next) {
         // keep chaining getPlaylistTracks calls until
         // there isn't a response.next any more!
         // at that point, we've gotten all the tracks!
         getPlaylistTracks(access_token, response.next);
-        //mapOverTracks(response.items);
+        //generateTrackList(response.items);
       }
 
       // to figure out num pages, an example:
@@ -76,17 +71,15 @@ function getPlaylistTracks(access_token, request_url){
 var playListTracks =[];
 
 // this function goes over every track and writes it to the list pane and adds an onclick listener to each track which will check the playcount and write the track's metadata to the infopane
-function mapOverTracks(tracks){
+function generateTrackList(tracks){
   tracks.map(function(track){
     var list = "<li id=\"" + track.track.id + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
     document.getElementById('trackList').innerHTML += list;
     playListTracks.push(track);
-    console.log(playListTracks)
   })
   $('li.playlistItem').click(function() {
     // idMatcher(this.id);
     playCounter(idMatcher(this.id));
-    console.log(this.id);
     console.log("This song has been played " + playCounter(idMatcher(this.id)) + " times.");
   })
 }
