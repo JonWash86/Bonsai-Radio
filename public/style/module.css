@@ -1,0 +1,21 @@
+#authenticatorPanel {
+  position:fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 300px;
+  z-index: 25;
+  background-color: black;
+  border-color: #1DB954;
+  border-style: solid;
+  border-width: 5px;
+  border-radius: 25px;
+  color: #EDFFAB;
+  text-align: center;
+  font-size: 24px;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1.2;
+}
+
+/* <div style="display:flex;justify-content:center;align-items:center;width:400px;height:300px;">Text Content</div> */

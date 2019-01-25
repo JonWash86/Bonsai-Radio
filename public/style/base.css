@@ -6,7 +6,7 @@
 }
 
 h1{
-  color: #29335C;
+  color: black;
   display: inline-block;
   vertical-align: top;
   margin-top: 20px;
@@ -37,7 +37,7 @@ a:visited{
   text-decoration: none;
   cursor: pointer;
   display: inline-block;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 .btn:hover{
@@ -49,6 +49,21 @@ a:visited{
   transform: translateY(4px);
 }
 
+input {
+  width: 200px;
+  height: 28px;
+  font-size: 24px;
+  font-family: 'Montserrat', sans-serif;
+  color: #EDFFAB;
+  border: none;
+  border-bottom: 2px solid #EDFFAB;
+  background-color: black;
+  text-align: center;
+}
+
+input:focus {
+  outline-width: 0;
+}
 
 #mainWrap{
   margin-bottom: 50px;
@@ -59,9 +74,9 @@ a:visited{
   /* position: fixed; */
   width: 100%;
   height: 60px;
-  background-color: #94B9AF;
+  background-color: #AFEAC1;
   border-style: solid;
-  border-color: #94B9AF;
+  border-color: #AFEAC1;
   border-width: 0px 0px 5px 0px;
   /* z-index:2; */
 }
@@ -72,7 +87,7 @@ a:visited{
   bottom: 0;
   width:100%;
   height: 25px;
-  background-color: #94B9AF;
+  background-color: #AFEAC1;
   z-index: 2;
 }
 
@@ -86,7 +101,7 @@ a:visited{
 
 #listPane{
   background-color: #000000;
-  color: #94B9AF;
+  color: #D7D9D7;
   /* flex: 0 0 50%; */
   height: 100%;
   position: fixed;
@@ -97,14 +112,14 @@ a:visited{
   padding-top: 5px;
   height: calc(100% - 94px);
   border-style: solid;
-  border-color: #94B9AF;
+  border-color: #AFEAC1;
   border-width: 0px 5px 5px 5px;
   z-index: 1;
 }
 
 #infoPane{
   position: fixed;
-  color: #94B9AF;
+  color: #D7D9D7;
   background-color: #000000;
   /* text-align: center; */
   /* flex: 1; */
@@ -115,14 +130,9 @@ a:visited{
   width: calc(100% - 425px);
   height: 100%;
   border-style: solid;
-  border-color: #94B9AF;
+  border-color: #AFEAC1;
   border-width: 0px 5px 0px 0px;
   /* z-index: -1; */
-}
-
-#authenticatorPanel {
-  clear:left;
-  padding-top: 10px;
 }
 
 #login {
@@ -159,7 +169,7 @@ a:visited{
   padding-bottom: 2px;
   padding-left: 10px;
   border-style: solid;
-  border-color: #94B9AF;
+  border-color: #AFEAC1;
   border-width: 0px 0px 3px 0px;
 }
 
@@ -179,7 +189,7 @@ li.playlistItem:hover{
   font-style: italic;
   font-size: 12px;
   font-weight: 100;
-  color: #56CBF9;
+  color: #EDFFAB;
 }
 
 #albumThumb {
@@ -195,7 +205,7 @@ li.playlistItem:hover{
   font-family: 'Montserrat', sans-serif;
   text-align:left;
   /* padding-top: 15px; */
-  color: #56CBF9;
+  color: #1DB954;
   font-size: 35px;
 }
 
@@ -203,7 +213,7 @@ li.playlistItem:hover{
   text-align: left;
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
-  color:white;
+  color:#EDFFAB;
 }
 
 .trackStatistics{

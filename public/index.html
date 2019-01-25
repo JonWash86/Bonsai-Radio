@@ -5,11 +5,19 @@
     <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="style/reset.css"></link>
     <link rel="stylesheet" href="style/base.css"></link>
+    <link rel="stylesheet" href="style/module.css"></link>
   </head>
 
   <body>
     <div id="header">
-      <img src="img/radio.svg" alt="radio!" id="icon"><h1 id="welcome">&nbsp Welcome, Station Manager.</h1>
+      <img src="img/radio.svg" alt="radio!" id="icon"><h1 id="welcome">&nbsp Bonsai Radio</h1>
+    </div>
+    <div id="authenticatorPanel">
+      <br>Welcome, station manager!<br>
+      To get started, enter your last.fm username: <br>
+      <input type="text" name="lastId" id="lastId" value="chikinguy">
+      <br>And then log in to connect to Spotify:
+      <br><a href="/login" class="btn btn-primary" id="spotifyButton">Log In</a><br><br>
     </div>
     <section id="mainWrap">
       <div id="listPane">
@@ -19,17 +27,13 @@
       <div id="infoPane">
         <div id="songInfo">
         </div>
-        <br><div id="authenticatorPanel">
-        <a href="/login" class="btn btn-primary" id="spotifyButton">Connect to Spotify</a>
-        <!-- <button type="button" id="playlistButton" class="spotify-button">get your playlists</button> -->
+        <br>
         <div id="playlistFetcher">
           <select id="playlistList">
             <option>-select a playlist-</option>
           </select><br><br>
-          enter your last.fm username: <input type="text" name="lastId" id="lastId" value="chikinguy"> <br><br>
-          <button>Get last week's data.</button>
+           <br><br>
         </div>
-      </div>
       </div>
     </section>
     <div id="footer">
