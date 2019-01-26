@@ -34,6 +34,7 @@ function getYesterday(){
   return(yesterday / 1000|0);
 };
 
+
 // there are 604800 seconds in a week ...
 function getLastWeek(){
   return(getYesterday() - 604800);
@@ -61,7 +62,7 @@ function getTrackForUser(previousDate, todayDate) {
       console.log(response.recenttracks)
       var requestLength = response.recenttracks["@attr"].totalPages;
       console.log(response.recenttracks["@attr"].total);
-      getFullWeek(requestLength, previousDate, todayDate);
+      getFullHistory(requestLength, previousDate, todayDate);
     },
     error: function(code, message){
       console.log('it didn\'t work!');
@@ -71,8 +72,9 @@ function getTrackForUser(previousDate, todayDate) {
 
 var allCallSongs = [];
 
-function getFullWeek(requestLength, previousDate, todayDate) {
+function getFullHistory(requestLength, previousDate, todayDate) {
   var userLastId = $("#lastId").val();
+  var completed = 0;
   for (i = 1; i <= requestLength; i ++){
     console.log(i);
     $.ajax({
@@ -81,6 +83,10 @@ function getFullWeek(requestLength, previousDate, todayDate) {
       success: function(response) {
         for (i = 0; i <= (response.recenttracks.track.length - 1); i ++){
           allCallSongs.push(response.recenttracks.track[i]);
+          completed++;
+          if (completed == response.recenttracks.track.length){
+            saveSongsToStorage(allCallSongs);
+          }
         }
       },
       error: function(code, message){
@@ -90,4 +96,8 @@ function getFullWeek(requestLength, previousDate, todayDate) {
   }
   console.log(allCallSongs);
   return(allCallSongs);
+}
+
+function saveSongsToStorage(allCallSongs){
+  localStorage.setItem("playHistory", JSON.stringify(allCallSongs));
 }
