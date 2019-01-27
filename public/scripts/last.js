@@ -29,14 +29,11 @@ function getLastPlayed() {
 // the following code is meant to grab today's date, then slot in the day before it and convert that day @11:59 UTC to a UNIX timestamp
 function getYesterday(){
   var yesterday = new Date();
-  console.log(yesterday);
   yesterday.setDate(yesterday.getDate() - 1);
-  console.log(yesterday);
   yesterday.setHours(11,59);
   yesterday.setSeconds(59, 999);
-  console.log(yesterday);
+  console.log("The timestamp for yesterday at 11:59pm is " + (yesterday / 1000|0));
   return(yesterday / 1000|0);
-  console.log(yesterday);
 };
 
 
@@ -55,7 +52,7 @@ function getSixMonths(){
   return(getYesterday() - 15811200);
 }
 
-// this function check the last.fm id field and retrieves the most recently played tracks for that user. It then passes the length of the ensuing list to the getFullWeek function to loop over the pages of results.
+// this function checks the last.fm id field and retrieves the most recently played tracks for that user. It then passes the length of the ensuing list to the getFullHistory function to loop over the pages of results.
 function getTrackForUser(previousDate, todayDate) {
   //TODO: Rename this function to be more descriptive of what it does
   var userLastId = localStorage.getItem("userLastId");
@@ -77,9 +74,13 @@ function getTrackForUser(previousDate, todayDate) {
 
 var allCallSongs = [];
 
+
 function getFullHistory(requestLength, previousDate, todayDate) {
   var userLastId = $("#lastId").val();
   var completed = 0;
+  // if (localStorage.getItem("playHistory") !== null){
+  //   var allCallSongs = JSON.parse(localStorage.getItem("playHistory"));
+  // }
   for (i = 1; i <= requestLength; i ++){
     $.ajax({
       type:'POST',
@@ -114,12 +115,21 @@ function saveSongsToStorage(allCallSongs){
 function checkForExistingHistory(){
   if (localStorage.getItem("playHistory") === null){
     getTrackForUser(getLastWeek(), getYesterday());
+    localStorage.setItem("lastPullDate", getYesterday());
+    console.log('new date saved');
   }
-  else if (localStorage.getItem("playHistory") !== null || localStorage.getItem("lastPullDate") === getYesterday()){
-    console.log("It worked! For this test I wanted to see that this comparison would work.")
-    // TODO: this else if will then pull the data for yesterday until lastPullDate. From there, it will have to iterate over the existing data and append the new data to it, then re-save that to locaal storage
+  else if (localStorage.getItem("playHistory") !== null && localStorage.getItem("lastPullDate") !== getYesterday()){
+    console.log("It worked! My login function now checks for the user's last pull date and knows it is not up to date.")
+    // TODO: this else if will then pull the data for yesterday until lastPullDate. From there, it will have to iterate over the existing data and append the new data to it, then re-save that to locaal storage.
+    var pastPlayDate = parseInt(localStorage.getItem("lastPullDate"));
+    console.log(pastPlayDate);
+    // var allCallSongs = JSON.parse(localStorage.getItem("playHistory"));
+    console.log(allCallSongs);
+    console.log((pastPlayDate + 1));
+    getTrackForUser((pastPlayDate + 1), getYesterday());
+    console.log(allCallSongs);
   }
   else {
-    console.log("there's history!")
+    console.log("the history is currently up to date!")
   }
 }
