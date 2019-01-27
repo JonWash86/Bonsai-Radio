@@ -75,24 +75,29 @@ var allCallSongs = [];
 function getFullHistory(requestLength, previousDate, todayDate) {
   var userLastId = $("#lastId").val();
   var completed = 0;
+  console.log(requestLength);
   for (i = 1; i <= requestLength; i ++){
-    console.log(i);
     $.ajax({
       type:'POST',
       url: 'http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&api_key=100a45f60fce336c43b1dac55062e23a&username=' + userLastId + '&from='+ previousDate +'&to='+ todayDate +'&page='+ i +'&format=json',
       success: function(response) {
+        console.log("request number "+ i + " is done and results are back.")
         for (i = 0; i <= (response.recenttracks.track.length - 1); i ++){
           allCallSongs.push(response.recenttracks.track[i]);
-          completed++;
-          if (completed == response.recenttracks.track.length){
-            saveSongsToStorage(allCallSongs);
-          }
         }
       },
       error: function(code, message){
         console.log('it didn\'t work!');
       }
     });
+    $(document).ajaxStop(function (){
+      completed++;
+      console.log(completed + " have been completed of " + requestLength);
+      if (completed == requestLength){
+        console.log('the requests are done and we are saving to storage')
+        saveSongsToStorage(allCallSongs);
+      }
+    })
   }
   console.log(allCallSongs);
   return(allCallSongs);
