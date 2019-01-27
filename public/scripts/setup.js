@@ -1,5 +1,9 @@
 function initializeUser(access_token, refresh_token){
-  getTrackForUser(getLastWeek(), getYesterday());
+  checkForExistingHistory();
+  // if (localStorage.getItem("playHistory") === null){
+
+  // }
+
   // getTrackForUser(getSixMonths(), getYesterday()); For testing purposes, the six month grab is commented out and we'll be testing with a week grab.
 
   localStorage.setItem("lastPullDate", getYesterday());

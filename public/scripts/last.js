@@ -29,9 +29,14 @@ function getLastPlayed() {
 // the following code is meant to grab today's date, then slot in the day before it and convert that day @11:59 UTC to a UNIX timestamp
 function getYesterday(){
   var yesterday = new Date();
+  console.log(yesterday);
   yesterday.setDate(yesterday.getDate() - 1);
+  console.log(yesterday);
   yesterday.setHours(11,59);
+  yesterday.setSeconds(59, 999);
+  console.log(yesterday);
   return(yesterday / 1000|0);
+  console.log(yesterday);
 };
 
 
@@ -75,13 +80,11 @@ var allCallSongs = [];
 function getFullHistory(requestLength, previousDate, todayDate) {
   var userLastId = $("#lastId").val();
   var completed = 0;
-  console.log(requestLength);
   for (i = 1; i <= requestLength; i ++){
     $.ajax({
       type:'POST',
       url: 'http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&api_key=100a45f60fce336c43b1dac55062e23a&username=' + userLastId + '&from='+ previousDate +'&to='+ todayDate +'&page='+ i +'&format=json',
       success: function(response) {
-        console.log("request number "+ i + " is done and results are back.")
         for (i = 0; i <= (response.recenttracks.track.length - 1); i ++){
           allCallSongs.push(response.recenttracks.track[i]);
         }
@@ -105,4 +108,18 @@ function getFullHistory(requestLength, previousDate, todayDate) {
 
 function saveSongsToStorage(allCallSongs){
   localStorage.setItem("playHistory", JSON.stringify(allCallSongs));
+}
+
+// the following function checks the user's local storage for an existing play history. If there is none, it will grab the default six months. If a play history does exist, it will then compare the last pull date and fill the gap. If there's no gap, it will do nothing.
+function checkForExistingHistory(){
+  if (localStorage.getItem("playHistory") === null){
+    getTrackForUser(getLastWeek(), getYesterday());
+  }
+  else if (localStorage.getItem("playHistory") !== null || localStorage.getItem("lastPullDate") === getYesterday()){
+    console.log("It worked! For this test I wanted to see that this comparison would work.")
+    // TODO: this else if will then pull the data for yesterday until lastPullDate. From there, it will have to iterate over the existing data and append the new data to it, then re-save that to locaal storage
+  }
+  else {
+    console.log("there's history!")
+  }
 }

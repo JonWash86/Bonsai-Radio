@@ -98,8 +98,11 @@ function idMatcher(identification){
 }
 
 function playCounter(track){
+  var allCallSongs = JSON.parse(localStorage.getItem("playHistory"));
+  console.log(allCallSongs);
   var playCount = 0;
   for (i = 0; i <= (allCallSongs.length - 1); i++){
+    console.log(allCallSongs[i]);
     if (track.track.name.toLowerCase() == allCallSongs[i].name.toLowerCase()){
       console.log('we have a match! Played at ' + allCallSongs[i].date.uts + " UTS.");
       playCount ++;
