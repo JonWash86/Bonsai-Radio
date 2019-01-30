@@ -78,14 +78,24 @@ function generateTrackList(tracks){
     track.playDates = [];
     track.playTracker = 0;
     playListTracks.push(track);
-  })
-  // I'm commenting out this onclick lisenter for the moment; at present it generates the play count but I'm hoping to generate that with
-  // $('li.playlistItem').click(function() {
-  //   // idMatcher(this.id);
-  //   playCounter(idMatcher(this.id));
-  //   console.log("This song has been played " + playCounter(idMatcher(this.id)) + " times.");
-  // })
+  });
+  developPlayListStats();
+  $('li.playlistItem').click(function() {
+    // idMatcher(this.id);
+    displayTrackStats(idMatcher(this.id));
+  });
 }
+
+function developPlayListStats(){
+  for(i = 0; i < allCallSongs.length; i++){
+    for(p = 0; p < playListTracks.length; p ++){
+      if (playListTracks[p].track.name.toLowerCase() == allCallSongs[i].name.toLowerCase()){
+        playListTracks[p].playTracker = (playListTracks[p].playTracker + 1);
+        playListTracks[p].playDates.push(allCallSongs[i].date.uts);
+      }
+    }
+  }
+};
 
 function idMatcher(identification){
   console.log('checking!')
@@ -100,36 +110,11 @@ function idMatcher(identification){
   }
 }
 
-function playCounter(track){
-  // var allCallSongs = JSON.parse(localStorage.getItem("playHistory"));
-  // console.log(allCallSongs);
-  // return(allCallSongs);
-  var playCount = 0;
-  for (i = 0; i <= (allCallSongs.length - 1); i++){
-    console.log(allCallSongs[i]);
-    if (track.track.name.toLowerCase() == allCallSongs[i].name.toLowerCase()){
-      console.log('we have a match! Played at ' + allCallSongs[i].date.uts + " UTS.");
-      playCount ++;
-    }
-  };
-  var trackStats = "<img id=\"albumThumb\" src="+ track.track.album.images[0].url +" height=\"250px\"><h3 id=\"trackTitle\">" + track.track.name + "</h3><span class=\"trackFacts\">by "+ track.track.artists[0].name +"</span><br><span class=\"trackFacts\">from "+ track.track.album.name + "</span><br><br><span class=\"trackStatistics\">Added on "+ track.added_at +"</span><br><br><span class=\"trackStatistics\">Played "+ playCount +" times.</span>"
+function displayTrackStats(track){
+  var trackStats = "<img id=\"albumThumb\" src="+ track.track.album.images[0].url +" height=\"250px\"><h3 id=\"trackTitle\">" + track.track.name + "</h3><span class=\"trackFacts\">by "+ track.track.artists[0].name +"</span><br><span class=\"trackFacts\">from "+ track.track.album.name + "</span><br><br><span class=\"trackStatistics\">Added on "+ track.added_at +"</span><br><br><span class=\"trackStatistics\">Played "+ track.playTracker +" times.</span>"
   document.getElementById('songInfo').innerHTML = trackStats;
-  return playCount;
   // return(allCallSongs);
 }
 
 // the following function will take the tracks from allCallSongs and check whether they have matching IDs. If they have matching IDs, the scrobble date will be saved to the allCallTrack track, as well as the timestamp of the scrobble.
 // This means the first line of the function will need to wipe the existing data, natch.
-
-function developPlayListStats(){
-
-  for(i = 0; i < allCallSongs.length; i++){
-    for(p = 0; p < playListTracks.length; p ++){
-      if (playListTracks[p].track.name.toLowerCase() == allCallSongs[i].name.toLowerCase()){
-        playListTracks[p].playTracker = (playListTracks[p].playTracker + 1);
-        playListTracks[p].playDates.push(allCallSongs[i].date.uts);
-      }
-
-    }
-  }
-}
