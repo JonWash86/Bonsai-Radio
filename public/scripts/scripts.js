@@ -75,13 +75,16 @@ function generateTrackList(tracks){
   tracks.map(function(track){
     var list = "<li id=\"" + track.track.id + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
     document.getElementById('trackList').innerHTML += list;
+    track.playDates = [];
+    track.playTracker = 0;
     playListTracks.push(track);
   })
-  $('li.playlistItem').click(function() {
-    // idMatcher(this.id);
-    playCounter(idMatcher(this.id));
-    console.log("This song has been played " + playCounter(idMatcher(this.id)) + " times.");
-  })
+  // I'm commenting out this onclick lisenter for the moment; at present it generates the play count but I'm hoping to generate that with
+  // $('li.playlistItem').click(function() {
+  //   // idMatcher(this.id);
+  //   playCounter(idMatcher(this.id));
+  //   console.log("This song has been played " + playCounter(idMatcher(this.id)) + " times.");
+  // })
 }
 
 function idMatcher(identification){
@@ -113,4 +116,20 @@ function playCounter(track){
   document.getElementById('songInfo').innerHTML = trackStats;
   return playCount;
   // return(allCallSongs);
+}
+
+// the following function will take the tracks from allCallSongs and check whether they have matching IDs. If they have matching IDs, the scrobble date will be saved to the allCallTrack track, as well as the timestamp of the scrobble.
+// This means the first line of the function will need to wipe the existing data, natch.
+
+function developPlayListStats(){
+
+  for(i = 0; i < allCallSongs.length; i++){
+    for(p = 0; p < playListTracks.length; p ++){
+      if (playListTracks[p].track.name.toLowerCase() == allCallSongs[i].name.toLowerCase()){
+        playListTracks[p].playTracker = (playListTracks[p].playTracker + 1);
+        playListTracks[p].playDates.push(allCallSongs[i].date.uts);
+      }
+
+    }
+  }
 }
