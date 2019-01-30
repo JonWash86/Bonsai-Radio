@@ -98,9 +98,9 @@ function idMatcher(identification){
 }
 
 function playCounter(track){
-  var allCallSongs = JSON.parse(localStorage.getItem("playHistory"));
-  console.log(allCallSongs);
-  return(allCallSongs);
+  // var allCallSongs = JSON.parse(localStorage.getItem("playHistory"));
+  // console.log(allCallSongs);
+  // return(allCallSongs);
   var playCount = 0;
   for (i = 0; i <= (allCallSongs.length - 1); i++){
     console.log(allCallSongs[i]);
@@ -112,5 +112,5 @@ function playCounter(track){
   var trackStats = "<img id=\"albumThumb\" src="+ track.track.album.images[0].url +" height=\"250px\"><h3 id=\"trackTitle\">" + track.track.name + "</h3><span class=\"trackFacts\">by "+ track.track.artists[0].name +"</span><br><span class=\"trackFacts\">from "+ track.track.album.name + "</span><br><br><span class=\"trackStatistics\">Added on "+ track.added_at +"</span><br><br><span class=\"trackStatistics\">Played "+ playCount +" times.</span>"
   document.getElementById('songInfo').innerHTML = trackStats;
   return playCount;
-  return(allCallSongs);
+  // return(allCallSongs);
 }

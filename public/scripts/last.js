@@ -1,4 +1,4 @@
-// this function is a last.fm api test to see if I can try and grab the scrobbles for a song based on
+// this function is a last.fm api test to see if I can try and grab the scrobbles for a song based on the username.
 
 function getLastTracks() {
   $.ajax({
@@ -94,14 +94,15 @@ function getFullHistory(requestLength, previousDate, todayDate) {
         console.log('it didn\'t work!');
       }
     });
-    $(document).ajaxStop(function (){
-      completed++;
-      console.log(completed + " have been completed of " + requestLength);
-      if (completed == requestLength){
-        console.log('the requests are done and we are saving to storage')
-        saveSongsToStorage(allCallSongs);
-      }
-    })
+    // This function was meant to save the user's plays to local storage once all ajax calls were done. It appears that this maybe is still firing?
+    // $(document).ajaxStop(function (){
+    //   completed++;
+    //   console.log(completed + " have been completed of " + requestLength);
+    //   if (completed == requestLength){
+    //     console.log('the requests are done and we are saving to storage')
+    //     saveSongsToStorage(allCallSongs);
+    //   }
+    // })
   }
   console.log(allCallSongs);
   return(allCallSongs);
@@ -112,24 +113,27 @@ function saveSongsToStorage(allCallSongs){
 }
 
 // the following function checks the user's local storage for an existing play history. If there is none, it will grab the default six months. If a play history does exist, it will then compare the last pull date and fill the gap. If there's no gap, it will do nothing.
-function checkForExistingHistory(){
-  if (localStorage.getItem("playHistory") === null){
-    getTrackForUser(getLastWeek(), getYesterday());
-    localStorage.setItem("lastPullDate", getYesterday());
-    console.log('new date saved');
-  }
-  else if (localStorage.getItem("playHistory") !== null && localStorage.getItem("lastPullDate") !== getYesterday()){
-    console.log("It worked! My login function now checks for the user's last pull date and knows it is not up to date.")
-    // TODO: this else if will then pull the data for yesterday until lastPullDate. From there, it will have to iterate over the existing data and append the new data to it, then re-save that to locaal storage.
-    var pastPlayDate = parseInt(localStorage.getItem("lastPullDate"));
-    console.log(pastPlayDate);
-    // var allCallSongs = JSON.parse(localStorage.getItem("playHistory"));
-    console.log(allCallSongs);
-    console.log((pastPlayDate + 1));
-    getTrackForUser((pastPlayDate + 1), getYesterday());
-    console.log(allCallSongs);
-  }
-  else {
-    console.log("the history is currently up to date!")
-  }
-}
+
+// 1/28/19 - for the moment, local storage functionality is on ice; we'll work on persistent accounts/data on a future build.
+
+// function checkForExistingHistory(){
+//   if (localStorage.getItem("playHistory") === null){
+//     getTrackForUser(getLastWeek(), getYesterday());
+//     localStorage.setItem("lastPullDate", getYesterday());
+//     console.log('new date saved');
+//   }
+//   else if (localStorage.getItem("playHistory") !== null && localStorage.getItem("lastPullDate") !== getYesterday()){
+//     console.log("It worked! My login function now checks for the user's last pull date and knows it is not up to date.")
+//     // TODO: this else if will then pull the data for yesterday until lastPullDate. From there, it will have to iterate over the existing data and append the new data to it, then re-save that to locaal storage.
+//     var pastPlayDate = parseInt(localStorage.getItem("lastPullDate"));
+//     console.log(pastPlayDate);
+//     // var allCallSongs = JSON.parse(localStorage.getItem("playHistory"));
+//     console.log(allCallSongs);
+//     console.log((pastPlayDate + 1));
+//     getTrackForUser((pastPlayDate + 1), getYesterday());
+//     console.log(allCallSongs);
+//   }
+//   else {
+//     console.log("the history is currently up to date!")
+//   }
+// }
