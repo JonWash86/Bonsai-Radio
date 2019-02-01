@@ -29,6 +29,7 @@ function generatePlaylistDropdown(playlists){
     var access_token = localStorage.getItem("access_token");
     getPlaylistTracks(access_token);
     playListTracks.length = 0;
+
   })
 }
 
@@ -80,6 +81,7 @@ function generateTrackList(tracks){
     playListTracks.push(track);
   });
   developPlayListStats();
+  $('#controlPanel').show();
   $('li.playlistItem').click(function() {
     // idMatcher(this.id);
     displayTrackStats(idMatcher(this.id));
@@ -91,7 +93,8 @@ function developPlayListStats(){
     for(p = 0; p < playListTracks.length; p ++){
       if (playListTracks[p].track.name.toLowerCase() == allCallSongs[i].name.toLowerCase()){
         playListTracks[p].playTracker = (playListTracks[p].playTracker + 1);
-        // TODO: due to some lameness, if a song has the "now playing" attribute, it'll
+        console.log(playListTracks[p].playTracker);
+        // TODO: due to some lameness, if a song has the "now playing" attribute, it'll not have a date attribute. I need to make a long-term fix for this down the line.
         if(allCallSongs[i].date){
           playListTracks[p].playDates.push(allCallSongs[i].date.uts);
         }
@@ -119,5 +122,6 @@ function displayTrackStats(track){
   // return(allCallSongs);
 }
 
+$("#fourWeekButton").click(fourWeeks());
 // the following function will take the tracks from allCallSongs and check whether they have matching IDs. If they have matching IDs, the scrobble date will be saved to the allCallTrack track, as well as the timestamp of the scrobble.
 // This means the first line of the function will need to wipe the existing data, natch.
