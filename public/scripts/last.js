@@ -81,7 +81,10 @@ function getFullHistory(requestLength, previousDate, todayDate) {
   // if (localStorage.getItem("playHistory") !== null){
   //   var allCallSongs = JSON.parse(localStorage.getItem("playHistory"));
   // }
+  console.log(requestLength);
   for (i = 1; i <= requestLength; i ++){
+    console.log('making call number ' + i +' of '+ requestLength )
+
     $.ajax({
       type:'POST',
       url: 'http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&api_key=100a45f60fce336c43b1dac55062e23a&username=' + userLastId + '&from='+ previousDate +'&to='+ todayDate +'&page='+ i +'&format=json',

@@ -91,7 +91,10 @@ function developPlayListStats(){
     for(p = 0; p < playListTracks.length; p ++){
       if (playListTracks[p].track.name.toLowerCase() == allCallSongs[i].name.toLowerCase()){
         playListTracks[p].playTracker = (playListTracks[p].playTracker + 1);
-        playListTracks[p].playDates.push(allCallSongs[i].date.uts);
+        // TODO: due to some lameness, if a song has the "now playing" attribute, it'll
+        if(allCallSongs[i].date){
+          playListTracks[p].playDates.push(allCallSongs[i].date.uts);
+        }
       }
     }
   }
