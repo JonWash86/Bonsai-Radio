@@ -28,12 +28,8 @@
   } else {
     if (access_token) {
       localStorage.setItem('access_token', access_token);
-      var access_token = localStorage.getItem("access_token")
-      getPlaylists(access_token);
-      $("#authenticatorPanel").hide();
-      $("#playlistFetcher").show();
-      // $("#playlistButton").show();
-      // render oauth info
+      localStorage.setItem('refresh_token', refresh_token);
+      initializeUser(access_token, refresh_token);
       oauthPlaceholder.innerHTML = oauthTemplate({
         access_token: access_token,
         refresh_token: refresh_token

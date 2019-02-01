@@ -9,6 +9,7 @@
   </head>
 
   <body>
+    <div id="overlay"></div>
     <div id="header">
       <img src="img/radio.svg" alt="radio!" id="icon"><h1 id="welcome">&nbsp Bonsai Radio</h1>
     </div>
@@ -17,7 +18,8 @@
       To get started, enter your last.fm username: <br>
       <input type="text" name="lastId" id="lastId" value="chikinguy">
       <br>And then log in to connect to Spotify:
-      <br><a href="/login" class="btn btn-primary" id="spotifyButton">Log In</a><br><br>
+      <br><a href="/login" class="btn btn-primary" id="spotifyButton">Log In</a><br>
+      <span class="subText"> What's this about? Check our <a href="/about.html">about</a> page.</span>
     </div>
     <section id="mainWrap">
       <div id="listPane">
@@ -26,6 +28,13 @@
       </div>
       <div id="infoPane">
         <div id="songInfo">
+        </div>
+        <div id="controlPanel">
+          <button type="button" id="sortByMostPlays">Sort by Top</button>
+          <button type="button" id="sortByLeastPlays">Sort by Bottom</button>
+          <button type="button" id="fourWeekButton">Four Weeks</button>
+          <button type=button id="twoWeekButton">Two Weeks</button>
+          <button type=button id="oneWeekButton">One Week</button>
         </div>
         <br>
         <div id="playlistFetcher">
@@ -77,10 +86,12 @@
       </dl>
     </script>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script type='text/javascript' src='scripts/scripts.js'></script>
-  <script type='text/javascript' src='scripts/spotifyAuth.js'></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script type='text/javascript' src='scripts/statistics.js'></script>
   <script type='text/javascript' src='scripts/last.js'></script>
+  <script type='text/javascript' src='scripts/scripts.js'></script>
+  <script type='text/javascript' src='scripts/setup.js'></script>
+  <script type='text/javascript' src='scripts/spotifyAuth.js'></script>
   </body>
 </html>

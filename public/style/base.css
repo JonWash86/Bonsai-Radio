@@ -18,6 +18,11 @@ h2{
   margin-top: -25px;
 }
 
+.subText {
+  font-size: 12px;
+}
+
+
 a{
   font-family: 'Roboto', sans-serif;
 }
@@ -25,6 +30,11 @@ a{
 a:visited{
   color: black;
   text-decoration: none;
+}
+
+.subText a:visited {
+  text-decoration: none;
+  color: #EDFFAB;
 }
 
 .btn {
@@ -175,7 +185,8 @@ input:focus {
 
 li.playlistItem:hover{
   cursor:pointer;
-  background-color: ;
+  background-color: #37392E;
+  color: white;
 }
 
 .text-overflow {
@@ -191,6 +202,11 @@ li.playlistItem:hover{
   font-weight: 100;
   color: #EDFFAB;
 }
+
+li.playlistItem:hover .trackArtist{
+  color: white;
+}
+
 
 #albumThumb {
   float:left;
