@@ -29,7 +29,6 @@ function generatePlaylistDropdown(playlists){
     var access_token = localStorage.getItem("access_token");
     getPlaylistTracks(access_token);
     playListTracks.length = 0;
-
   })
 }
 
@@ -71,21 +70,24 @@ function getPlaylistTracks(access_token, request_url){
 
 var playListTracks =[];
 
+function writePlayListToPanel(track){
+  var list = "<li id=\"" + track.track.id + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
+  document.getElementById('trackList').innerHTML += list;
+  $('li.playlistItem').click(function() {
+    displayTrackStats(idMatcher(this.id));
+  });
+}
+
 // this function goes over every track and writes it to the list pane and adds an onclick listener to each track which will check the playcount and write the track's metadata to the infopane
 function generateTrackList(tracks){
   tracks.map(function(track){
-    var list = "<li id=\"" + track.track.id + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
-    document.getElementById('trackList').innerHTML += list;
+    writePlayListToPanel(track);
     track.playDates = [];
     track.playTracker = 0;
     playListTracks.push(track);
   });
   developPlayListStats();
   $('#controlPanel').show();
-  $('li.playlistItem').click(function() {
-    // idMatcher(this.id);
-    displayTrackStats(idMatcher(this.id));
-  });
 }
 
 function developPlayListStats(){
