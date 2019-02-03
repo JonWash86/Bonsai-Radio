@@ -18,7 +18,7 @@ function getPlaylists(access_token) {
   });
 }
 
-
+// this function takes the playslists from getPlaylists and writes each title to the playlist selector dropdown.
 function generatePlaylistDropdown(playlists){
   playlists.map(function(playlist){
     var list = "<option value=" + playlist.id + " class='playlistItem'>" + playlist.name + "</option>"
@@ -83,6 +83,7 @@ function generateTrackList(tracks){
   tracks.map(function(track){
     writePlayListToPanel(track);
     track.playDates = [];
+    track.lastPlayDate = null;
     track.playTracker = 0;
     playListTracks.push(track);
   });
@@ -99,6 +100,10 @@ function developPlayListStats(){
         // TODO: due to some lameness, if a song has the "now playing" attribute, it'll not have a date attribute. I need to make a long-term fix for this down the line.
         if(allCallSongs[i].date){
           playListTracks[p].playDates.push(allCallSongs[i].date.uts);
+          if(playListTracks[p].lastPlayDate < allCallSongs[i].date.uts){
+            playListTracks[p].lastPlayDate = allCallSongs[i].date.uts;
+            console.log('I just added a play date to the track ' + playListTracks[p].track.name + ', updating it to ' + allCallSongs[i].date.uts)
+          }
         }
       }
     }
@@ -119,7 +124,11 @@ function idMatcher(identification){
 }
 
 function displayTrackStats(track){
-  var trackStats = "<img id=\"albumThumb\" src="+ track.track.album.images[0].url +" height=\"250px\"><h3 id=\"trackTitle\">" + track.track.name + "</h3><span class=\"trackFacts\">by "+ track.track.artists[0].name +"</span><br><span class=\"trackFacts\">from "+ track.track.album.name + "</span><br><br><span class=\"trackStatistics\">Added on "+ track.added_at +"</span><br><br><span class=\"trackStatistics\">Played "+ track.playTracker +" times.</span>"
+  var trackStats = "<img id=\"albumThumb\" src="+ track.track.album.images[0].url +" height=\"250px\"><h3 id=\"trackTitle\">" + track.track.name + "</h3><span class=\"trackFacts\">by "+ track.track.artists[0].name +"</span><br><span class=\"trackFacts\">from "+ track.track.album.name + "</span><br><br><span class=\"trackStatistics\">Added on "+ track.added_at +"</span><br><br><span class=\"trackStatistics\">Played "+ track.playTracker +" times in the last </span><span id=\"dateRange\" class=\"trackStatistics\">four weeks.</span>"
+  if (track.lastPlayDate){
+    trackStats += "<br>Last played " + convertUnixToText(track.lastPlayDate) + "."
+  };
+
   document.getElementById('songInfo').innerHTML = trackStats;
   // return(allCallSongs);
 }

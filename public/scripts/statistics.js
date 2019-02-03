@@ -11,3 +11,13 @@ $('#sortByMostPlays').click(function(){
     writePlayListToPanel(track);
   })
 })
+
+$('#sortByFewestPlays').click(function(){
+  playListTracks.sort(function(obj1, obj2){
+    return obj1.playTracker - obj2.playTracker;
+  });
+  $("#trackList").children().remove();
+  playListTracks.map(function(track){
+    writePlayListToPanel(track);
+  })
+})
