@@ -126,7 +126,7 @@ function idMatcher(identification){
 function displayTrackStats(track){
   var trackStats = "<img id=\"albumThumb\" src="+ track.track.album.images[0].url +" height=\"250px\"><h3 id=\"trackTitle\">" + track.track.name + "</h3><span class=\"trackFacts\">by "+ track.track.artists[0].name +"</span><br><span class=\"trackFacts\">from "+ track.track.album.name + "</span><br><br><span class=\"trackStatistics\">Added on "+ track.added_at +"</span><br><br><span class=\"trackStatistics\">Played "+ track.playTracker +" times in the last </span><span id=\"dateRange\" class=\"trackStatistics\">four weeks.</span>"
   if (track.lastPlayDate){
-    trackStats += "<br>Last played " + convertUnixToText(track.lastPlayDate) + "."
+    trackStats += "<br><br><br>Last played " + convertUnixToText(track.lastPlayDate) + "."
   };
 
   document.getElementById('songInfo').innerHTML = trackStats;

@@ -21,3 +21,8 @@ $('#sortByFewestPlays').click(function(){
     writePlayListToPanel(track);
   })
 })
+
+// this function manipulates the playcount stat and $('#dateRange') to reflect the previous two weeks.
+$(#twoWeekButton).click(function(){
+  
+})
