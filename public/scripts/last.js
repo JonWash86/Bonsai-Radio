@@ -32,7 +32,6 @@ function getYesterday(){
   yesterday.setDate(yesterday.getDate() - 1);
   yesterday.setHours(11,59);
   yesterday.setSeconds(59, 999);
-  console.log("The timestamp for yesterday at 11:59pm is " + (yesterday / 1000|0));
   return(yesterday / 1000|0);
 };
 
@@ -42,6 +41,10 @@ function getLastWeek(){
   return(getYesterday() - 604800);
 };
 
+function getTwoWeeks(){
+  return(getYesterday() - 1209600);
+}
+
 // ...and 2419200 seconds in 28 days (exactly four weeks)
 function getFourWeeks(){
   return(getYesterday() - 2419200);
@@ -50,6 +53,18 @@ function getFourWeeks(){
 // Now, this function grabs the last 183 days, just .5 days over the length of half a year.
 function getSixMonths(){
   return(getYesterday() - 15811200);
+}
+
+// per https://makitweb.com/convert-unix-timestamp-to-date-time-with-javascript/
+function convertUnixToText(unixStamp){
+var months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var date = new Date(unixStamp * 1000);
+var year = date.getFullYear();
+var month = months_arr[date.getMonth()];
+var day = date.getDate();
+var hours = date.getHours();
+var minutes = "0" + date.getMinutes();
+return(month + ' ' + day + ', at ' + hours + ':' + minutes.substr(-2))
 }
 
 // this function checks the last.fm id field and retrieves the most recently played tracks for that user. It then passes the length of the ensuing list to the getFullHistory function to loop over the pages of results.

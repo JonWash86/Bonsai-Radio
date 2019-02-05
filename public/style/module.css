@@ -33,6 +33,11 @@
   cursor: pointer; /* Add a pointer on hover */
 }
 
+#songInfo{
+  /* display: inline-block; */
+}
+
 #controlPanel{
   display:none;
+  clear: left;
 }

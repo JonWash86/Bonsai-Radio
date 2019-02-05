@@ -18,7 +18,7 @@ function getPlaylists(access_token) {
   });
 }
 
-
+// this function takes the playslists from getPlaylists and writes each title to the playlist selector dropdown.
 function generatePlaylistDropdown(playlists){
   playlists.map(function(playlist){
     var list = "<option value=" + playlist.id + " class='playlistItem'>" + playlist.name + "</option>"
@@ -29,7 +29,6 @@ function generatePlaylistDropdown(playlists){
     var access_token = localStorage.getItem("access_token");
     getPlaylistTracks(access_token);
     playListTracks.length = 0;
-
   })
 }
 
@@ -71,32 +70,49 @@ function getPlaylistTracks(access_token, request_url){
 
 var playListTracks =[];
 
+function writePlayListToPanel(track){
+  var list = "<li id=\"" + track.track.id + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
+  document.getElementById('trackList').innerHTML += list;
+  $('li.playlistItem').click(function() {
+    displayTrackStats(idMatcher(this.id));
+  });
+}
+
 // this function goes over every track and writes it to the list pane and adds an onclick listener to each track which will check the playcount and write the track's metadata to the infopane
 function generateTrackList(tracks){
   tracks.map(function(track){
-    var list = "<li id=\"" + track.track.id + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
-    document.getElementById('trackList').innerHTML += list;
+    writePlayListToPanel(track);
     track.playDates = [];
+    track.lastPlayDate = null;
     track.playTracker = 0;
+    track.twoWeekPlays = 0;
+    track.oneWeekPlays = 0;
+    track.activeStat = {
+      counter: 0,
+      spanText: "four weeks"}
     playListTracks.push(track);
   });
   developPlayListStats();
   $('#controlPanel').show();
-  $('li.playlistItem').click(function() {
-    // idMatcher(this.id);
-    displayTrackStats(idMatcher(this.id));
-  });
 }
 
 function developPlayListStats(){
   for(i = 0; i < allCallSongs.length; i++){
     for(p = 0; p < playListTracks.length; p ++){
       if (playListTracks[p].track.name.toLowerCase() == allCallSongs[i].name.toLowerCase()){
-        playListTracks[p].playTracker = (playListTracks[p].playTracker + 1);
-        console.log(playListTracks[p].playTracker);
+        playListTracks[p].playTracker++;
         // TODO: due to some lameness, if a song has the "now playing" attribute, it'll not have a date attribute. I need to make a long-term fix for this down the line.
         if(allCallSongs[i].date){
           playListTracks[p].playDates.push(allCallSongs[i].date.uts);
+          if(playListTracks[p].lastPlayDate < allCallSongs[i].date.uts){
+            playListTracks[p].lastPlayDate = allCallSongs[i].date.uts;
+          }
+          if(allCallSongs[i].date.uts >= getTwoWeeks()){
+            playListTracks[p].twoWeekPlays ++
+          }
+          if(allCallSongs[i].date.uts >= getLastWeek()){
+            playListTracks[p].oneWeekPlays ++
+          }
         }
       }
     }
@@ -116,8 +132,12 @@ function idMatcher(identification){
   }
 }
 
-function displayTrackStats(track){
-  var trackStats = "<img id=\"albumThumb\" src="+ track.track.album.images[0].url +" height=\"250px\"><h3 id=\"trackTitle\">" + track.track.name + "</h3><span class=\"trackFacts\">by "+ track.track.artists[0].name +"</span><br><span class=\"trackFacts\">from "+ track.track.album.name + "</span><br><br><span class=\"trackStatistics\">Added on "+ track.added_at +"</span><br><br><span class=\"trackStatistics\">Played "+ track.playTracker +" times.</span>"
+function displayTrackStats(track, trackSpan){
+  var trackStats = "<img id=\"albumThumb\" src="+ track.track.album.images[0].url +" height=\"250px\"><h3 id=\"trackTitle\">" + track.track.name + "</h3><span class=\"trackFacts\">by "+ track.track.artists[0].name +"</span><br><span class=\"trackFacts\">from "+ track.track.album.name + "</span><br><br><span class=\"trackStatistics\">Added on "+ track.added_at +"</span><br><span class=\"trackStatistics\">Played "+ track.activeStat.counter + " times in the last </span><span id=\"dateRange\" class=\"trackStatistics\">" + track.activeStat.spanText + ".</span>"
+  if (track.lastPlayDate){
+    trackStats += "<br><br><br>Last played " + convertUnixToText(track.lastPlayDate) + "."
+  };
+
   document.getElementById('songInfo').innerHTML = trackStats;
   // return(allCallSongs);
 }
