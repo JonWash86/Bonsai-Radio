@@ -32,7 +32,6 @@ function getYesterday(){
   yesterday.setDate(yesterday.getDate() - 1);
   yesterday.setHours(11,59);
   yesterday.setSeconds(59, 999);
-  console.log("The timestamp for yesterday at 11:59pm is " + (yesterday / 1000|0));
   return(yesterday / 1000|0);
 };
 
