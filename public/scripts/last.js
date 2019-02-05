@@ -42,6 +42,10 @@ function getLastWeek(){
   return(getYesterday() - 604800);
 };
 
+function getTwoWeeks(){
+  return(getYesterday() - 1209600);
+}
+
 // ...and 2419200 seconds in 28 days (exactly four weeks)
 function getFourWeeks(){
   return(getYesterday() - 2419200);

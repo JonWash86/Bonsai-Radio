@@ -104,6 +104,9 @@ function developPlayListStats(){
             playListTracks[p].lastPlayDate = allCallSongs[i].date.uts;
             console.log('I just added a play date to the track ' + playListTracks[p].track.name + ', updating it to ' + allCallSongs[i].date.uts)
           }
+          if(allCallSongs[i].date.uts >= getTwoWeeks()){
+            console.log('this play was less than two weeks ago, at ' + convertUnixToText(allCallSongs[i].date.uts))
+          }
         }
       }
     }

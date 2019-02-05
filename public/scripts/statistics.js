@@ -23,6 +23,8 @@ $('#sortByFewestPlays').click(function(){
 })
 
 // this function manipulates the playcount stat and $('#dateRange') to reflect the previous two weeks.
-$(#twoWeekButton).click(function(){
-  
+$('#twoWeekButton').click(function(){
+  playListTracks.map(function(track){
+    
+  })
 })
