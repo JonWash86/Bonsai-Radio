@@ -34,9 +34,10 @@
 }
 
 #songInfo{
-  display: inline-block;
+  /* display: inline-block; */
 }
 
 #controlPanel{
   display:none;
+  clear: left;
 }

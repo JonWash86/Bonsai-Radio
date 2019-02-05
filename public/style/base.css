@@ -59,6 +59,21 @@ a:visited{
   transform: translateY(4px);
 }
 
+.statButton{
+  padding: 4px;
+  border: solid;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 10px;
+  border-width: 2.5px;
+  width: 100px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-top: 8px;
+}
+
 input {
   width: 200px;
   height: 28px;
