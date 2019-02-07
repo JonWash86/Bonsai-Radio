@@ -100,18 +100,22 @@ function developPlayListStats(){
   for(i = 0; i < allCallSongs.length; i++){
     for(p = 0; p < playListTracks.length; p ++){
       if (playListTracks[p].track.name.toLowerCase() == allCallSongs[i].name.toLowerCase()){
-        playListTracks[p].playTracker++;
         // TODO: due to some lameness, if a song has the "now playing" attribute, it'll not have a date attribute. I need to make a long-term fix for this down the line.
         if(allCallSongs[i].date){
+          playListTracks[p].playTracker++;
           playListTracks[p].playDates.push(allCallSongs[i].date.uts);
+          // playListTracks[p].activeStat.counter ++;
           if(playListTracks[p].lastPlayDate < allCallSongs[i].date.uts){
             playListTracks[p].lastPlayDate = allCallSongs[i].date.uts;
           }
           if(allCallSongs[i].date.uts >= getTwoWeeks()){
-            playListTracks[p].twoWeekPlays ++
+            console.log(playListTracks[p].twoWeekPlays);
+            playListTracks[p].twoWeekPlays ++;
+            console.log(playListTracks[p].twoWeekPlays);
+
           }
           if(allCallSongs[i].date.uts >= getLastWeek()){
-            playListTracks[p].oneWeekPlays ++
+            playListTracks[p].oneWeekPlays ++;
           }
         }
       }

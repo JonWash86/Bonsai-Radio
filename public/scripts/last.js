@@ -87,6 +87,9 @@ function getTrackForUser(previousDate, todayDate) {
   });
 }
 
+// TODO - this is a global variable
+// it's being written to in last.js and read from in scripts.js
+// consider passing it around, eg developPlaylistStats(allCallSongs)
 var allCallSongs = [];
 
 
@@ -105,6 +108,12 @@ function getFullHistory(requestLength, previousDate, todayDate) {
       url: 'http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&api_key=100a45f60fce336c43b1dac55062e23a&username=' + userLastId + '&from='+ previousDate +'&to='+ todayDate +'&page='+ i +'&format=json',
       success: function(response) {
         for (i = 0; i <= (response.recenttracks.track.length - 1); i ++){
+          // if (response.recenttracks.track[i].date.uts == "1547247703") {
+          //   console.log("when i is " + i);
+          //   console.log("the track object is: ");
+          //   console.log(response.recenttracks.track[i]);
+          //   debugger;
+          // }
           allCallSongs.push(response.recenttracks.track[i]);
         }
       },
