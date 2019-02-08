@@ -21,14 +21,8 @@ function generatePlaylistDropdown(playlists){
   $('#playlistList').on('change', function() {
     $("#trackList").children().remove();
     var access_token = localStorage.getItem("access_token");
-    var playListTracks =[];
+    var playListTracks = getPlaylistTracks(access_token);
     console.log(playListTracks);
-    playListTracks = getPlaylistTracks(access_token);
-    console.log(playListTracks);
-    playListTracks.map(function(track){
-      writePlayListToPanel(track);
-    });
-    // playListTracks.length = 0;
   })
 }
 
@@ -46,6 +40,7 @@ function getPlaylistTracks(access_token, request_url, playListTracks){
       console.log(tracks);
       tracks.map(function(track){
         playListTracks.push(track);
+        writePlayListToPanel(track);
       })
       console.log(playListTracks);
       // console.log(playListTracks);
@@ -54,16 +49,11 @@ function getPlaylistTracks(access_token, request_url, playListTracks){
       }
     }
   });
-  // console.log(playListTracks);
   return(playListTracks);
 }
 
-// playListTracks.map(function(track){
-//   writePlayListToPanel(track)
-// })
-// var playListTracks =[];
-
 function writePlayListToPanel(track){
+  console.log(track);
   var list = "<li id=\"" + track.track.id + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
   document.getElementById('trackList').innerHTML += list;
   $('li.playlistItem').click(function() {
@@ -92,8 +82,6 @@ function generateTrackList(tracks){
 
 function developPlayListStats(allCallSongs, trackBatch){
   for(i = 0; i < allCallSongs.length; i++){
-    // console.log(allCallSongs.length);
-    // console.log(i);
     for(p = 0; p < trackBatch.length; p ++){
       if (trackBatch[p].track.name.toLowerCase() == allCallSongs[i].name.toLowerCase()){
         // TODO: due to some lameness, if a song has the "now playing" attribute, it'll not have a date attribute. I need to make a long-term fix for this down the line.
@@ -108,10 +96,6 @@ function developPlayListStats(allCallSongs, trackBatch){
             if(allCallSongs[i].date.uts >= getLastWeek()){
               trackBatch[p].oneWeekPlays ++;
             }
-          }
-          if (trackBatch[p].track.name.toLowerCase() =="andromeda"){
-            console.log(trackBatch[p]);
-            console.log(allCallSongs[i]);
           }
         }
       }
@@ -140,17 +124,4 @@ function displayTrackStats(track, trackSpan){
 
   document.getElementById('songInfo').innerHTML = trackStats;
   // return(allCallSongs);
-}
-
-// $("#fourWeekButton").click(fourWeeks());
-// the following function will take the tracks from allCallSongs and check whether they have matching IDs. If they have matching IDs, the scrobble date will be saved to the allCallTrack track, as well as the timestamp of the scrobble.
-// This means the first line of the function will need to wipe the existing data, natch.
-
-
-function debugAllCall(allCallSongs){
-  allCallSongs.sort(function(obj1, obj2){
-    return obj2.date.uts - obj1.date.uts;
-  });
-  return(allCallSongs);
-
 }
