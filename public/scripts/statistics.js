@@ -1,5 +1,5 @@
 var trackListSorted = false;
-var currentRange = "playTracker"
+var currentRange = "fourWeekPlays"
 
 function fourWeeks(){
   console.log('four weeks! (whoawhoa!)');
