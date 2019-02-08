@@ -57,14 +57,14 @@ function getSixMonths(){
 
 // per https://makitweb.com/convert-unix-timestamp-to-date-time-with-javascript/
 function convertUnixToText(unixStamp){
-var months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-var date = new Date(unixStamp * 1000);
-var year = date.getFullYear();
-var month = months_arr[date.getMonth()];
-var day = date.getDate();
-var hours = date.getHours();
-var minutes = "0" + date.getMinutes();
-return(month + ' ' + day + ', at ' + hours + ':' + minutes.substr(-2))
+  var months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var date = new Date(unixStamp * 1000);
+  var year = date.getFullYear();
+  var month = months_arr[date.getMonth()];
+  var day = date.getDate();
+  var hours = date.getHours();
+  var minutes = "0" + date.getMinutes();
+  return(month + ' ' + day + ', at ' + hours + ':' + minutes.substr(-2))
 }
 
 // this function checks the last.fm id field and retrieves the most recently played tracks for that user. It then passes the length of the ensuing list to the getFullHistory function to loop over the pages of results.
@@ -96,7 +96,6 @@ var allCallSongs = [];
 function getFullHistory(requestLength, previousDate, todayDate) {
   var userLastId = $("#lastId").val();
   var completed = 0;
-  // var allCallSongs = [];
   console.log(requestLength);
   for (i = 1; i <= requestLength; i ++){
     console.log('making call number ' + i +' of '+ requestLength )
@@ -106,12 +105,6 @@ function getFullHistory(requestLength, previousDate, todayDate) {
       url: 'http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&api_key=100a45f60fce336c43b1dac55062e23a&username=' + userLastId + '&from='+ previousDate +'&to='+ todayDate +'&page='+ i +'&format=json',
       success: function(response) {
         for (i = 0; i <= (response.recenttracks.track.length - 1); i ++){
-          // if (response.recenttracks.track[i].date.uts == "1547247703") {
-          //   console.log("when i is " + i);
-          //   console.log("the track object is: ");
-          //   console.log(response.recenttracks.track[i]);
-          //   debugger;
-          // }
           allCallSongs.push(response.recenttracks.track[i]);
         }
       },

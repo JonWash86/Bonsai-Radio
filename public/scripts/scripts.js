@@ -22,12 +22,13 @@ function generatePlaylistDropdown(playlists){
     $("#trackList").children().remove();
     var access_token = localStorage.getItem("access_token");
     getPlaylistTracks(access_token);
-    playListTracks.length = 0;
+    // playListTracks.length = 0;
   })
 }
 
 //This function will use the access token to retrieve a list of the songs in a given playlist.
 function getPlaylistTracks(access_token, request_url){
+  var playListTracks =[];
   var url = request_url || 'https://api.spotify.com/v1/playlists/' + $('select option:selected').val() + '/tracks'
 
   $.ajax({
@@ -36,7 +37,8 @@ function getPlaylistTracks(access_token, request_url){
       'Authorization':'Bearer ' + access_token
     },
     success: function(response) {
-      generateTrackList(response.items);
+      playListTracks.push(generateTrackList(response.items));
+      console.log(playListTracks);
       if(response.next) {
         getPlaylistTracks(access_token, response.next);
       }
@@ -44,7 +46,7 @@ function getPlaylistTracks(access_token, request_url){
   });
 }
 
-var playListTracks =[];
+// var playListTracks =[];
 
 function writePlayListToPanel(track){
   var list = "<li id=\"" + track.track.id + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
@@ -56,6 +58,7 @@ function writePlayListToPanel(track){
 
 // this function goes over every track and writes it to the list pane and adds an onclick listener to each track which will check the playcount and write the track's metadata to the infopane
 function generateTrackList(tracks){
+  var trackBatch = [];
   tracks.map(function(track){
     writePlayListToPanel(track);
     track.playDates = [];
@@ -66,42 +69,40 @@ function generateTrackList(tracks){
     track.activeStat = {
       counter: 0,
       spanText: "four weeks"}
-    playListTracks.push(track);
+    trackBatch.push(track);
   });
-  developPlayListStats(allCallSongs);
+  return(developPlayListStats(allCallSongs, trackBatch));
   $('#controlPanel').show();
 }
 
-function developPlayListStats(allCallSongs){
+function developPlayListStats(allCallSongs, trackBatch){
   for(i = 0; i < allCallSongs.length; i++){
-    // XX JRHEARD XX - this is what I was referring to: line 78 gives the length of my total scrobbles (if you try to select a playlist early, you'll see allCallSongs is not its final length, another reason for a progress bar). Line 79 shows where in the for loop we are. When I hit the end of the list, the loop starts over again, leading to our Helter Skelter double-scrobbles.
     console.log(allCallSongs.length);
     console.log(i);
-    for(p = 0; p < playListTracks.length; p ++){
-      if (playListTracks[p].track.name.toLowerCase() == allCallSongs[i].name.toLowerCase()){
+    for(p = 0; p < trackBatch.length; p ++){
+      if (trackBatch[p].track.name.toLowerCase() == allCallSongs[i].name.toLowerCase()){
         // TODO: due to some lameness, if a song has the "now playing" attribute, it'll not have a date attribute. I need to make a long-term fix for this down the line.
         if(allCallSongs[i].date){
-          // console.log("Before: " + playListTracks[p].track.name + " is with " + playListTracks[p].fourWeekPlays + " plays total, with " + playListTracks[p].twoWeekPlays + "two-week plays from play date "  + allCallSongs[i].date.uts);
-          playListTracks[p].fourWeekPlays++;
-          playListTracks[p].playDates.push(allCallSongs[i].date.uts);
-          if(playListTracks[p].lastPlayDate < allCallSongs[i].date.uts){
-            playListTracks[p].lastPlayDate = allCallSongs[i].date.uts;
+          trackBatch[p].fourWeekPlays++;
+          trackBatch[p].playDates.push(allCallSongs[i].date.uts);
+          if(trackBatch[p].lastPlayDate < allCallSongs[i].date.uts){
+            trackBatch[p].lastPlayDate = allCallSongs[i].date.uts;
           }
           if(allCallSongs[i].date.uts >= getTwoWeeks()){
-            playListTracks[p].twoWeekPlays ++;
+            trackBatch[p].twoWeekPlays ++;
             if(allCallSongs[i].date.uts >= getLastWeek()){
-              playListTracks[p].oneWeekPlays ++;
+              trackBatch[p].oneWeekPlays ++;
             }
           }
-          if (playListTracks[p].track.name.toLowerCase() =="andromeda"){
-            console.log(playListTracks[p]);
+          if (trackBatch[p].track.name.toLowerCase() =="andromeda"){
+            console.log(trackBatch[p]);
             console.log(allCallSongs[i]);
           }
         }
-        // console.log("after: " + playListTracks[p].track.name + " is with " + playListTracks[p].fourWeekPlays + " plays total, with " + playListTracks[p].twoWeekPlays + "two-week plays from play date "  + allCallSongs[i].date.uts);
       }
     }
   }
+  return(trackBatch);
 };
 
 function idMatcher(identification){
