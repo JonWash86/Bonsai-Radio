@@ -21,31 +21,46 @@ function generatePlaylistDropdown(playlists){
   $('#playlistList').on('change', function() {
     $("#trackList").children().remove();
     var access_token = localStorage.getItem("access_token");
-    getPlaylistTracks(access_token);
+    var playListTracks =[];
+    console.log(playListTracks);
+    playListTracks = getPlaylistTracks(access_token);
+    console.log(playListTracks);
+    playListTracks.map(function(track){
+      writePlayListToPanel(track);
+    });
     // playListTracks.length = 0;
   })
 }
 
 //This function will use the access token to retrieve a list of the songs in a given playlist.
-function getPlaylistTracks(access_token, request_url){
-  var playListTracks =[];
+function getPlaylistTracks(access_token, request_url, playListTracks){
   var url = request_url || 'https://api.spotify.com/v1/playlists/' + $('select option:selected').val() + '/tracks'
-
+  var playListTracks = (playListTracks || []);
   $.ajax({
     url: url,
     headers: {
       'Authorization':'Bearer ' + access_token
     },
     success: function(response) {
-      playListTracks.push(generateTrackList(response.items));
+      var tracks = (generateTrackList(response.items));
+      console.log(tracks);
+      tracks.map(function(track){
+        playListTracks.push(track);
+      })
       console.log(playListTracks);
+      // console.log(playListTracks);
       if(response.next) {
-        getPlaylistTracks(access_token, response.next);
+        getPlaylistTracks(access_token, response.next, playListTracks);
       }
     }
   });
+  // console.log(playListTracks);
+  return(playListTracks);
 }
 
+// playListTracks.map(function(track){
+//   writePlayListToPanel(track)
+// })
 // var playListTracks =[];
 
 function writePlayListToPanel(track){
@@ -60,7 +75,7 @@ function writePlayListToPanel(track){
 function generateTrackList(tracks){
   var trackBatch = [];
   tracks.map(function(track){
-    writePlayListToPanel(track);
+    // writePlayListToPanel(track);
     track.playDates = [];
     track.lastPlayDate = null;
     track.fourWeekPlays = 0;
@@ -77,8 +92,8 @@ function generateTrackList(tracks){
 
 function developPlayListStats(allCallSongs, trackBatch){
   for(i = 0; i < allCallSongs.length; i++){
-    console.log(allCallSongs.length);
-    console.log(i);
+    // console.log(allCallSongs.length);
+    // console.log(i);
     for(p = 0; p < trackBatch.length; p ++){
       if (trackBatch[p].track.name.toLowerCase() == allCallSongs[i].name.toLowerCase()){
         // TODO: due to some lameness, if a song has the "now playing" attribute, it'll not have a date attribute. I need to make a long-term fix for this down the line.
@@ -102,6 +117,7 @@ function developPlayListStats(allCallSongs, trackBatch){
       }
     }
   }
+  console.log(trackBatch);
   return(trackBatch);
 };
 
