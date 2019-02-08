@@ -1,10 +1,4 @@
-
-// document.getElementById('playlistButton').addEventListener('click', function() {
-//   var access_token = localStorage.getItem("access_token")
-//   getPlaylists(access_token);
-// });
-
-//This function gets a list of the user's playlists
+//This function gets a list of the user's playlists.
 function getPlaylists(access_token) {
   $.ajax({
     url: 'https://api.spotify.com/v1/me/playlists',
@@ -18,7 +12,7 @@ function getPlaylists(access_token) {
   });
 }
 
-// this function takes the playslists from getPlaylists and writes each title to the playlist selector dropdown.
+// this function takes the playlists from getPlaylists and writes each title to the playlist selector dropdown.
 function generatePlaylistDropdown(playlists){
   playlists.map(function(playlist){
     var list = "<option value=" + playlist.id + " class='playlistItem'>" + playlist.name + "</option>"
@@ -44,26 +38,8 @@ function getPlaylistTracks(access_token, request_url){
     success: function(response) {
       generateTrackList(response.items);
       if(response.next) {
-        // keep chaining getPlaylistTracks calls until
-        // there isn't a response.next any more!
-        // at that point, we've gotten all the tracks!
         getPlaylistTracks(access_token, response.next);
-        //generateTrackList(response.items);
       }
-
-      // to figure out num pages, an example:
-      // 137 total items
-      // 10 items per page
-      // in that case, response.total will be 137
-      // response.limit will be 10
-      // the actual number of pages will be 14
-
-      // then the code to figure out the number of pages is:
-      // var pages = round_up(response.total / response.limit)
-
-      // SO ALL THAT STUFF ABOVE was just assuming
-      // that we really cared about the number of pages
-
     }
   });
 }
@@ -84,7 +60,7 @@ function generateTrackList(tracks){
     writePlayListToPanel(track);
     track.playDates = [];
     track.lastPlayDate = null;
-    track.playTracker = 0;
+    track.fourWeekPlays = 0;
     track.twoWeekPlays = 0;
     track.oneWeekPlays = 0;
     track.activeStat = {
@@ -92,37 +68,44 @@ function generateTrackList(tracks){
       spanText: "four weeks"}
     playListTracks.push(track);
   });
-  developPlayListStats();
+  developPlayListStats(allCallSongs);
   $('#controlPanel').show();
 }
 
-function developPlayListStats(){
+function developPlayListStats(allCallSongs){
   for(i = 0; i < allCallSongs.length; i++){
+    // XX JRHEARD XX - this is what I was referring to: line 78 gives the length of my total scrobbles (if you try to select a playlist early, you'll see allCallSongs is not its final length, another reason for a progress bar). Line 79 shows where in the for loop we are. When I hit the end of the list, the loop starts over again, leading to our Helter Skelter double-scrobbles.
+    console.log(allCallSongs.length);
+    console.log(i);
     for(p = 0; p < playListTracks.length; p ++){
       if (playListTracks[p].track.name.toLowerCase() == allCallSongs[i].name.toLowerCase()){
-        playListTracks[p].playTracker++;
         // TODO: due to some lameness, if a song has the "now playing" attribute, it'll not have a date attribute. I need to make a long-term fix for this down the line.
         if(allCallSongs[i].date){
+          // console.log("Before: " + playListTracks[p].track.name + " is with " + playListTracks[p].fourWeekPlays + " plays total, with " + playListTracks[p].twoWeekPlays + "two-week plays from play date "  + allCallSongs[i].date.uts);
+          playListTracks[p].fourWeekPlays++;
           playListTracks[p].playDates.push(allCallSongs[i].date.uts);
           if(playListTracks[p].lastPlayDate < allCallSongs[i].date.uts){
             playListTracks[p].lastPlayDate = allCallSongs[i].date.uts;
           }
           if(allCallSongs[i].date.uts >= getTwoWeeks()){
-            playListTracks[p].twoWeekPlays ++
+            playListTracks[p].twoWeekPlays ++;
+            if(allCallSongs[i].date.uts >= getLastWeek()){
+              playListTracks[p].oneWeekPlays ++;
+            }
           }
-          if(allCallSongs[i].date.uts >= getLastWeek()){
-            playListTracks[p].oneWeekPlays ++
+          if (playListTracks[p].track.name.toLowerCase() =="andromeda"){
+            console.log(playListTracks[p]);
+            console.log(allCallSongs[i]);
           }
         }
+        // console.log("after: " + playListTracks[p].track.name + " is with " + playListTracks[p].fourWeekPlays + " plays total, with " + playListTracks[p].twoWeekPlays + "two-week plays from play date "  + allCallSongs[i].date.uts);
       }
     }
   }
 };
 
 function idMatcher(identification){
-  console.log('checking!')
   for (i = 0; i <= playListTracks.length; i++){
-    console.log(playListTracks[i]);
     if (identification == playListTracks[i].track.id){
       console.log('id match!');
       var thisTrack = playListTracks[i];
@@ -142,6 +125,15 @@ function displayTrackStats(track, trackSpan){
   // return(allCallSongs);
 }
 
-$("#fourWeekButton").click(fourWeeks());
+// $("#fourWeekButton").click(fourWeeks());
 // the following function will take the tracks from allCallSongs and check whether they have matching IDs. If they have matching IDs, the scrobble date will be saved to the allCallTrack track, as well as the timestamp of the scrobble.
 // This means the first line of the function will need to wipe the existing data, natch.
+
+
+function debugAllCall(allCallSongs){
+  allCallSongs.sort(function(obj1, obj2){
+    return obj2.date.uts - obj1.date.uts;
+  });
+  return(allCallSongs);
+
+}
