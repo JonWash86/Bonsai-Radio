@@ -23,6 +23,9 @@ function generatePlaylistDropdown(playlists){
     var access_token = localStorage.getItem("access_token");
     var playListTracks = getPlaylistTracks(access_token);
     console.log(playListTracks);
+    // playListTracks.map(function(track){
+    //   writePlayListToPanel(track);
+    // });
   })
 }
 
@@ -42,8 +45,10 @@ function getPlaylistTracks(access_token, request_url, playListTracks){
         playListTracks.push(track);
         writePlayListToPanel(track);
       })
+      $('li.playlistItem').click(function() {
+        displayTrackStats(idMatcher(this.id, playListTracks));
+      });
       console.log(playListTracks);
-      // console.log(playListTracks);
       if(response.next) {
         getPlaylistTracks(access_token, response.next, playListTracks);
       }
@@ -53,19 +58,16 @@ function getPlaylistTracks(access_token, request_url, playListTracks){
 }
 
 function writePlayListToPanel(track){
-  console.log(track);
-  var list = "<li id=\"" + track.track.id + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
+  var thisParticulartrack = track;
+  console.log(thisParticulartrack);
+  var list = "<li id=\"" + thisParticulartrack.track.id + "\" class='playlistItem'>" + thisParticulartrack.track.name + "<br><span class=\"trackArtist\"> by " + thisParticulartrack.track.artists[0].name + "</span></li>"
   document.getElementById('trackList').innerHTML += list;
-  $('li.playlistItem').click(function() {
-    displayTrackStats(idMatcher(this.id));
-  });
 }
 
 // this function goes over every track and writes it to the list pane and adds an onclick listener to each track which will check the playcount and write the track's metadata to the infopane
 function generateTrackList(tracks){
   var trackBatch = [];
   tracks.map(function(track){
-    // writePlayListToPanel(track);
     track.playDates = [];
     track.lastPlayDate = null;
     track.fourWeekPlays = 0;
@@ -105,7 +107,8 @@ function developPlayListStats(allCallSongs, trackBatch){
   return(trackBatch);
 };
 
-function idMatcher(identification){
+function idMatcher(identification, playListTracks){
+  console.log(playListTracks);
   for (i = 0; i <= playListTracks.length; i++){
     if (identification == playListTracks[i].track.id){
       console.log('id match!');
@@ -116,12 +119,11 @@ function idMatcher(identification){
   }
 }
 
-function displayTrackStats(track, trackSpan){
+function displayTrackStats(track){
   var trackStats = "<img id=\"albumThumb\" src="+ track.track.album.images[0].url +" height=\"250px\"><h3 id=\"trackTitle\">" + track.track.name + "</h3><span class=\"trackFacts\">by "+ track.track.artists[0].name +"</span><br><span class=\"trackFacts\">from "+ track.track.album.name + "</span><br><br><span class=\"trackStatistics\">Added on "+ track.added_at +"</span><br><span class=\"trackStatistics\">Played "+ track.activeStat.counter + " times in the last </span><span id=\"dateRange\" class=\"trackStatistics\">" + track.activeStat.spanText + ".</span>"
   if (track.lastPlayDate){
     trackStats += "<br><br><br>Last played " + convertUnixToText(track.lastPlayDate) + "."
   };
 
   document.getElementById('songInfo').innerHTML = trackStats;
-  // return(allCallSongs);
 }
