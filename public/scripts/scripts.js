@@ -44,9 +44,7 @@ function getPlaylistTracks(access_token, request_url, playListTracks){
         playListTracks.push(track);
         writePlayListToPanel(track);
       })
-      $('li.playlistItem').click(function() {
-        displayTrackStats(idMatcher(this.id, playListTracks));
-      });
+      initTrackListener(playListTracks);
       console.log(playListTracks);
       if(response.next) {
         getPlaylistTracks(access_token, response.next, playListTracks);
@@ -60,9 +58,15 @@ function getPlaylistTracks(access_token, request_url, playListTracks){
   return(playListTracks);
 }
 
+function initTrackListener(playListTracks){
+  $('li.playlistItem').click(function() {
+    displayTrackStats(idMatcher(this.id, playListTracks));
+  });
+}
+
 function writePlayListToPanel(track){
   var thisParticulartrack = track;
-  console.log(thisParticulartrack);
+  // console.log(thisParticulartrack);
   var list = "<li id=\"" + thisParticulartrack.track.id + "\" class='playlistItem'>" + thisParticulartrack.track.name + "<br><span class=\"trackArtist\"> by " + thisParticulartrack.track.artists[0].name + "</span></li>"
   document.getElementById('trackList').innerHTML += list;
 }
@@ -92,6 +96,7 @@ function developPlayListStats(allCallSongs, trackBatch){
         // TODO: due to some lameness, if a song has the "now playing" attribute, it'll not have a date attribute. I need to make a long-term fix for this down the line.
         if(allCallSongs[i].date){
           trackBatch[p].fourWeekPlays++;
+          trackBatch[p].activeStat.counter++;
           trackBatch[p].playDates.push(allCallSongs[i].date.uts);
           if(trackBatch[p].lastPlayDate < allCallSongs[i].date.uts){
             trackBatch[p].lastPlayDate = allCallSongs[i].date.uts;
