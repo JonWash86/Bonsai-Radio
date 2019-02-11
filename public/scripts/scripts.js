@@ -23,11 +23,10 @@ function generatePlaylistDropdown(playlists){
     var access_token = localStorage.getItem("access_token");
     var playListTracks = getPlaylistTracks(access_token);
     console.log(playListTracks);
-    // playListTracks.map(function(track){
-    //   writePlayListToPanel(track);
-    // });
   })
 }
+
+
 
 //This function will use the access token to retrieve a list of the songs in a given playlist.
 function getPlaylistTracks(access_token, request_url, playListTracks){
@@ -54,6 +53,10 @@ function getPlaylistTracks(access_token, request_url, playListTracks){
       }
     }
   });
+  $(document).ajaxComplete(function(){
+    console.log('all calls are complete, and now PLT is like so: ' + playListTracks);
+    initializePlayListControl(playListTracks);
+  });
   return(playListTracks);
 }
 
@@ -78,8 +81,8 @@ function generateTrackList(tracks){
       spanText: "four weeks"}
     trackBatch.push(track);
   });
-  return(developPlayListStats(allCallSongs, trackBatch));
   $('#controlPanel').show();
+  return(developPlayListStats(allCallSongs, trackBatch));
 }
 
 function developPlayListStats(allCallSongs, trackBatch){
