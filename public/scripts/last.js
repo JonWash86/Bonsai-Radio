@@ -90,7 +90,7 @@ function getTrackForUser(previousDate, todayDate) {
 // TODO - this is a global variable
 // it's being written to in last.js and read from in scripts.js
 // consider passing it around, eg developPlaylistStats(allCallSongs)
-var allCallSongs = [];
+// var allCallSongs = [];
 
 
 function getFullHistory(requestLength, previousDate, todayDate) {

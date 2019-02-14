@@ -64,7 +64,7 @@ function initTrackListener(playListTracks){
   });
 }
 
-function writePlayListToPanel(track){
+function writePlayListToPanel(track, playListTracks){
   var thisParticulartrack = track;
   // console.log(thisParticulartrack);
   var list = "<li id=\"" + thisParticulartrack.track.id + "\" class='playlistItem'>" + thisParticulartrack.track.name + "<br><span class=\"trackArtist\"> by " + thisParticulartrack.track.artists[0].name + "</span></li>"
