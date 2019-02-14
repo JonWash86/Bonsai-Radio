@@ -100,7 +100,7 @@ function getFullHistory(requestLength, numTracksExpected, previousDate, todayDat
       type:'POST',
       url: 'http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&api_key=100a45f60fce336c43b1dac55062e23a&username=' + userLastId + '&from='+ previousDate +'&to='+ todayDate +'&page='+ i +'&format=json',
       success: function(response) {
-
+        console.log(response.recenttracks.track.length);
         for (j = 0; j <= (response.recenttracks.track.length - 1); j ++){
           allCallSongs.push(response.recenttracks.track[j]);
         }

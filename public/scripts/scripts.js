@@ -44,7 +44,6 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
         playListTracks.push(track);
         writePlayListToPanel(track, playListTracks);
       })
-      initTrackListener(playListTracks);
       console.log(playListTracks);
       if(response.next) {
         getPlaylistTracks(access_token, allCallSongs, response.next, playListTracks);
@@ -59,21 +58,27 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
 }
 
 
+// function writePlayListToPanel(track, playListTracks){
+//   console.log(track);
+//   var list = "<li id=\"" + track.track.id + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
+//   document.getElementById('trackList').innerHTML += list;
+//
+//   $('li.playlistItem').click(function() {
+//     console.log(this.id, playListTracks);
+//     displayTrackStats(idMatcher(this.id, playListTracks));
+//   });
+// }
+
 function writePlayListToPanel(track, playListTracks){
-  console.log(track);
-  var list = "<li id=\"" + track.track.id + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
-  document.getElementById('trackList').innerHTML += list;
-
-  $('li.playlistItem').click(function() {
-    displayTrackStats(idMatcher(this.id, playListTracks));
-  });
-}
-
-function writePlayListToPanel(track){
   var thisParticulartrack = track;
   // console.log(thisParticulartrack);
   var list = "<li id=\"" + thisParticulartrack.track.id + "\" class='playlistItem'>" + thisParticulartrack.track.name + "<br><span class=\"trackArtist\"> by " + thisParticulartrack.track.artists[0].name + "</span></li>"
   document.getElementById('trackList').innerHTML += list;
+  $('li.playlistItem').click(function() {
+    console.log(this.id, playListTracks);
+    displayTrackStats(idMatcher(this.id, playListTracks));
+  });
+
 }
 
 // this function goes over every track and writes it to the list pane and adds an onclick listener to each track which will check the playcount and write the track's metadata to the infopane
@@ -92,10 +97,6 @@ function generateTrackList(tracks, allCallSongs){
   });
 
   return developPlayListStats(allCallSongs, trackBatch);
-
-//   commented out during pull request; uncomment if issues arise!
-//   $('#controlPanel').show();
-
 }
 
 function developPlayListStats(allCallSongs, trackBatch){
@@ -136,6 +137,7 @@ function idMatcher(identification, playListTracks){
 }
 
 function displayTrackStats(track){
+  console.log(track);
   var trackStats = "<img id=\"albumThumb\" src="+ track.track.album.images[0].url +" height=\"250px\"><h3 id=\"trackTitle\">" + track.track.name + "</h3><span class=\"trackFacts\">by "+ track.track.artists[0].name +"</span><br><span class=\"trackFacts\">from "+ track.track.album.name + "</span><br><br><span class=\"trackStatistics\">Added on "+ track.added_at +"</span><br><span class=\"trackStatistics\">Played "+ track.activeStat.counter + " times in the last </span><span id=\"dateRange\" class=\"trackStatistics\">" + track.activeStat.spanText + ".</span>"
   if (track.lastPlayDate){
     trackStats += "<br><br><br>Last played " + convertUnixToText(track.lastPlayDate) + "."
