@@ -23,6 +23,7 @@ function generatePlaylistDropdown(playlists, allCallSongs){
     var access_token = localStorage.getItem("access_token");
     var playListTracks = getPlaylistTracks(access_token, allCallSongs);
     console.log(playListTracks);
+    initializePlayListControl(playListTracks);
   })
 }
 
@@ -52,7 +53,7 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
   });
   $(document).ajaxComplete(function(){
     console.log('all calls are complete, and now PLT is like so: ' + playListTracks);
-    initializePlayListControl(playListTracks);
+    // initializePlayListControl(playListTracks);
   });
   return(playListTracks);
 }
@@ -74,11 +75,14 @@ function writePlayListToPanel(track, playListTracks){
   // console.log(thisParticulartrack);
   var list = "<li id=\"" + thisParticulartrack.track.id + "\" class='playlistItem'>" + thisParticulartrack.track.name + "<br><span class=\"trackArtist\"> by " + thisParticulartrack.track.artists[0].name + "</span></li>"
   document.getElementById('trackList').innerHTML += list;
+  initTrackListener(playListTracks);
+}
+
+function initTrackListener(playListTracks){
   $('li.playlistItem').click(function() {
     console.log(this.id, playListTracks);
     displayTrackStats(idMatcher(this.id, playListTracks));
   });
-
 }
 
 // this function goes over every track and writes it to the list pane and adds an onclick listener to each track which will check the playcount and write the track's metadata to the infopane

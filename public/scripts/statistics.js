@@ -12,12 +12,13 @@ function initializePlayListControl(playListTracks){
       return obj2.activeStat.counter - obj1.activeStat.counter;
     });
     $("#trackList").children().remove();
-    playListTracks.map(function(track){
+    playListTracks.map(function(track, playListTracks){
       writePlayListToPanel(track);
+      initTrackListener(playListTracks);
     })
   })
 
-  $('#sortByFewestPlays').click(function(){
+  $('#sortByFewestPlays').click(function(playListTracks){
     trackListSorted = "byBottom";
     playListTracks.sort(function(obj1, obj2){
       return obj1.activeStat.counter - obj2.activeStat.counter;

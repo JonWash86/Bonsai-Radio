@@ -3,11 +3,9 @@ function initializeUser(access_token, refresh_token){
   var userLastId = $("#lastId").val();
   localStorage.setItem("userLastId", userLastId);
   getTrackForUser(getFourWeeks(), getYesterday());
-  $(document).ajaxComplete(function(){
-    getPlaylists(access_token);
-    $("#authenticatorPanel").hide();
-    $("#overlay").hide();
-    $("#playlistFetcher").show();
-    $('#controlPanel').show();
-  })
+  getPlaylists(access_token);
+  $("#authenticatorPanel").hide();
+  $("#overlay").hide();
+  $("#playlistFetcher").show();
+  $('#controlPanel').show();
 };
