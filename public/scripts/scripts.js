@@ -1,5 +1,5 @@
 //This function gets a list of the user's playlists.
-function getPlaylists(access_token) {
+function getPlaylists(access_token, allCallSongs) {
   $.ajax({
     url: 'https://api.spotify.com/v1/me/playlists',
     headers: {
@@ -7,13 +7,13 @@ function getPlaylists(access_token) {
     },
     success: function(response) {
       $(".recommendations").show();
-      generatePlaylistDropdown(response.items);
+      generatePlaylistDropdown(response.items, allCallSongs);
     }
   });
 }
 
 // this function takes the playlists from getPlaylists and writes each title to the playlist selector dropdown.
-function generatePlaylistDropdown(playlists){
+function generatePlaylistDropdown(playlists, allCallSongs){
   playlists.map(function(playlist){
     var list = "<option value=" + playlist.id + " class='playlistItem'>" + playlist.name + "</option>"
     document.getElementById('playlistList').innerHTML += list;
@@ -21,7 +21,7 @@ function generatePlaylistDropdown(playlists){
   $('#playlistList').on('change', function() {
     $("#trackList").children().remove();
     var access_token = localStorage.getItem("access_token");
-    var playListTracks = getPlaylistTracks(access_token);
+    var playListTracks = getPlaylistTracks(access_token, allCallSongs);
     console.log(playListTracks);
   })
 }
@@ -29,7 +29,7 @@ function generatePlaylistDropdown(playlists){
 
 
 //This function will use the access token to retrieve a list of the songs in a given playlist.
-function getPlaylistTracks(access_token, request_url, playListTracks){
+function getPlaylistTracks(access_token, allCallSongs, request_url, playListTracks){
   var url = request_url || 'https://api.spotify.com/v1/playlists/' + $('select option:selected').val() + '/tracks'
   var playListTracks = (playListTracks || []);
   $.ajax({
@@ -38,16 +38,16 @@ function getPlaylistTracks(access_token, request_url, playListTracks){
       'Authorization':'Bearer ' + access_token
     },
     success: function(response) {
-      var tracks = (generateTrackList(response.items));
+      var tracks = generateTrackList(response.items, allCallSongs);
       console.log(tracks);
       tracks.map(function(track){
         playListTracks.push(track);
-        writePlayListToPanel(track);
+        writePlayListToPanel(track, playListTracks);
       })
       initTrackListener(playListTracks);
       console.log(playListTracks);
       if(response.next) {
-        getPlaylistTracks(access_token, response.next, playListTracks);
+        getPlaylistTracks(access_token, allCallSongs, response.next, playListTracks);
       }
     }
   });
@@ -58,7 +58,12 @@ function getPlaylistTracks(access_token, request_url, playListTracks){
   return(playListTracks);
 }
 
-function initTrackListener(playListTracks){
+
+function writePlayListToPanel(track, playListTracks){
+  console.log(track);
+  var list = "<li id=\"" + track.track.id + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
+  document.getElementById('trackList').innerHTML += list;
+
   $('li.playlistItem').click(function() {
     displayTrackStats(idMatcher(this.id, playListTracks));
   });
@@ -72,7 +77,7 @@ function writePlayListToPanel(track){
 }
 
 // this function goes over every track and writes it to the list pane and adds an onclick listener to each track which will check the playcount and write the track's metadata to the infopane
-function generateTrackList(tracks){
+function generateTrackList(tracks, allCallSongs){
   var trackBatch = [];
   tracks.map(function(track){
     track.playDates = [];
@@ -85,8 +90,12 @@ function generateTrackList(tracks){
       spanText: "four weeks"}
     trackBatch.push(track);
   });
-  $('#controlPanel').show();
-  return(developPlayListStats(allCallSongs, trackBatch));
+
+  return developPlayListStats(allCallSongs, trackBatch);
+
+//   commented out during pull request; uncomment if issues arise!
+//   $('#controlPanel').show();
+
 }
 
 function developPlayListStats(allCallSongs, trackBatch){
@@ -112,11 +121,10 @@ function developPlayListStats(allCallSongs, trackBatch){
     }
   }
   console.log(trackBatch);
-  return(trackBatch);
+  return trackBatch;
 };
 
 function idMatcher(identification, playListTracks){
-  console.log(playListTracks);
   for (i = 0; i <= playListTracks.length; i++){
     if (identification == playListTracks[i].track.id){
       console.log('id match!');

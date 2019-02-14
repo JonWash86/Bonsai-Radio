@@ -78,8 +78,9 @@ function getTrackForUser(previousDate, todayDate) {
     success: function(response) {
       console.log(response.recenttracks)
       var requestLength = response.recenttracks["@attr"].totalPages;
-      console.log(response.recenttracks["@attr"].total);
-      getFullHistory(requestLength, previousDate, todayDate);
+      var total = response.recenttracks["@attr"].total;
+      console.log(total);
+      getFullHistory(requestLength, total, previousDate, todayDate);
     },
     error: function(code, message){
       console.log('it didn\'t work!');
@@ -87,15 +88,10 @@ function getTrackForUser(previousDate, todayDate) {
   });
 }
 
-// TODO - this is a global variable
-// it's being written to in last.js and read from in scripts.js
-// consider passing it around, eg developPlaylistStats(allCallSongs)
-var allCallSongs = [];
-
-
-function getFullHistory(requestLength, previousDate, todayDate) {
+function getFullHistory(requestLength, numTracksExpected, previousDate, todayDate) {
   var userLastId = $("#lastId").val();
   var completed = 0;
+  var allCallSongs = [];
   console.log(requestLength);
   for (i = 1; i <= requestLength; i ++){
     console.log('making call number ' + i +' of '+ requestLength )
@@ -104,9 +100,22 @@ function getFullHistory(requestLength, previousDate, todayDate) {
       type:'POST',
       url: 'http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&api_key=100a45f60fce336c43b1dac55062e23a&username=' + userLastId + '&from='+ previousDate +'&to='+ todayDate +'&page='+ i +'&format=json',
       success: function(response) {
-        for (i = 0; i <= (response.recenttracks.track.length - 1); i ++){
-          allCallSongs.push(response.recenttracks.track[i]);
+
+        for (j = 0; j <= (response.recenttracks.track.length - 1); j ++){
+          allCallSongs.push(response.recenttracks.track[j]);
         }
+
+      // NOTE: if one of these requests fails, then allCallSongs.length will never equal numTracksExpected
+      // and this if-statement will never be satisfied and the app will hang.
+      // Some error handling (maybe decrement `numTracksExpected` by `tracksPerPage` or somethhing in the error function?)
+      // could fix this potential problem.
+      if (allCallSongs.length >= numTracksExpected) {
+        console.log("last.fm history responses all received, now let's fetch spotify data!");
+        console.log(allCallSongs);
+        var access_token = localStorage.getItem("access_token");
+        getPlaylists(access_token, allCallSongs);
+      }
+
       },
       error: function(code, message){
         console.log('it didn\'t work!');
