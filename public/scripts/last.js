@@ -57,14 +57,14 @@ function getSixMonths(){
 
 // per https://makitweb.com/convert-unix-timestamp-to-date-time-with-javascript/
 function convertUnixToText(unixStamp){
-var months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-var date = new Date(unixStamp * 1000);
-var year = date.getFullYear();
-var month = months_arr[date.getMonth()];
-var day = date.getDate();
-var hours = date.getHours();
-var minutes = "0" + date.getMinutes();
-return(month + ' ' + day + ', at ' + hours + ':' + minutes.substr(-2))
+  var months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var date = new Date(unixStamp * 1000);
+  var year = date.getFullYear();
+  var month = months_arr[date.getMonth()];
+  var day = date.getDate();
+  var hours = date.getHours();
+  var minutes = "0" + date.getMinutes();
+  return(month + ' ' + day + ', at ' + hours + ':' + minutes.substr(-2))
 }
 
 // this function checks the last.fm id field and retrieves the most recently played tracks for that user. It then passes the length of the ensuing list to the getFullHistory function to loop over the pages of results.
@@ -78,8 +78,9 @@ function getTrackForUser(previousDate, todayDate) {
     success: function(response) {
       console.log(response.recenttracks)
       var requestLength = response.recenttracks["@attr"].totalPages;
-      console.log(response.recenttracks["@attr"].total);
-      getFullHistory(requestLength, previousDate, todayDate);
+      var total = response.recenttracks["@attr"].total;
+      console.log(total);
+      getFullHistory(requestLength, total, previousDate, todayDate);
     },
     error: function(code, message){
       console.log('it didn\'t work!');
@@ -87,16 +88,10 @@ function getTrackForUser(previousDate, todayDate) {
   });
 }
 
-// TODO - this is a global variable
-// it's being written to in last.js and read from in scripts.js
-// consider passing it around, eg developPlaylistStats(allCallSongs)
-var allCallSongs = [];
-
-
-function getFullHistory(requestLength, previousDate, todayDate) {
+function getFullHistory(requestLength, numTracksExpected, previousDate, todayDate) {
   var userLastId = $("#lastId").val();
   var completed = 0;
-  // var allCallSongs = [];
+  var allCallSongs = [];
   console.log(requestLength);
   for (i = 1; i <= requestLength; i ++){
     console.log('making call number ' + i +' of '+ requestLength )
@@ -105,15 +100,22 @@ function getFullHistory(requestLength, previousDate, todayDate) {
       type:'POST',
       url: 'http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&api_key=100a45f60fce336c43b1dac55062e23a&username=' + userLastId + '&from='+ previousDate +'&to='+ todayDate +'&page='+ i +'&format=json',
       success: function(response) {
-        for (i = 0; i <= (response.recenttracks.track.length - 1); i ++){
-          // if (response.recenttracks.track[i].date.uts == "1547247703") {
-          //   console.log("when i is " + i);
-          //   console.log("the track object is: ");
-          //   console.log(response.recenttracks.track[i]);
-          //   debugger;
-          // }
-          allCallSongs.push(response.recenttracks.track[i]);
+        console.log(response.recenttracks.track.length);
+        for (j = 0; j <= (response.recenttracks.track.length - 1); j ++){
+          allCallSongs.push(response.recenttracks.track[j]);
         }
+
+      // NOTE: if one of these requests fails, then allCallSongs.length will never equal numTracksExpected
+      // and this if-statement will never be satisfied and the app will hang.
+      // Some error handling (maybe decrement `numTracksExpected` by `tracksPerPage` or somethhing in the error function?)
+      // could fix this potential problem.
+      if (allCallSongs.length >= numTracksExpected) {
+        console.log("last.fm history responses all received, now let's fetch spotify data!");
+        console.log(allCallSongs);
+        var access_token = localStorage.getItem("access_token");
+        getPlaylists(access_token, allCallSongs);
+      }
+
       },
       error: function(code, message){
         console.log('it didn\'t work!');
