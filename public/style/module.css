@@ -39,6 +39,8 @@
 
 #sortPane{
   display: none;
+  width: 400px;
+  padding-bottom: 2px;
   position: fixed;
   background-color: black;
 }
