@@ -31,17 +31,23 @@ function initializePlayListControl(playListTracks){
   // this function manipulates the playcount stat and $('#dateRange') to reflect the previous four weeks.
   $('#fourWeekButton').click(function(){
     currentRange = "fourWeekPlays";
-    restoreSort(playListTracks, "fourWeekPlays");
+    $('button').removeClass('activeSpan');
+    $(this).addClass('activeSpan');
+    updateActiveStat(playListTracks, "fourWeekPlays", "four weeks");
+    restoreSort(playListTracks);
     $("#trackList").children().remove();
-    updateActiveStat(playListTracks, "fourWeekPlays");
+    writePlayListToPanel(playListTracks);
   })
 
   // this function manipulates the playcount stat and $('#dateRange') to reflect the previous two weeks.
   $('#twoWeekButton').click(function(){
     currentRange = "twoWeekPlays";
-    restoreSort(playListTracks, "twoWeekPlays");
+    $('button').removeClass('activeSpan');
+    $(this).addClass('activeSpan');
+    updateActiveStat(playListTracks, "twoWeekPlays", "two weeks");
+    restoreSort(playListTracks);
     $("#trackList").children().remove();
-    updateActiveStat(playListTracks, "twoWeekPlays");
+    writePlayListToPanel(playListTracks);
   })
 
   // this function manipulates the playcount stat and $('#dateRange') to reflect the previous week.
@@ -54,27 +60,25 @@ function initializePlayListControl(playListTracks){
 
 }
 
-function restoreSort(playListTracks, range){
+function restoreSort(playListTracks){
   if (trackListSorted === "byTop"){
     playListTracks.sort(function(obj1, obj2){
-      return obj2.range - obj1.range;
+      return obj2.activeStat.counter - obj1.activeStat.counter;
     });
   }
   else if (trackListSorted === "byBottom"){
     playListTracks.sort(function(obj1, obj2){
-      return obj1.range - obj2.range;
+      return obj1.activeStat.counter - obj2.activeStat.counter;
     });
   }
 }
 
 
-function updateActiveStat(playListTracks, newStat){
+function updateActiveStat(playListTracks, newStat, newText){
   var tracks = playListTracks
   tracks.map(function(track){
-    track.activeStat.counter = track.newStat;
-    track.activeStat.spanText = "week";
-    writePlayListToPanel(track);
-    initTrackListener(tracks);
+    track.activeStat.counter = track[newStat];
+    track.activeStat.spanText = newText;
   })
 }
 

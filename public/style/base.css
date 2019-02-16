@@ -79,6 +79,11 @@ a:visited{
   color:black;
 }
 
+.activeSpan{
+  background-color:#D7D9D7;
+  color:black;
+}
+
 input {
   width: 200px;
   height: 28px;
