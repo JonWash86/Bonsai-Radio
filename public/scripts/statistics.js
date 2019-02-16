@@ -53,11 +53,13 @@ function initializePlayListControl(playListTracks){
   // this function manipulates the playcount stat and $('#dateRange') to reflect the previous week.
   $('#oneWeekButton').click(function(){
     currentRange = "oneWeekPlays";
+    $('button').removeClass('activeSpan');
+    $(this).addClass('activeSpan');
+    updateActiveStat(playListTracks, "oneWeekPlays", "week");
+    restoreSort(playListTracks);
     $("#trackList").children().remove();
-    restoreSort(playListTracks, "oneWeekPlays");
-    updateActiveStat(playListTracks, "oneWeekPlays");
+    writePlayListToPanel(playListTracks);
   })
-
 }
 
 function restoreSort(playListTracks){

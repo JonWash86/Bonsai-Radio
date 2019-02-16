@@ -53,7 +53,7 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
   });
 }
 
-// TODO document me
+// Here we map over the PLT and write a li to the playlist panel, then initialize an onclick listener which will draw our tracks' stats to the stat panel.
 function writePlayListToPanel(playListTracks){
   playListTracks.map(function(track) {
     var t = track.track;
@@ -67,6 +67,7 @@ function initTrackListener(playListTracks){
   $('li.playlistItem').click(function() {
     console.log(this.id, playListTracks);
     displayTrackStats(idMatcher(this.id, playListTracks));
+    readyRangeChange(idMatcher(this.id, playListTracks));
   });
 }
 
@@ -84,10 +85,11 @@ function generateTrackList(tracks, allCallSongs){
       spanText: "four weeks"}
     trackBatch.push(track);
   });
-
   return developPlayListStats(allCallSongs, trackBatch);
 }
 
+// this function maps over the last.fm scrobble list and compares it to the tracks on a playlist (PLT)
+// it then returns the PLT array with date-range-specific stats, ready to be drawn to the playlist panel.
 function developPlayListStats(allCallSongs, trackBatch){
   for(i = 0; i < allCallSongs.length; i++){
     for(p = 0; p < trackBatch.length; p ++){
@@ -114,6 +116,8 @@ function developPlayListStats(allCallSongs, trackBatch){
   return trackBatch;
 };
 
+// this handy little function passes an id and returns the track from the current playlist (PLT). This is key for the onclick listener which displays a track's stats
+// (and can be used to redraw the track stat panel when we update our range!).
 function idMatcher(identification, playListTracks){
   for (i = 0; i <= playListTracks.length; i++){
     if (identification == playListTracks[i].track.id){
@@ -133,4 +137,15 @@ function displayTrackStats(track){
   };
 
   document.getElementById('songInfo').innerHTML = trackStats;
+  // $(".spanButton").click(function(track){
+  //   displayTrackStats(track);
+  // })
+}
+
+// This function prepares our playlist panel for the instance of a user changing the date range, so the active track being viewed will
+function readyRangeChange(track, ){
+  $(".spanButton").click(function(){
+    console.log(track);
+    displayTrackStats(track);
+  })
 }
