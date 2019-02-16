@@ -39,8 +39,11 @@
 
 #sortPane{
   display: none;
+  border-bottom: 3px;
+  border-style: solid;
+  border-color: #AFEAC1;
   width: 400px;
-  padding-bottom: 2px;
+  padding-bottom: 8px;
   position: fixed;
   background-color: black;
 }

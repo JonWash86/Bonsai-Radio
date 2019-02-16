@@ -76,16 +76,19 @@ function initTrackListener(playListTracks){
 // this function goes over every track and writes it to the list pane and adds an onclick listener to each track which will check the playcount and write the track's metadata to the infopane
 function generateTrackList(tracks, allCallSongs){
   var trackBatch = [];
+  var orderTracker = 0;
   tracks.map(function(track){
     track.playDates = [];
     track.lastPlayDate = null;
     track.fourWeekPlays = 0;
     track.twoWeekPlays = 0;
     track.oneWeekPlays = 0;
+    track.nativeOrder = orderTracker;
     track.activeStat = {
       counter: 0,
       spanText: "four weeks"}
     trackBatch.push(track);
+    orderTracker++;
   });
   return developPlayListStats(allCallSongs, trackBatch);
 }

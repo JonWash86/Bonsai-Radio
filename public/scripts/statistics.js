@@ -28,6 +28,17 @@ function initializePlayListControl(playListTracks){
     writePlayListToPanel(playListTracks);
   })
 
+  $("#sortByNative").click(function(){
+    trackListSorted = "byNative";
+    $('button').removeClass('activeSort');
+    $(this).addClass('activeSort');
+    playListTracks.sort(function(obj1, obj2){
+      return obj1.nativeOrder - obj2.nativeOrder;
+    });
+    $("#trackList").children().remove();
+    writePlayListToPanel(playListTracks);
+  })
+
   // this function manipulates the playcount stat and $('#dateRange') to reflect the previous four weeks.
   $('#fourWeekButton').click(function(){
     currentRange = "fourWeekPlays";
@@ -71,6 +82,11 @@ function restoreSort(playListTracks){
   else if (trackListSorted === "byBottom"){
     playListTracks.sort(function(obj1, obj2){
       return obj1.activeStat.counter - obj2.activeStat.counter;
+    });
+  }
+  else if (trackListSorted === "byNative"){
+    playListTracks.sort(function(obj1, obj2){
+      return obj1.nativeOrder - obj2.nativeOrder;
     });
   }
 }

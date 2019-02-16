@@ -146,6 +146,7 @@ input:focus {
   border-color: #AFEAC1;
   border-width: 0px 5px 5px 5px;
   z-index: 1;
+  padding-bottom: 4px;
 }
 
 #infoPane{
@@ -182,10 +183,9 @@ input:focus {
 }
 
 #trackList{
-  margin-top: 11px;
+  margin-top: 60px;
   list-style-type: none;
   padding: 0;
-  margin: 0;
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
 }
