@@ -68,6 +68,8 @@ function writePlayListToPanel(playListTracks){
 function initTrackListener(playListTracks){
   $('li.playlistItem').click(function() {
     console.log(this.id, playListTracks);
+    $('li').removeClass('activeTrack');
+    $(this).addClass('activeTrack');
     displayTrackStats(idMatcher(this.id, playListTracks));
     readyRangeChange(idMatcher(this.id, playListTracks));
   });
@@ -148,7 +150,7 @@ function displayTrackStats(track){
 }
 
 // This function prepares our playlist panel for the instance of a user changing the date range, so the active track being viewed will
-function readyRangeChange(track, ){
+function readyRangeChange(track){
   $(".spanButton").click(function(){
     console.log(track);
     displayTrackStats(track);

@@ -37,6 +37,11 @@
   /* display: inline-block; */
 }
 
+.activeTrack{
+  background-color: #37392E;
+  color: white;
+}
+
 #sortPane{
   display: none;
   border-bottom: 3px;

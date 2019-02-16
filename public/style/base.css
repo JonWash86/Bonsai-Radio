@@ -251,3 +251,7 @@ li.playlistItem:hover .trackArtist{
   font-family: 'Roboto', sans-serif;
 
 }
+
+button:focus {
+  outline:0;
+}
