@@ -7,5 +7,4 @@ function initializeUser(access_token, refresh_token){
   $("#authenticatorPanel").hide();
   $("#overlay").hide();
   $("#playlistFetcher").show();
-  $("#controlPanel").show();
 };

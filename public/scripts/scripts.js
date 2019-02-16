@@ -46,6 +46,8 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
         getPlaylistTracks(access_token, allCallSongs, response.next, playListTracks);
       } else {
         console.log('done making spotify api requests for this playlist');
+        $("#sortPane").show();
+        $("#controlPanel").show();
         initializePlayListControl(playListTracks);
         writePlayListToPanel(playListTracks);
       }

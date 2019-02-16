@@ -37,6 +37,12 @@
   /* display: inline-block; */
 }
 
+#sortPane{
+  display: none;
+  position: fixed;
+  background-color: black;
+}
+
 #controlPanel{
   display:none;
   clear: left;
