@@ -28,7 +28,6 @@ function generatePlaylistDropdown(playlists, allCallSongs){
 }
 
 
-
 //This function will use the access token to retrieve a list of the songs in a given playlist.
 function getPlaylistTracks(access_token, allCallSongs, request_url, playListTracks){
   var url = request_url || 'https://api.spotify.com/v1/playlists/' + $('select option:selected').val() + '/tracks'
@@ -53,26 +52,13 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
   });
   $(document).ajaxComplete(function(){
     console.log('all calls are complete, and now PLT is like so: ' + playListTracks);
-    // initializePlayListControl(playListTracks);
+    initializePlayListControl(playListTracks);
   });
   return(playListTracks);
 }
 
-
-// function writePlayListToPanel(track, playListTracks){
-//   console.log(track);
-//   var list = "<li id=\"" + track.track.id + "\" class='playlistItem'>" + track.track.name + "<br><span class=\"trackArtist\"> by " + track.track.artists[0].name + "</span></li>"
-//   document.getElementById('trackList').innerHTML += list;
-//
-//   $('li.playlistItem').click(function() {
-//     console.log(this.id, playListTracks);
-//     displayTrackStats(idMatcher(this.id, playListTracks));
-//   });
-// }
-
 function writePlayListToPanel(track, playListTracks){
   var thisParticulartrack = track;
-  // console.log(thisParticulartrack);
   var list = "<li id=\"" + thisParticulartrack.track.id + "\" class='playlistItem'>" + thisParticulartrack.track.name + "<br><span class=\"trackArtist\"> by " + thisParticulartrack.track.artists[0].name + "</span></li>"
   document.getElementById('trackList').innerHTML += list;
   initTrackListener(playListTracks);

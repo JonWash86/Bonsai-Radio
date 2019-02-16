@@ -7,15 +7,7 @@ function fourWeeks(){
 
 function initializePlayListControl(playListTracks){
   $('#sortByMostPlays').click(function(){
-    trackListSorted = "byTop";
-    playListTracks.sort(function(obj1, obj2){
-      return obj2.activeStat.counter - obj1.activeStat.counter;
-    });
-    $("#trackList").children().remove();
-    playListTracks.map(function(track, playListTracks){
-      writePlayListToPanel(track);
-      initTrackListener(playListTracks);
-    })
+    oneWeekInit(playListTracks);
   })
 
   $('#sortByFewestPlays').click(function(playListTracks){
@@ -76,5 +68,18 @@ function updateActiveStat(playListTracks, newStat){
     track.activeStat.spanText = "week";
     writePlayListToPanel(track);
     initTrackListener(tracks);
+  })
+}
+
+function oneWeekInit(playListTracks){
+  trackListSorted = "byTop";
+  playListTracks.sort(function(obj1, obj2){
+    return obj2.activeStat.counter - obj1.activeStat.counter;
+  });
+  $("#trackList").children().remove();
+  playListTracks.map(function(track, playListTracks){
+    writePlayListToPanel(track);
+    initTrackListener(playListTracks);
+    initializePlayListControl(playListTracks);
   })
 }
