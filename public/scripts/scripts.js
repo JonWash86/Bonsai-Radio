@@ -21,9 +21,7 @@ function generatePlaylistDropdown(playlists, allCallSongs){
   $('#playlistList').on('change', function() {
     $("#trackList").children().remove();
     var access_token = localStorage.getItem("access_token");
-    var playListTracks = getPlaylistTracks(access_token, allCallSongs);
-    console.log(playListTracks);
-    initializePlayListControl(playListTracks);
+    getPlaylistTracks(access_token, allCallSongs);
   })
 }
 
@@ -42,25 +40,26 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
       console.log(tracks);
       tracks.map(function(track){
         playListTracks.push(track);
-        writePlayListToPanel(track, playListTracks);
       })
       console.log(playListTracks);
       if(response.next) {
         getPlaylistTracks(access_token, allCallSongs, response.next, playListTracks);
+      } else {
+        console.log('done making spotify api requests for this playlist');
+        initializePlayListControl(playListTracks);
+        writePlayListToPanel(playListTracks);
       }
     }
   });
-  $(document).ajaxComplete(function(){
-    console.log('all calls are complete, and now PLT is like so: ' + playListTracks);
-    initializePlayListControl(playListTracks);
-  });
-  return(playListTracks);
 }
 
-function writePlayListToPanel(track, playListTracks){
-  var thisParticulartrack = track;
-  var list = "<li id=\"" + thisParticulartrack.track.id + "\" class='playlistItem'>" + thisParticulartrack.track.name + "<br><span class=\"trackArtist\"> by " + thisParticulartrack.track.artists[0].name + "</span></li>"
-  document.getElementById('trackList').innerHTML += list;
+// TODO document me
+function writePlayListToPanel(playListTracks){
+  playListTracks.map(function(track) {
+    var t = track.track;
+    var list = "<li id=\"" + t.id + "\" class='playlistItem'>" + t.name + "<br><span class=\"trackArtist\"> by " + t.artists[0].name + "</span></li>"
+    document.getElementById('trackList').innerHTML += list;
+  });
   initTrackListener(playListTracks);
 }
 
