@@ -10,33 +10,21 @@ function initializePlayListControl(playListTracks){
     trackListSorted = "byTop";
     $('button').removeClass('activeSort');
     $(this).addClass('activeSort');
-    playListTracks.sort(function(obj1, obj2){
-      return obj2.activeStat.counter - obj1.activeStat.counter;
-    });
-    $("#trackList").children().remove();
-    writePlayListToPanel(playListTracks);
+    redrawTrackList(playListTracks);
   })
 
   $('#sortByFewestPlays').click(function(){
     trackListSorted = "byBottom";
     $('button').removeClass('activeSort');
     $(this).addClass('activeSort');
-    playListTracks.sort(function(obj1, obj2){
-      return obj1.activeStat.counter - obj2.activeStat.counter;
-    });
-    $("#trackList").children().remove();
-    writePlayListToPanel(playListTracks);
+    redrawTrackList(playListTracks);
   })
 
   $("#sortByNative").click(function(){
     trackListSorted = "byNative";
     $('button').removeClass('activeSort');
     $(this).addClass('activeSort');
-    playListTracks.sort(function(obj1, obj2){
-      return obj1.nativeOrder - obj2.nativeOrder;
-    });
-    $("#trackList").children().remove();
-    writePlayListToPanel(playListTracks);
+    redrawTrackList(playListTracks);
   })
 
   // this function manipulates the playcount stat and $('#dateRange') to reflect the previous four weeks.
@@ -45,9 +33,7 @@ function initializePlayListControl(playListTracks){
     $('button').removeClass('activeSpan');
     $(this).addClass('activeSpan');
     updateActiveStat(playListTracks, "fourWeekPlays", "four weeks");
-    restoreSort(playListTracks);
-    $("#trackList").children().remove();
-    writePlayListToPanel(playListTracks);
+    redrawTrackList(playListTracks);
   })
 
   // this function manipulates the playcount stat and $('#dateRange') to reflect the previous two weeks.
@@ -56,9 +42,7 @@ function initializePlayListControl(playListTracks){
     $('button').removeClass('activeSpan');
     $(this).addClass('activeSpan');
     updateActiveStat(playListTracks, "twoWeekPlays", "two weeks");
-    restoreSort(playListTracks);
-    $("#trackList").children().remove();
-    writePlayListToPanel(playListTracks);
+    redrawTrackList(playListTracks);
   })
 
   // this function manipulates the playcount stat and $('#dateRange') to reflect the previous week.
@@ -67,9 +51,7 @@ function initializePlayListControl(playListTracks){
     $('button').removeClass('activeSpan');
     $(this).addClass('activeSpan');
     updateActiveStat(playListTracks, "oneWeekPlays", "week");
-    restoreSort(playListTracks);
-    $("#trackList").children().remove();
-    writePlayListToPanel(playListTracks);
+    redrawTrackList(playListTracks);
   })
 }
 
@@ -100,15 +82,9 @@ function updateActiveStat(playListTracks, newStat, newText){
   })
 }
 
-function oneWeekInit(playListTracks){
-  trackListSorted = "byTop";
-  playListTracks.sort(function(obj1, obj2){
-    return obj2.activeStat.counter - obj1.activeStat.counter;
-  });
+function redrawTrackList(playListTracks){
+  restoreSort(playListTracks);
   $("#trackList").children().remove();
-  playListTracks.map(function(track, playListTracks){
-    writePlayListToPanel(track);
-    initTrackListener(playListTracks);
-    initializePlayListControl(playListTracks);
-  })
+  writePlayListToPanel(playListTracks);
+  $("#" + activeTrack).addClass('activeTrack');
 }

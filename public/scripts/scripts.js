@@ -1,3 +1,5 @@
+var activeTrack;
+
 //This function gets a list of the user's playlists.
 function getPlaylists(access_token, allCallSongs) {
   $.ajax({
@@ -68,6 +70,7 @@ function writePlayListToPanel(playListTracks){
 function initTrackListener(playListTracks){
   $('li.playlistItem').click(function() {
     console.log(this.id, playListTracks);
+    activeTrack = this.id;
     $('li').removeClass('activeTrack');
     $(this).addClass('activeTrack');
     displayTrackStats(idMatcher(this.id, playListTracks));
