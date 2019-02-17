@@ -1,4 +1,5 @@
 var activeTrack;
+var activePlaylist;
 
 //This function gets a list of the user's playlists.
 function getPlaylists(access_token, allCallSongs) {
@@ -16,7 +17,10 @@ function getPlaylists(access_token, allCallSongs) {
 
 // this function takes the playlists from getPlaylists and writes each title to the playlist selector dropdown.
 function generatePlaylistDropdown(playlists, allCallSongs){
+  console.log('These are the playlists we receive: ');
+  console.log(playlists);
   playlists.map(function(playlist){
+    console.log(playlist);
     var list = "<option value=" + playlist.id + " class='playlistItem'>" + playlist.name + "</option>"
     document.getElementById('playlistList').innerHTML += list;
   })
@@ -24,6 +28,7 @@ function generatePlaylistDropdown(playlists, allCallSongs){
     $("#trackList").children().remove();
     var access_token = localStorage.getItem("access_token");
     getPlaylistTracks(access_token, allCallSongs);
+    activePlaylist = $('select option:selected').val();
   })
 }
 
@@ -75,6 +80,9 @@ function initTrackListener(playListTracks){
     $(this).addClass('activeTrack');
     displayTrackStats(idMatcher(this.id, playListTracks));
     readyRangeChange(idMatcher(this.id, playListTracks));
+    $('#pruneButton').click(function(){
+      pruneTrack();
+    })
   });
 }
 
@@ -145,6 +153,7 @@ function displayTrackStats(track){
   if (track.lastPlayDate){
     trackStats += "<br><br><br>Last played " + convertUnixToText(track.lastPlayDate) + "."
   };
+  trackStats += "<br><br><button type=\"button\" id=\"pruneButton\">prune</button>";
 
   document.getElementById('songInfo').innerHTML = trackStats;
   // $(".spanButton").click(function(track){
