@@ -1,3 +1,5 @@
+var activeTrack;
+
 //This function gets a list of the user's playlists.
 function getPlaylists(access_token, allCallSongs) {
   $.ajax({
@@ -46,6 +48,8 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
         getPlaylistTracks(access_token, allCallSongs, response.next, playListTracks);
       } else {
         console.log('done making spotify api requests for this playlist');
+        $("#sortPane").show();
+        $("#controlPanel").show();
         initializePlayListControl(playListTracks);
         writePlayListToPanel(playListTracks);
       }
@@ -53,7 +57,7 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
   });
 }
 
-// TODO document me
+// Here we map over the PLT and write a li to the playlist panel, then initialize an onclick listener which will draw our tracks' stats to the stat panel.
 function writePlayListToPanel(playListTracks){
   playListTracks.map(function(track) {
     var t = track.track;
@@ -66,28 +70,36 @@ function writePlayListToPanel(playListTracks){
 function initTrackListener(playListTracks){
   $('li.playlistItem').click(function() {
     console.log(this.id, playListTracks);
+    activeTrack = this.id;
+    $('li').removeClass('activeTrack');
+    $(this).addClass('activeTrack');
     displayTrackStats(idMatcher(this.id, playListTracks));
+    readyRangeChange(idMatcher(this.id, playListTracks));
   });
 }
 
 // this function goes over every track and writes it to the list pane and adds an onclick listener to each track which will check the playcount and write the track's metadata to the infopane
 function generateTrackList(tracks, allCallSongs){
   var trackBatch = [];
+  var orderTracker = 0;
   tracks.map(function(track){
     track.playDates = [];
     track.lastPlayDate = null;
     track.fourWeekPlays = 0;
     track.twoWeekPlays = 0;
     track.oneWeekPlays = 0;
+    track.nativeOrder = orderTracker;
     track.activeStat = {
       counter: 0,
       spanText: "four weeks"}
     trackBatch.push(track);
+    orderTracker++;
   });
-
   return developPlayListStats(allCallSongs, trackBatch);
 }
 
+// this function maps over the last.fm scrobble list and compares it to the tracks on a playlist (PLT)
+// it then returns the PLT array with date-range-specific stats, ready to be drawn to the playlist panel.
 function developPlayListStats(allCallSongs, trackBatch){
   for(i = 0; i < allCallSongs.length; i++){
     for(p = 0; p < trackBatch.length; p ++){
@@ -114,6 +126,8 @@ function developPlayListStats(allCallSongs, trackBatch){
   return trackBatch;
 };
 
+// this handy little function passes an id and returns the track from the current playlist (PLT). This is key for the onclick listener which displays a track's stats
+// (and can be used to redraw the track stat panel when we update our range!).
 function idMatcher(identification, playListTracks){
   for (i = 0; i <= playListTracks.length; i++){
     if (identification == playListTracks[i].track.id){
@@ -133,4 +147,15 @@ function displayTrackStats(track){
   };
 
   document.getElementById('songInfo').innerHTML = trackStats;
+  // $(".spanButton").click(function(track){
+  //   displayTrackStats(track);
+  // })
+}
+
+// This function prepares our playlist panel for the instance of a user changing the date range, so the active track being viewed will
+function readyRangeChange(track){
+  $(".spanButton").click(function(){
+    console.log(track);
+    displayTrackStats(track);
+  })
 }

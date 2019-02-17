@@ -7,71 +7,84 @@ function fourWeeks(){
 
 function initializePlayListControl(playListTracks){
   $('#sortByMostPlays').click(function(){
-    oneWeekInit(playListTracks);
+    trackListSorted = "byTop";
+    $('button').removeClass('activeSort');
+    $(this).addClass('activeSort');
+    redrawTrackList(playListTracks);
   })
 
-  $('#sortByFewestPlays').click(function(playListTracks){
+  $('#sortByFewestPlays').click(function(){
     trackListSorted = "byBottom";
-    playListTracks.sort(function(obj1, obj2){
-      return obj1.activeStat.counter - obj2.activeStat.counter;
-    });
-    $("#trackList").children().remove();
-      writePlayListToPanel(playListTracks);
+    $('button').removeClass('activeSort');
+    $(this).addClass('activeSort');
+    redrawTrackList(playListTracks);
+  })
+
+  $("#sortByNative").click(function(){
+    trackListSorted = "byNative";
+    $('button').removeClass('activeSort');
+    $(this).addClass('activeSort');
+    redrawTrackList(playListTracks);
   })
 
   // this function manipulates the playcount stat and $('#dateRange') to reflect the previous four weeks.
   $('#fourWeekButton').click(function(){
     currentRange = "fourWeekPlays";
-    restoreSort(playListTracks, "fourWeekPlays");
-    $("#trackList").children().remove();
-    updateActiveStat(playListTracks, "fourWeekPlays");
+    $('button').removeClass('activeSpan');
+    $(this).addClass('activeSpan');
+    updateActiveStat(playListTracks, "fourWeekPlays", "four weeks");
+    redrawTrackList(playListTracks);
   })
 
   // this function manipulates the playcount stat and $('#dateRange') to reflect the previous two weeks.
   $('#twoWeekButton').click(function(){
     currentRange = "twoWeekPlays";
-    restoreSort(playListTracks, "twoWeekPlays");
-    $("#trackList").children().remove();
-    updateActiveStat(playListTracks, "twoWeekPlays");
+    $('button').removeClass('activeSpan');
+    $(this).addClass('activeSpan');
+    updateActiveStat(playListTracks, "twoWeekPlays", "two weeks");
+    redrawTrackList(playListTracks);
   })
 
   // this function manipulates the playcount stat and $('#dateRange') to reflect the previous week.
   $('#oneWeekButton').click(function(){
     currentRange = "oneWeekPlays";
-    $("#trackList").children().remove();
-    restoreSort(playListTracks, "oneWeekPlays");
-    updateActiveStat(playListTracks, "oneWeekPlays");
+    $('button').removeClass('activeSpan');
+    $(this).addClass('activeSpan');
+    updateActiveStat(playListTracks, "oneWeekPlays", "week");
+    redrawTrackList(playListTracks);
   })
-
 }
 
-function restoreSort(playListTracks, range){
+function restoreSort(playListTracks){
   if (trackListSorted === "byTop"){
     playListTracks.sort(function(obj1, obj2){
-      return obj2.range - obj1.range;
+      return obj2.activeStat.counter - obj1.activeStat.counter;
     });
   }
   else if (trackListSorted === "byBottom"){
     playListTracks.sort(function(obj1, obj2){
-      return obj1.range - obj2.range;
+      return obj1.activeStat.counter - obj2.activeStat.counter;
+    });
+  }
+  else if (trackListSorted === "byNative"){
+    playListTracks.sort(function(obj1, obj2){
+      return obj1.nativeOrder - obj2.nativeOrder;
     });
   }
 }
 
 
-function updateActiveStat(playListTracks, newStat){
-  playListTracks.map(function(track){
-    track.activeStat.counter = track.newStat;
-    track.activeStat.spanText = "week";
+function updateActiveStat(playListTracks, newStat, newText){
+  var tracks = playListTracks
+  tracks.map(function(track){
+    track.activeStat.counter = track[newStat];
+    track.activeStat.spanText = newText;
   })
-    writePlayListToPanel(playListTracks);
 }
 
-function oneWeekInit(playListTracks){
-  trackListSorted = "byTop";
-  playListTracks.sort(function(obj1, obj2){
-    return obj2.activeStat.counter - obj1.activeStat.counter;
-  });
+function redrawTrackList(playListTracks){
+  restoreSort(playListTracks);
   $("#trackList").children().remove();
-    writePlayListToPanel(playListTracks);
+  writePlayListToPanel(playListTracks);
+  $("#" + activeTrack).addClass('activeTrack');
 }

@@ -122,6 +122,6 @@ function getFullHistory(requestLength, numTracksExpected, previousDate, todayDat
       }
     });
   }
-  return(allCallSongs);
   console.log(allCallSongs);
+  return(allCallSongs);
 }

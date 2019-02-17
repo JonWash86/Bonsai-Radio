@@ -37,6 +37,22 @@
   /* display: inline-block; */
 }
 
+.activeTrack{
+  background-color: #37392E;
+  color: white;
+}
+
+#sortPane{
+  display: none;
+  border-bottom: 3px;
+  border-style: solid;
+  border-color: #AFEAC1;
+  width: 400px;
+  padding-bottom: 8px;
+  position: fixed;
+  background-color: black;
+}
+
 #controlPanel{
   display:none;
   clear: left;
