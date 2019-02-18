@@ -53,7 +53,7 @@ app.get('/login', function(req, res) {
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  var scope = 'user-top-read user-read-private user-read-email';
+  var scope = 'user-top-read user-read-private user-read-email playlist-modify-public playlist-modify-private';
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
@@ -149,6 +149,10 @@ app.get('/refresh_token', function(req, res) {
     }
   });
 });
+
+// app.delete('/prune', function(req, res){
+//
+// })
 
 console.log('Listening on 8888');
 app.listen(8888);
