@@ -87,6 +87,7 @@ function redrawTrackList(playListTracks){
   $("#trackList").children().remove();
   writePlayListToPanel(playListTracks);
   $("#" + activeTrack).addClass('activeTrack');
+  // Here we call a variable to offset the control panel above the tracklist, then scroll to the active track after a redraw.
   var targetOffset = $('.activeTrack').offset().top - 60;
   $( "div#listPane" ).scrollTop(targetOffset - $("div#listPane").offset().top + $("div#listPane").scrollTop());
 }

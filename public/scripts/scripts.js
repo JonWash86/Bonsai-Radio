@@ -64,6 +64,7 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
         $("#sortPane").show();
         $("#controlPanel").show();
         $('#playlistSwitcher').show();
+        initNativePlays(playListTracks);
         initializePlayListControl(playListTracks);
         writePlayListToPanel(playListTracks);
       }
@@ -73,12 +74,23 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
 
 // Here we map over the PLT and write a li to the playlist panel, then initialize an onclick listener which will draw our tracks' stats to the stat panel.
 function writePlayListToPanel(playListTracks){
+  // initNativePlays(playListTracks);
   playListTracks.map(function(track) {
     var t = track.track;
     var list = "<li id=\"" + t.id + "\" class='playlistItem'>" + t.name + "<br><span class=\"trackArtist\"> by " + t.artists[0].name + "</span></li>"
     document.getElementById('trackList').innerHTML += list;
   });
   initTrackListener(playListTracks);
+}
+
+// Since this function maps all of the tracks for a playlist and adds a natural order for removing top/bottom sorting.
+function initNativePlays(playListTracks){
+  var orderTracker = 0;
+  playListTracks.map(function(track){
+    track.nativeOrder = orderTracker;
+    orderTracker++;
+  })
+  return(playListTracks);
 }
 
 function initTrackListener(playListTracks){
@@ -98,19 +110,17 @@ function initTrackListener(playListTracks){
 // this function goes over every track and writes it to the list pane and adds an onclick listener to each track which will check the playcount and write the track's metadata to the infopane
 function generateTrackList(tracks, allCallSongs){
   var trackBatch = [];
-  var orderTracker = 0;
   tracks.map(function(track){
     track.playDates = [];
     track.lastPlayDate = null;
     track.fourWeekPlays = 0;
     track.twoWeekPlays = 0;
     track.oneWeekPlays = 0;
-    track.nativeOrder = orderTracker;
+    track.nativeOrder;
     track.activeStat = {
       counter: 0,
       spanText: "four weeks"}
     trackBatch.push(track);
-    orderTracker++;
   });
   return developPlayListStats(allCallSongs, trackBatch);
 }
