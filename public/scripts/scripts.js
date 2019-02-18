@@ -25,11 +25,14 @@ function generatePlaylistDropdown(playlists, allCallSongs){
     document.getElementById('playlistList').innerHTML += list;
   })
   $('#playlistList').on('change', function() {
-    $("#trackList").children().remove();
-    $("#playlistFetcher").hide();
+    $('#trackList').children().remove();
+    $('#playlistFetcher').hide();
     var access_token = localStorage.getItem("access_token");
     getPlaylistTracks(access_token, allCallSongs);
     activePlaylist = $('select option:selected').val();
+  })
+  $('#pickNewPlaylist').on('click', function(){
+    $('#playlistFetcher').show();
   })
 }
 
@@ -56,6 +59,7 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
         console.log('done making spotify api requests for this playlist');
         $("#sortPane").show();
         $("#controlPanel").show();
+        $('#playlistSwitcher').show();
         initializePlayListControl(playListTracks);
         writePlayListToPanel(playListTracks);
       }

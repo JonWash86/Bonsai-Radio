@@ -36,6 +36,7 @@
 }
 
 #playlistSwitcher{
+  display: none;
   position: fixed;
   bottom: 25px;
   background-color: black;
