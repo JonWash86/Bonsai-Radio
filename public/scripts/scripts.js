@@ -27,6 +27,8 @@ function generatePlaylistDropdown(playlists, allCallSongs){
   $('#playlistList').on('change', function() {
     $('#trackList').children().remove();
     $('#playlistFetcher').hide();
+    var clear = "";
+    document.getElementById('songInfo').innerHTML = clear;
     var access_token = localStorage.getItem("access_token");
     getPlaylistTracks(access_token, allCallSongs);
     activePlaylist = $('select option:selected').val();
@@ -72,6 +74,16 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
   });
 }
 
+// This function maps all of the tracks for a playlist and adds a natural order for removing top/bottom sorting.
+function initNativePlays(playListTracks){
+  var orderTracker = 0;
+  playListTracks.map(function(track){
+    track.nativeOrder = orderTracker;
+    orderTracker++;
+  })
+  return(playListTracks);
+}
+
 // Here we map over the PLT and write a li to the playlist panel, then initialize an onclick listener which will draw our tracks' stats to the stat panel.
 function writePlayListToPanel(playListTracks){
   // initNativePlays(playListTracks);
@@ -83,15 +95,6 @@ function writePlayListToPanel(playListTracks){
   initTrackListener(playListTracks);
 }
 
-// Since this function maps all of the tracks for a playlist and adds a natural order for removing top/bottom sorting.
-function initNativePlays(playListTracks){
-  var orderTracker = 0;
-  playListTracks.map(function(track){
-    track.nativeOrder = orderTracker;
-    orderTracker++;
-  })
-  return(playListTracks);
-}
 
 function initTrackListener(playListTracks){
   $('li.playlistItem').click(function() {
