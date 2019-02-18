@@ -87,4 +87,6 @@ function redrawTrackList(playListTracks){
   $("#trackList").children().remove();
   writePlayListToPanel(playListTracks);
   $("#" + activeTrack).addClass('activeTrack');
+  var targetOffset = $('.activeTrack').offset().top - 60;
+  $( "div#listPane" ).scrollTop(targetOffset - $("div#listPane").offset().top + $("div#listPane").scrollTop());
 }
