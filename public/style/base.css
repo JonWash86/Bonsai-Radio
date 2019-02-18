@@ -59,7 +59,7 @@ a:visited{
   transform: translateY(4px);
 }
 
-.spanButton, .sortButton{
+.spanButton, .sortButton, #pickNewPlaylist{
   padding: 4px;
   border: solid;
   font: inherit;
