@@ -1,30 +1,3 @@
-// this function is a last.fm api test to see if I can try and grab the scrobbles for a song based on the username.
-
-function getLastTracks() {
-  $.ajax({
-    type:'POST',
-    url: 'http://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=100a45f60fce336c43b1dac55062e23a&artist=Tennis&track=My+Emotions+Are+Blinding&username=chikinguy&format=json',
-    success: function(response) {
-      console.log(response);
-    },
-    error: function(code, message){
-      console.log('it didn\'t work!');
-    }
-  });
-}
-
-function getLastPlayed() {
-  $.ajax({
-    type:'POST',
-    url: 'http://ws.audioscrobbler.com/2.0/?method=user.getWeeklyTrackChart&api_key=100a45f60fce336c43b1dac55062e23a&artist=Tennis&username=chikinguy&format=json',
-    success: function(response) {
-      console.log(response);
-    },
-    error: function(code, message){
-      console.log('it didn\'t work!');
-    }
-  });
-}
 
 // the following code is meant to grab today's date, then slot in the day before it and convert that day @11:59 UTC to a UNIX timestamp
 function getYesterday(){
@@ -65,6 +38,11 @@ function convertUnixToText(unixStamp){
   var hours = date.getHours();
   var minutes = "0" + date.getMinutes();
   return(month + ' ' + day + ', at ' + hours + ':' + minutes.substr(-2))
+}
+
+function convertIsoToLastPlayed(IsoStamp){
+  var months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var date = new Date(IsoStamp);
 }
 
 // this function checks the last.fm id field and retrieves the most recently played tracks for that user. It then passes the length of the ensuing list to the getFullHistory function to loop over the pages of results.

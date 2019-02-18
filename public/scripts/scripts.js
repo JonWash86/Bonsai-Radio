@@ -80,9 +80,9 @@ function initTrackListener(playListTracks){
     $(this).addClass('activeTrack');
     displayTrackStats(idMatcher(this.id, playListTracks));
     readyRangeChange(idMatcher(this.id, playListTracks));
-    $('#pruneButton').click(function(){
-      pruneTrack();
-    })
+    // $('#pruneButton').click(function(){
+    //   pruneTrack();
+    // })
   });
 }
 
@@ -149,11 +149,11 @@ function idMatcher(identification, playListTracks){
 
 function displayTrackStats(track){
   console.log(track);
-  var trackStats = "<img id=\"albumThumb\" src="+ track.track.album.images[0].url +" height=\"250px\"><h3 id=\"trackTitle\">" + track.track.name + "</h3><span class=\"trackFacts\">by "+ track.track.artists[0].name +"</span><br><span class=\"trackFacts\">from "+ track.track.album.name + "</span><br><br><span class=\"trackStatistics\">Added on "+ track.added_at +"</span><br><span class=\"trackStatistics\">Played "+ track.activeStat.counter + " times in the last </span><span id=\"dateRange\" class=\"trackStatistics\">" + track.activeStat.spanText + ".</span>"
+  var trackStats = "<img id=\"albumThumb\" src="+ track.track.album.images[0].url +" height=\"250px\"><h3 id=\"trackTitle\">" + track.track.name + "</h3><span class=\"trackFacts\">by "+ track.track.artists[0].name +"</span><br><span class=\"trackFacts\">from "+ track.track.album.name + "</span><br><br><span class=\"trackStatistics\">Added on "+ convertIsoToLastPlayed(track.added_at) +".</span><br><span class=\"trackStatistics\">Played "+ track.activeStat.counter + " times in the last </span><span id=\"dateRange\" class=\"trackStatistics\">" + track.activeStat.spanText + ".</span>"
   if (track.lastPlayDate){
     trackStats += "<br><br><br>Last played " + convertUnixToText(track.lastPlayDate) + "."
   };
-  trackStats += "<br><br><button type=\"button\" id=\"pruneButton\">prune</button>";
+  // trackStats += "<br><br><button type=\"button\" id=\"pruneButton\">prune</button>";
 
   document.getElementById('songInfo').innerHTML = trackStats;
   // $(".spanButton").click(function(track){

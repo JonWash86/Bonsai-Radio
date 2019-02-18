@@ -6,14 +6,13 @@ function pruneTrack(){
   var request_uri = 'spotify:track:' + activeTrack;
   console.log(request_uri);
   $.ajax({
-    method:'DELETE',
     url: request_url,
-    tracks: [{
+    data: 'tracks':[{
       'uri':request_uri
     }],
-    contentType: 'application/json',
     headers: {
       'Authorization':'Bearer ' + access_token,
+      'content-Type': 'application/json'
     },
 
     success: function(response){
