@@ -19,6 +19,23 @@
   line-height: 1.2;
 }
 
+#playlistFetcher {
+  position:fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  width: 375px;
+  height: 225px;
+  text-align: center;
+  border-radius: 25px;
+  background-color: black;
+  border-color: #1DB954;
+  border-style: solid;
+  border-width: 5px;
+
+}
+
 #overlay {
   position: fixed;
   /* display: none; */

@@ -26,6 +26,7 @@ function generatePlaylistDropdown(playlists, allCallSongs){
   })
   $('#playlistList').on('change', function() {
     $("#trackList").children().remove();
+    $("#playlistFetcher").hide();
     var access_token = localStorage.getItem("access_token");
     getPlaylistTracks(access_token, allCallSongs);
     activePlaylist = $('select option:selected').val();
