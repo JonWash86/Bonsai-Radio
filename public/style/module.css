@@ -48,6 +48,24 @@
   border-color: #AFEAC1;
 }
 
+#closeOut{
+  display:none;
+  background-color: #1DB954;
+  color: #AFEAC1;
+  border-radius: 50%;
+  font-size: 32px;
+  padding: 10px;
+  position: absolute;
+  right: -20px;
+  top: -15px;
+  width: 28px;
+  height: 28px;
+}
+
+#closeOut: hover{
+  cursor: pointer;
+}
+
 #pickNewPlaylist{
   width: 300px;
 }

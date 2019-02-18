@@ -33,6 +33,10 @@ function generatePlaylistDropdown(playlists, allCallSongs){
   })
   $('#pickNewPlaylist').on('click', function(){
     $('#playlistFetcher').show();
+    $('#closeOut').show();
+    $('#closeOut').on('click', function(){
+      $('#playlistFetcher').hide();
+    })
   })
 }
 
