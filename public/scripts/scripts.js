@@ -66,8 +66,8 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
         $("#sortPane").show();
         $("#controlPanel").show();
         $('#playlistSwitcher').show();
-        initNativePlays(playListTracks);
         initializePlayListControl(playListTracks);
+        initNativePlays(playListTracks);
         writePlayListToPanel(playListTracks);
       }
     }
@@ -86,7 +86,6 @@ function initNativePlays(playListTracks){
 
 // Here we map over the PLT and write a li to the playlist panel, then initialize an onclick listener which will draw our tracks' stats to the stat panel.
 function writePlayListToPanel(playListTracks){
-  // initNativePlays(playListTracks);
   playListTracks.map(function(track) {
     var t = track.track;
     var list = "<li id=\"" + t.id + "\" class='playlistItem'>" + t.name + "<br><span class=\"trackArtist\"> by " + t.artists[0].name + "</span></li>"

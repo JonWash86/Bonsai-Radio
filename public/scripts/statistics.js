@@ -55,6 +55,17 @@ function initializePlayListControl(playListTracks){
   })
 }
 
+function redrawTrackList(playListTracks){
+  restoreSort(playListTracks);
+  console.log(playListTracks);
+  $("#trackList").children().remove();
+  writePlayListToPanel(playListTracks);
+  $("#" + activeTrack).addClass('activeTrack');
+  // Here we call a variable to offset the control panel above the tracklist, then scroll to the active track after a redraw.
+  var targetOffset = $('#' + activeTrack).offset().top - 60;
+  $("div#listPane").scrollTop(targetOffset - $("div#listPane").offset().top + $("div#listPane").scrollTop());
+}
+
 function restoreSort(playListTracks){
   if (trackListSorted === "byTop"){
     playListTracks.sort(function(obj1, obj2){
@@ -80,14 +91,4 @@ function updateActiveStat(playListTracks, newStat, newText){
     track.activeStat.counter = track[newStat];
     track.activeStat.spanText = newText;
   })
-}
-
-function redrawTrackList(playListTracks){
-  restoreSort(playListTracks);
-  $("#trackList").children().remove();
-  writePlayListToPanel(playListTracks);
-  $("#" + activeTrack).addClass('activeTrack');
-  // Here we call a variable to offset the control panel above the tracklist, then scroll to the active track after a redraw.
-  var targetOffset = $('.activeTrack').offset().top - 60;
-  $( "div#listPane" ).scrollTop(targetOffset - $("div#listPane").offset().top + $("div#listPane").scrollTop());
 }
