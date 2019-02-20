@@ -6,25 +6,35 @@ function fourWeeks(){
 }
 
 function initializePlayListControl(playListTracks){
+  console.log(playListTracks[0].track.name);
   $('#sortByMostPlays').click(function(){
+    console.log(playListTracks[0].track.name);
     trackListSorted = "byTop";
     $('button').removeClass('activeSort');
     $(this).addClass('activeSort');
     redrawTrackList(playListTracks);
+    // initializePlayListControl(playListTracks);
+
   })
 
   $('#sortByFewestPlays').click(function(){
     trackListSorted = "byBottom";
     $('button').removeClass('activeSort');
     $(this).addClass('activeSort');
+    restoreSort(playListTracks);
     redrawTrackList(playListTracks);
+    // initializePlayListControl(playListTracks);
+
   })
 
   $("#sortByNative").click(function(){
     trackListSorted = "byNative";
     $('button').removeClass('activeSort');
     $(this).addClass('activeSort');
+    restoreSort(playListTracks);
     redrawTrackList(playListTracks);
+    // initializePlayListControl(playListTracks);
+
   })
 
   // this function manipulates the playcount stat and $('#dateRange') to reflect the previous four weeks.
@@ -33,6 +43,7 @@ function initializePlayListControl(playListTracks){
     $('button').removeClass('activeSpan');
     $(this).addClass('activeSpan');
     updateActiveStat(playListTracks, "fourWeekPlays", "four weeks");
+    restoreSort(playListTracks);
     redrawTrackList(playListTracks);
   })
 
@@ -42,6 +53,7 @@ function initializePlayListControl(playListTracks){
     $('button').removeClass('activeSpan');
     $(this).addClass('activeSpan');
     updateActiveStat(playListTracks, "twoWeekPlays", "two weeks");
+    restoreSort(playListTracks);
     redrawTrackList(playListTracks);
   })
 
@@ -51,19 +63,23 @@ function initializePlayListControl(playListTracks){
     $('button').removeClass('activeSpan');
     $(this).addClass('activeSpan');
     updateActiveStat(playListTracks, "oneWeekPlays", "week");
+    restoreSort(playListTracks);
     redrawTrackList(playListTracks);
   })
 }
 
 function redrawTrackList(playListTracks){
-  restoreSort(playListTracks);
   console.log(playListTracks);
   $("#trackList").children().remove();
   writePlayListToPanel(playListTracks);
+  // TODO: w/o initializePLControl here, the previous plt remains active when redrawing the playlist based on top/bottom, and shows the last pl used. With this line here, the listeners appear to be stacking. I may need to remove listeners from my playlist buttons, then re-initialize?
+  // initializePlayListControl(playListTracks);
   $("#" + activeTrack).addClass('activeTrack');
   // Here we call a variable to offset the control panel above the tracklist, then scroll to the active track after a redraw.
-  var targetOffset = $('#' + activeTrack).offset().top - 60;
-  $("div#listPane").scrollTop(targetOffset - $("div#listPane").offset().top + $("div#listPane").scrollTop());
+  if (activeTrack !== null){
+    var targetOffset = $('#' + activeTrack).offset().top - 60;
+    $("div#listPane").scrollTop(targetOffset - $("div#listPane").offset().top + $("div#listPane").scrollTop());
+  }
 }
 
 function restoreSort(playListTracks){

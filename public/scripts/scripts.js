@@ -28,6 +28,7 @@ function generatePlaylistDropdown(playlists, allCallSongs){
     $('#trackList').children().remove();
     $('#playlistFetcher').hide();
     var clear = "";
+    activeTrack = null;
     document.getElementById('songInfo').innerHTML = clear;
     var access_token = localStorage.getItem("access_token");
     getPlaylistTracks(access_token, allCallSongs);
@@ -66,9 +67,10 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
         $("#sortPane").show();
         $("#controlPanel").show();
         $('#playlistSwitcher').show();
-        initializePlayListControl(playListTracks);
         initNativePlays(playListTracks);
         writePlayListToPanel(playListTracks);
+        initializePlayListControl(playListTracks);
+
       }
     }
   });
@@ -92,6 +94,7 @@ function writePlayListToPanel(playListTracks){
     document.getElementById('trackList').innerHTML += list;
   });
   initTrackListener(playListTracks);
+  console.log(playListTracks[0].track.name);
 }
 
 
