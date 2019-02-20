@@ -1,10 +1,8 @@
 var trackListSorted = false;
 var currentRange = "fourWeekPlays"
 
-function fourWeeks(){
-  console.log('four weeks! (whoawhoa!)');
-}
 
+// JR: here is my playlist control initializer. I try to pass PLT to it every time I pull a ne PL's Ts, in order to manipulate that Pl's data. It seems like if I call it in the wrong place (as I tried on statistics.js 76, and commented out), it'll start looping over and over, and if you click the buttons enough it'll hang indefinitely.
 function initializePlayListControl(playListTracks){
   console.log(playListTracks[0].track.name);
   $('#sortByMostPlays').click(function(){
@@ -67,6 +65,8 @@ function initializePlayListControl(playListTracks){
     redrawTrackList(playListTracks);
   })
 }
+
+// JR - This little guy seems to be the root of the issue, or at least where my bugs make themselves apparent. Most specifically, if you load up a playlist and adjust the sort order, then call a new playlist and change that one's sort order, the previous playlist gets drawn to the playlist panel on the left, and in our console we get an error at line 76, "can't read property "top" of undefined"
 
 function redrawTrackList(playListTracks){
   console.log(playListTracks);
