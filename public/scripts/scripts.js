@@ -25,10 +25,21 @@ function generatePlaylistDropdown(playlists, allCallSongs){
     document.getElementById('playlistList').innerHTML += list;
   })
   $('#playlistList').on('change', function() {
-    $("#trackList").children().remove();
+    $('#trackList').children().remove();
+    $('#playlistFetcher').hide();
+    activeTrack = null;
+    var clear = "";
+    document.getElementById('songInfo').innerHTML = clear;
     var access_token = localStorage.getItem("access_token");
     getPlaylistTracks(access_token, allCallSongs);
     activePlaylist = $('select option:selected').val();
+  })
+  $('#pickNewPlaylist').on('click', function(){
+    $('#playlistFetcher').show();
+    $('#closeOut').show();
+    $('#closeOut').on('click', function(){
+      $('#playlistFetcher').hide();
+    })
   })
 }
 
@@ -55,11 +66,24 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
         console.log('done making spotify api requests for this playlist');
         $("#sortPane").show();
         $("#controlPanel").show();
-        initializePlayListControl(playListTracks);
+        $('#playlistSwitcher').show();
+        initNativePlays(playListTracks);
         writePlayListToPanel(playListTracks);
+        initializePlayListControl(playListTracks);
+
       }
     }
   });
+}
+
+// This function maps all of the tracks for a playlist and adds a natural order for removing top/bottom sorting.
+function initNativePlays(playListTracks){
+  var orderTracker = 0;
+  playListTracks.map(function(track){
+    track.nativeOrder = orderTracker;
+    orderTracker++;
+  })
+  return(playListTracks);
 }
 
 // Here we map over the PLT and write a li to the playlist panel, then initialize an onclick listener which will draw our tracks' stats to the stat panel.
@@ -70,7 +94,9 @@ function writePlayListToPanel(playListTracks){
     document.getElementById('trackList').innerHTML += list;
   });
   initTrackListener(playListTracks);
+  console.log(playListTracks[0].track.name);
 }
+
 
 function initTrackListener(playListTracks){
   $('li.playlistItem').click(function() {
@@ -89,19 +115,17 @@ function initTrackListener(playListTracks){
 // this function goes over every track and writes it to the list pane and adds an onclick listener to each track which will check the playcount and write the track's metadata to the infopane
 function generateTrackList(tracks, allCallSongs){
   var trackBatch = [];
-  var orderTracker = 0;
   tracks.map(function(track){
     track.playDates = [];
     track.lastPlayDate = null;
     track.fourWeekPlays = 0;
     track.twoWeekPlays = 0;
     track.oneWeekPlays = 0;
-    track.nativeOrder = orderTracker;
+    track.nativeOrder;
     track.activeStat = {
       counter: 0,
       spanText: "four weeks"}
     trackBatch.push(track);
-    orderTracker++;
   });
   return developPlayListStats(allCallSongs, trackBatch);
 }

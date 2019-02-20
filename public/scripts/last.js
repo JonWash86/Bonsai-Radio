@@ -41,14 +41,10 @@ function convertUnixToText(unixStamp){
 }
 
 function convertIsoToLastPlayed(IsoStamp){
-  console.log(IsoStamp);
   var months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var date = new Date(IsoStamp);
-  console.log(date);
   var day = date.getDate();
-  console.log(day);
   var month = months_arr[date.getMonth()];
-  console.log(month);
   return(month + ' ' + day )
 }
 
