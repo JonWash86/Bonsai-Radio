@@ -52,10 +52,12 @@ function convertIsoToLastPlayed(IsoStamp){
 function getTrackForUser(previousDate, todayDate) {
   //TODO: Rename this function to be more descriptive of what it does
   var userLastId = localStorage.getItem("userLastId");
+  var requestUrl = 'http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&api_key=100a45f60fce336c43b1dac55062e23a&username=' + userLastId + '&from='+ previousDate +'&to='+ todayDate +'&page?&format=json';
   console.log(userLastId);
+  console.log(requestUrl);
   $.ajax({
     type:'POST',
-    url: 'http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&api_key=100a45f60fce336c43b1dac55062e23a&username=' + userLastId + '&from='+ previousDate +'&to='+ todayDate +'&page?&format=json',
+    url: requestUrl,
     success: function(response) {
       console.log(response.recenttracks)
       var requestLength = response.recenttracks["@attr"].totalPages;
@@ -70,7 +72,7 @@ function getTrackForUser(previousDate, todayDate) {
 }
 
 function getFullHistory(requestLength, numTracksExpected, previousDate, todayDate) {
-  var userLastId = $("#lastId").val();
+  var userLastId = localStorage.getItem("userLastId");
   var completed = 0;
   var allCallSongs = [];
   console.log(requestLength);

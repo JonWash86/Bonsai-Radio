@@ -19,6 +19,12 @@
   line-height: 1.2;
 }
 
+#inputError{
+  font-size: 15px;
+  color: #1DB954;
+  display:none;
+}
+
 #playlistFetcher {
   position:fixed;
   top: 50%;
