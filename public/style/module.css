@@ -41,6 +41,15 @@
   border-width: 5px;
 }
 
+#selectorPrompt {
+  position: relative;
+  top: 35px;
+  color: #EDFFAB;
+  text-align: center;
+  font-size: 24px;
+  font-family: 'Montserrat', sans-serif;
+}
+
 #playlistSwitcher{
   display: none;
   position: fixed;

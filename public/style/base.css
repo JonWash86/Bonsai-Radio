@@ -180,7 +180,8 @@ input:focus {
 
 #playlistList{
   font-size: 20px;
-  margin-top: 75px;
+  margin-top: 65px;
+  width: 325px;
 }
 
 #trackList{
