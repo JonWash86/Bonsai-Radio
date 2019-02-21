@@ -48,13 +48,16 @@
   z-index: 4;
   border-radius: 25px;
   background-color: black;
+  display:none;
 }
 
 #progressBar{
   background-color: #EDFFAB;
-  width:10px;
+  width: 0px;
   height: 40px;
   z-index: 3;
+  margin-top: 90px;
+  margin-left: 30px;
 }
 
 #selectorPrompt {

@@ -4,6 +4,7 @@ function initializeUser(access_token, refresh_token){
   // getPlaylists(access_token);
   $("#authenticatorPanel").hide();
   $("#overlay").hide();
+  $("#progressDisplay").show();
   $("#playlistFetcher").show();
 };
 
