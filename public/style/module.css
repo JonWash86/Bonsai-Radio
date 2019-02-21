@@ -41,6 +41,22 @@
   border-width: 5px;
 }
 
+#progressDisplay{
+  width: 375px;
+  height: 225px;
+  position: absolute;
+  z-index: 4;
+  border-radius: 25px;
+  background-color: black;
+}
+
+#progressBar{
+  background-color: #EDFFAB;
+  width:10px;
+  height: 40px;
+  z-index: 3;
+}
+
 #selectorPrompt {
   position: relative;
   top: 35px;
@@ -122,4 +138,34 @@
 #controlPanel{
   display:none;
   clear: left;
+}
+
+#aboutZone{
+  background-color: black;
+  color: #D7D9D7;
+  border-style: solid;
+  border-color: #AFEAC1;
+  border-width: 5px;
+  padding: 30px;
+  padding-top: 5px;
+  position: relative;
+  overflow-y: auto;
+  font-size: 20px;
+
+}
+
+.aboutHeader{
+  display:block;
+  color: #D7D9D7;
+  margin-top: 10px;
+  color: #EDFFAB;
+}
+
+.aboutText{
+  font-family: 'Roboto', sans-serif;
+}
+
+.aboutText a {
+  color: white;
+  text-decoration: none;
 }

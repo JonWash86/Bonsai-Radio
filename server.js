@@ -20,6 +20,9 @@ app.get('/', function(request, response){
   response.sendFile('index.html', {root: './public'});
 });
 
+app.get('/about', function(request, response){
+  response.sendFile(`${__dirname}/public/about.html`);
+});
 
 var client_id = '833afa7786d94fda8f46a899e2be4448'; // Your client id
 var client_secret = '749b7a1e48b244f1ae1aafa6179d5e4b'; // Your secret
