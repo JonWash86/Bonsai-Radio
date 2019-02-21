@@ -20,5 +20,3 @@ $('#spotifyButton').on('click', function(){
   };
 
 });
-
-// href="/login" just saving the href from the spotify button here for a sec while I figure out how to hide the login behind a handler function

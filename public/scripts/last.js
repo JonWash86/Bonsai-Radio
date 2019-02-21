@@ -87,10 +87,6 @@ function getFullHistory(requestLength, numTracksExpected, previousDate, todayDat
         for (j = 0; j <= (response.recenttracks.track.length - 1); j ++){
           allCallSongs.push(response.recenttracks.track[j]);
         }
-        var newWidth = (( i/ requestLength) * 300) + "px";
-        $('#progressBar').width(newWidth);
-
-
       // NOTE: if one of these requests fails, then allCallSongs.length will never equal numTracksExpected
       // and this if-statement will never be satisfied and the app will hang.
       // Some error handling (maybe decrement `numTracksExpected` by `tracksPerPage` or somethhing in the error function?)
@@ -100,7 +96,7 @@ function getFullHistory(requestLength, numTracksExpected, previousDate, todayDat
         console.log(allCallSongs);
         var access_token = localStorage.getItem("access_token");
         getPlaylists(access_token, allCallSongs);
-        $("#progressDisplay").hide();
+        // $("#progressDisplay").hide();
       }
 
       },
