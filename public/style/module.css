@@ -41,7 +41,7 @@
   border-width: 5px;
 }
 
-#progressDisplay{
+#progressDisplay {
   width: 375px;
   height: 225px;
   position: absolute;
@@ -51,9 +51,13 @@
   display:none;
 }
 
-#loading{
+#loading {
   display:block;
   color: #1DB954;
+}
+
+.errorMessage {
+  font-size: 18px;
 }
 
 #selectorPrompt {
@@ -128,15 +132,18 @@
   border-bottom: 3px;
   border-style: solid;
   border-color: #AFEAC1;
-  width: 400px;
+  width: 395px;
+  padding-left: 5px;
   padding-bottom: 8px;
   position: fixed;
   background-color: black;
+  font-family: 'Montserrat', sans-serif;
 }
 
 #controlPanel{
   display:none;
   clear: left;
+  font-family: 'Montserrat', sans-serif;
 }
 
 #aboutZone{

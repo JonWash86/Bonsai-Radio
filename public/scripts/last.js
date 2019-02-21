@@ -67,6 +67,9 @@ function getTrackForUser(previousDate, todayDate) {
     },
     error: function(code, message){
       console.log('it didn\'t work!');
+      $('#loading').html('Something went wrong. Please try refreshing the browser.');
+      $('#loading').addClass('errorMessage');
+      $('#loading').css('color', 'red');
     }
   });
 }
@@ -96,12 +99,15 @@ function getFullHistory(requestLength, numTracksExpected, previousDate, todayDat
         console.log(allCallSongs);
         var access_token = localStorage.getItem("access_token");
         getPlaylists(access_token, allCallSongs);
-        // $("#progressDisplay").hide();
+        $("#progressDisplay").hide();
       }
 
       },
       error: function(code, message){
         console.log('it didn\'t work!');
+        $('#loading').html('Something went wrong. Please try refreshing the browser.');
+        $('#loading').addClass('errorMessage');
+        $('#loading').css('color', 'red');
       }
     });
   }
