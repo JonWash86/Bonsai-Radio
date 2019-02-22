@@ -20,3 +20,13 @@ $('#spotifyButton').on('click', function(){
   };
 
 });
+
+$('#helpButton').hover(function(){
+  event.preventDefault();
+  $('#helpText').animate({left:'38px'});
+});
+
+$('#helpButton').mouseleave(function(){
+  event.preventDefault();
+  $('#helpText').animate({left:'-2px'});
+})

@@ -144,6 +144,8 @@
   display:none;
   clear: left;
   font-family: 'Montserrat', sans-serif;
+  top: 275px;
+  position: absolute;
 }
 
 #aboutZone{
@@ -153,7 +155,7 @@
   border-color: #AFEAC1;
   border-width: 5px;
   padding: 30px;
-  padding-top: 5px;
+  padding-top: 65px;
   position: relative;
   overflow-y: auto;
   font-size: 20px;
@@ -173,6 +175,52 @@
 
 .aboutText a {
   color: white;
+  text-decoration: none;
+}
+
+#helpButton{
+  position: absolute;
+  background-color: black;
+  color: #AFEAC1;
+  margin-left: 15px;
+  border-radius: 50%;
+  width: 16px;
+  text-align: center;
+  margin-top: 4px;
+  z-index: 3
+}
+
+#helpButton a{
+  text-decoration: none;
+}
+
+#helpButton a:visited{
+  text-decoration: none;
+  color: #AFEAC1;
+  z-index: 1;
+}
+
+#helpHider{
+  z-index: 2;
+  width:25px;
+  background-color:red;
+  height: 30px;
+  position: fixed;
+  background-color: #AFEAC1;
+}
+
+#helpText{
+  position: absolute;
+  left: -2px;
+  top: 3px;
+  /* display: none; */
+}
+
+#helpText a{
+  text-decoration: none;
+}
+
+#helpText a:visited{
   text-decoration: none;
 }
 
