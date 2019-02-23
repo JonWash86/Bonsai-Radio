@@ -159,7 +159,10 @@
   position: relative;
   overflow-y: auto;
   font-size: 20px;
+}
 
+#aboutZone span{
+  line-height: 1.5;
 }
 
 .aboutHeader{

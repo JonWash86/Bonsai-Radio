@@ -24,9 +24,9 @@ app.get('/about', function(request, response){
   response.sendFile(`${__dirname}/public/about.html`);
 });
 
-var client_id = '833afa7786d94fda8f46a899e2be4448'; // Your client id
-var client_secret = '749b7a1e48b244f1ae1aafa6179d5e4b'; // Your secret
-var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+var client_id = process.env.SPOTIFY_ID; // Your client id
+var client_secret = process.env.SPOTIFY_SECRET; // Your secret
+var redirect_uri = 'http://www.bonsairadio.com/callback'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters

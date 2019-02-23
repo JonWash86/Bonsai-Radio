@@ -1,6 +1,6 @@
 function initializeUser(access_token, refresh_token){
   // checkForExistingHistory();
-  getTrackForUser(getFourWeeks(), getYesterday());
+  getTrackForUser(getFourWeeks(), getNow());
   // getPlaylists(access_token);
   $("#authenticatorPanel").hide();
   $("#overlay").hide();

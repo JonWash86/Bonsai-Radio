@@ -8,6 +8,12 @@ function getYesterday(){
   return(yesterday / 1000|0);
 };
 
+function getNow(){
+  var today = new Date();
+  return(today / 1000|0);
+
+}
+
 
 // there are 604800 seconds in a week ...
 function getLastWeek(){
