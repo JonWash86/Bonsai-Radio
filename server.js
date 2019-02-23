@@ -26,7 +26,7 @@ app.get('/about', function(request, response){
 
 var client_id = process.env.SPOTIFY_ID; // Your client id
 var client_secret = process.env.SPOTIFY_SECRET; // Your secret
-var redirect_uri = 'bonsairadio.com/callback'; // Your redirect uri
+var redirect_uri = 'http://bonsairadio.com/callback'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
