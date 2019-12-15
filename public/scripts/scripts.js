@@ -1,5 +1,4 @@
 var activeTrack;
-var activePlaylist;
 
 //This function gets a list of the user's playlists.
 function getPlaylists(access_token, allCallSongs) {
@@ -35,8 +34,8 @@ function generatePlaylistDropdown(playlists, allCallSongs){
     var clear = "";
     document.getElementById('songInfo').innerHTML = clear;
     var access_token = localStorage.getItem("access_token");
-    getPlaylistTracks(access_token, allCallSongs);
-    activePlaylist = $('select option:selected').val();
+    var activePlaylist = $('select option:selected').val();
+    getPlaylistTracks(access_token, allCallSongs, activePlaylist);
   })
   $('#pickNewPlaylist').on('click', function(){
     $('#playlistFetcher').show();
