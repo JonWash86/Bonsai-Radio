@@ -1,5 +1,6 @@
+var months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-// the following code is meant to grab today's date, then slot in the day before it and convert that day @11:59 UTC to a UNIX timestamp
+// grab today's date, then slot in the day before it and convert that day @11:59 UTC to a UNIX timestamp
 function getYesterday(){
   var yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
@@ -11,8 +12,7 @@ function getYesterday(){
 function getNow(){
   var today = new Date();
   return(today / 1000|0);
-
-}
+};
 
 
 // there are 604800 seconds in a week ...
@@ -22,7 +22,7 @@ function getLastWeek(){
 
 function getTwoWeeks(){
   return(getYesterday() - 1209600);
-}
+};
 
 // ...and 2419200 seconds in 28 days (exactly four weeks)
 function getFourWeeks(){
@@ -36,7 +36,6 @@ function getSixMonths(){
 
 // per https://makitweb.com/convert-unix-timestamp-to-date-time-with-javascript/
 function convertUnixToText(unixStamp){
-  var months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var date = new Date(unixStamp * 1000);
   var year = date.getFullYear();
   var month = months_arr[date.getMonth()];
@@ -47,7 +46,6 @@ function convertUnixToText(unixStamp){
 }
 
 function convertIsoToLastPlayed(IsoStamp){
-  var months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var date = new Date(IsoStamp);
   var day = date.getDate();
   var month = months_arr[date.getMonth()];

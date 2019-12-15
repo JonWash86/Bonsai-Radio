@@ -10,6 +10,10 @@ function getPlaylists(access_token, allCallSongs) {
     },
     success: function(response) {
       $(".recommendations").show();
+      console.log('response items:');
+      console.log(response.items);
+      console.log('all call:');
+      console.log(allCallSongs);
       generatePlaylistDropdown(response.items, allCallSongs);
     }
   });
@@ -64,6 +68,10 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
         getPlaylistTracks(access_token, allCallSongs, response.next, playListTracks);
       } else {
         console.log('done making spotify api requests for this playlist');
+        console.log('tracks below');
+        console.log(playListTracks);
+        console.log(playListTracks[0].track.name);
+        console.log(playListTracks[0].track.artists[0].name);
         $("#sortPane").show();
         $("#controlPanel").show();
         $('#playlistSwitcher').show();
@@ -115,6 +123,7 @@ function initTrackListener(playListTracks){
 // this function goes over every track and writes it to the list pane and adds an onclick listener to each track which will check the playcount and write the track's metadata to the infopane
 function generateTrackList(tracks, allCallSongs){
   var trackBatch = [];
+  // use const where possible, as with Es2015 will ensure it remains in the local scope (look up variable hoisting! Also look up const vs let)
   tracks.map(function(track){
     track.playDates = [];
     track.lastPlayDate = null;
@@ -177,7 +186,7 @@ function displayTrackStats(track){
   if (track.lastPlayDate){
     trackStats += "<br><br><br>Last played " + convertUnixToText(track.lastPlayDate) + "."
   };
-  // trackStats += "<br><br><button type=\"button\" id=\"pruneButton\">prune</button>";
+  trackStats += "<br><br><button type=\"button\" id=\"pruneButton\">prune</button>";
 
   document.getElementById('songInfo').innerHTML = trackStats;
   // $(".spanButton").click(function(track){
