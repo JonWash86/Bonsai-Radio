@@ -188,7 +188,12 @@ function displayTrackStats(track){
   };
   trackStats += "<br><br><button type=\"button\" id=\"pruneButton\">prune</button>";
 
+
   document.getElementById('songInfo').innerHTML = trackStats;
+  $('#pruneButton').click(function(){
+    console.log('click!');
+    pruneTrack();
+  });
   // $(".spanButton").click(function(track){
   //   displayTrackStats(track);
   // })

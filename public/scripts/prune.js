@@ -5,18 +5,18 @@ function pruneTrack(){
   console.log(request_url)
   var request_uri = 'spotify:track:' + activeTrack;
   console.log(request_uri);
-  $.ajax({
-    url: request_url,
-    data: 'tracks':[{
-      'uri':request_uri
-    }],
-    headers: {
-      'Authorization':'Bearer ' + access_token,
-      'content-Type': 'application/json'
-    },
-
-    success: function(response){
-      console.log('song deleted!');
-    }
-  })
+  // $.ajax({
+  //   url: request_url,
+  //   data: 'tracks':[{
+  //     'uri':request_uri
+  //   }],
+  //   headers: {
+  //     'Authorization':'Bearer ' + access_token,
+  //     'content-Type': 'application/json'
+  //   },
+  //
+  //   success: function(response){
+  //     console.log('song deleted!');
+  //   }
+  // })
 }
