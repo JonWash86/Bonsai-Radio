@@ -257,6 +257,15 @@ li.playlistItem:hover .trackArtist{
 
 }
 
+#pruneButton{
+  padding: 10px;
+  border-radius: 10px;
+}
+
 button:focus {
   outline:0;
+}
+
+a, a:visited, a:hover, a:active {
+  color: inherit;
 }

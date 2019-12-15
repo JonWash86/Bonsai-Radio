@@ -187,12 +187,14 @@ function displayTrackStats(track){
     trackStats += "<br><br><br>Last played " + convertUnixToText(track.lastPlayDate) + "."
   };
   trackStats += "<br><br><button type=\"button\" id=\"pruneButton\">prune</button>";
+  console.log(track);
 
 
   document.getElementById('songInfo').innerHTML = trackStats;
   $('#pruneButton').click(function(){
     console.log('click!');
-    pruneTrack();
+    console.log(track);
+    pruneTrack(track);
   });
   // $(".spanButton").click(function(track){
   //   displayTrackStats(track);
