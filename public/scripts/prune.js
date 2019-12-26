@@ -15,6 +15,7 @@ function pruneTrack(track){
     success: function(response){
       console.log('song deleted!');
       $('#' + track.track.id).hide();
+      $('#songInfo').empty();
     },
     error: function(response){
       console.log(response);
