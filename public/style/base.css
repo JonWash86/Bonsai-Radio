@@ -59,7 +59,7 @@ a:visited{
   transform: translateY(4px);
 }
 
-.spanButton, .sortButton, #pickNewPlaylist{
+.spanButton, .sortButton, #pruneButton, #pickNewPlaylist{
   padding: 4px;
   border: solid;
   font: inherit;
@@ -74,6 +74,15 @@ a:visited{
   margin-top: 8px;
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
+}
+
+#pruneButton {
+  width: 250px;
+}
+
+.spanButton:hover, .sortButton:hover, #pruneButton:hover, #pickNewPlaylist:hover{
+  background-color: #D7D9D7;
+  color: black;
 }
 
 .activeSort{

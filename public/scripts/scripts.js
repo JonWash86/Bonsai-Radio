@@ -100,15 +100,11 @@ function writePlayListToPanel(playListTracks){
 
 function initTrackListener(playListTracks){
   $('li.playlistItem').click(function() {
-    console.log(this.id, playListTracks);
     activeTrack = this.id;
     $('li').removeClass('activeTrack');
     $(this).addClass('activeTrack');
     displayTrackStats(idMatcher(this.id, playListTracks));
     readyRangeChange(idMatcher(this.id, playListTracks));
-    // $('#pruneButton').click(function(){
-    //   pruneTrack();
-    // })
   });
 }
 
@@ -178,19 +174,14 @@ function displayTrackStats(track){
   if (track.lastPlayDate){
     trackStats += "<br><br><br>Last played " + convertUnixToText(track.lastPlayDate) + "."
   };
-  trackStats += "<br><br><button type=\"button\" id=\"pruneButton\">prune</button>";
+  trackStats += "<br><br><button type=\"button\" id=\"pruneButton\">Prune</button>";
   console.log(track);
 
 
   document.getElementById('songInfo').innerHTML = trackStats;
   $('#pruneButton').click(function(){
-    console.log('click!');
-    console.log(track);
     pruneTrack(track);
   });
-  // $(".spanButton").click(function(track){
-  //   displayTrackStats(track);
-  // })
 }
 
 // This function prepares our playlist panel for the instance of a user changing the date range, so the active track being viewed will
