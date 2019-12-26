@@ -68,8 +68,6 @@ function initializePlayListControl(playListTracks){
   });
 }
 
-// JR - This little guy seems to be the root of the issue, or at least where my bugs make themselves apparent. Most specifically, if you load up a playlist and adjust the sort order, then call a new playlist and change that one's sort order, the previous playlist gets drawn to the playlist panel on the left, and in our console we get an error at line 76, "can't read property "top" of undefined"
-
 function redrawTrackList(playListTracks){
   restoreSort(playListTracks);
   console.log(playListTracks);

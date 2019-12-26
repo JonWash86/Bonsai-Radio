@@ -66,18 +66,12 @@ function getPlaylistTracks(access_token, allCallSongs, request_url, playListTrac
       if(response.next) {
         getPlaylistTracks(access_token, allCallSongs, response.next, playListTracks);
       } else {
-        console.log('done making spotify api requests for this playlist');
-        console.log('tracks below');
-        console.log(playListTracks);
-        console.log(playListTracks[0].track.name);
-        console.log(playListTracks[0].track.artists[0].name);
         $("#sortPane").show();
         $("#controlPanel").show();
         $('#playlistSwitcher').show();
         initNativePlays(playListTracks);
         writePlayListToPanel(playListTracks);
         initializePlayListControl(playListTracks);
-
       }
     }
   });
@@ -101,7 +95,6 @@ function writePlayListToPanel(playListTracks){
     document.getElementById('trackList').innerHTML += list;
   });
   initTrackListener(playListTracks);
-  console.log(playListTracks[0].track.name);
 }
 
 
