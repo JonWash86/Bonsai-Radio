@@ -8,23 +8,28 @@ function pruneTrack(track){
   var activePlaylist = $('select option:selected').val();
   var tracks = ['{uri:' + request_uri
   + '}'];
-  var request_url = 'https://api.spotify.com/v1/playlists/' + activePlaylist + '/' + tracks;
+  var request_url = 'https://api.spotify.com/v1/playlists/' + activePlaylist + '/tracks';
   console.log(request_url);
 
   console.log(request_uri);
   $.ajax({
     url: request_url,
+    data: {'tracks': [{'uri': request_uri}]},
     headers: {
       'Authorization':'Bearer ' + access_token,
       'content-Type': 'application/json',
     },
     type: 'DELETE',
+
     //   tracks:[{
     //   'uri':request_uri
     // }],
 
     success: function(response){
       console.log('song deleted!');
-    } 
+    },
+    error: function(response){
+      console.log(response);
+    }
   })
 }
