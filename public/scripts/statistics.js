@@ -4,6 +4,8 @@ var currentRange = "fourWeekPlays"
 const BUTTON_IDS = [
   'sortByMostPlays',
   'sortByFewestPlays',
+  'sortByRecentPlay',
+  'sortByOldestPlay',
   'sortByNative',
   'fourWeekButton',
   'twoWeekButton',
@@ -26,6 +28,20 @@ function initializePlayListControl(playListTracks){
   });
 
   $('#sortByFewestPlays').click(function(){
+    trackListSorted = "byBottom";
+    $('button').removeClass('activeSort');
+    $(this).addClass('activeSort');
+    redrawTrackList(playListTracks);
+  });
+
+  $('#sortByRecentPlay').click(function(){
+    trackListSorted = "byBottom";
+    $('button').removeClass('activeSort');
+    $(this).addClass('activeSort');
+    redrawTrackList(playListTracks);
+  });
+
+  $('#sortByOldestPlay').click(function(){
     trackListSorted = "byBottom";
     $('button').removeClass('activeSort');
     $(this).addClass('activeSort');
