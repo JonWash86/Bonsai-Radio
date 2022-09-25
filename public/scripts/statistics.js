@@ -4,6 +4,8 @@ var currentRange = "fourWeekPlays"
 const BUTTON_IDS = [
   'sortByMostPlays',
   'sortByFewestPlays',
+  'sortByRecentPlay',
+  'sortByOldestPlay',
   'sortByNative',
   'fourWeekButton',
   'twoWeekButton',
@@ -27,6 +29,20 @@ function initializePlayListControl(playListTracks){
 
   $('#sortByFewestPlays').click(function(){
     trackListSorted = "byBottom";
+    $('button').removeClass('activeSort');
+    $(this).addClass('activeSort');
+    redrawTrackList(playListTracks);
+  });
+
+  $('#sortByRecentPlay').click(function(){
+    trackListSorted = "byRecent";
+    $('button').removeClass('activeSort');
+    $(this).addClass('activeSort');
+    redrawTrackList(playListTracks);
+  });
+
+  $('#sortByOldestPlay').click(function(){
+    trackListSorted = "byOldest";
     $('button').removeClass('activeSort');
     $(this).addClass('activeSort');
     redrawTrackList(playListTracks);
@@ -92,6 +108,16 @@ function restoreSort(playListTracks){
   else if (trackListSorted === "byBottom"){
     playListTracks.sort(function(obj1, obj2){
       return obj1.activeStat.counter - obj2.activeStat.counter;
+    });
+  }
+  else if (trackListSorted === "byRecent"){
+    playListTracks.sort(function(obj1, obj2){
+      return obj2.lastPlayDate - obj1.lastPlayDate;
+    });
+  }
+  else if (trackListSorted === "byOldest"){
+    playListTracks.sort(function(obj1, obj2){
+      return obj1.lastPlayDate - obj2.lastPlayDate;
     });
   }
   else if (trackListSorted === "byNative"){
