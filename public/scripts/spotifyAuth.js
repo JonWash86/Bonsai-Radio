@@ -25,6 +25,8 @@
       error = params.error;
   if (error) {
     alert('There was an error during the authentication');
+    console.log(error);
+    console.log('error above!');
   } else {
     if (access_token) {
       localStorage.setItem('access_token', access_token);

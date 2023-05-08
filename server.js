@@ -1,5 +1,6 @@
 /* Load the HTTP library */
 var http = require("http");
+require ('dotenv').config();
 
 /* Create an HTTP server to handle responses */
 
@@ -35,7 +36,10 @@ var client_secret = '749b7a1e48b244f1ae1aafa6179d5e4b';
 
 
 //var redirect_uri = 'http://www.bonsairadio.com/callback'; // Your redirect uri
-var redirect_uri = 'http://localhost:3000/callback'; // local development redirect uri
+var redirect_uri = process.env.REDIRECT_URI; // local development redirect uri
+console.log('redirect:');
+console.log(redirect_uri);
+console.log(process.env);
 
 /**
  * Generates a random string containing numbers and letters
