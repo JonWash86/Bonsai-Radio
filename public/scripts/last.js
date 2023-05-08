@@ -56,7 +56,7 @@ function convertIsoToLastPlayed(IsoStamp){
 function getTrackForUser(previousDate, todayDate) {
   //TODO: Rename this function to be more descriptive of what it does
   var userLastId = localStorage.getItem("userLastId");
-  var requestUrl = 'http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&api_key=100a45f60fce336c43b1dac55062e23a&username=' + userLastId + '&from='+ previousDate +'&to='+ todayDate +'&page?&format=json';
+  var requestUrl = 'http://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&api_key=' + process.env.LAST_FM_KEY + '&username=' + userLastId + '&from='+ previousDate +'&to='+ todayDate +'&page?&format=json';
   console.log(userLastId);
   console.log(requestUrl);
   $.ajax({

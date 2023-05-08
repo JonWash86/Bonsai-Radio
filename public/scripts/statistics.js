@@ -12,7 +12,7 @@ const BUTTON_IDS = [
   'oneWeekButton'
 ];
 
-// JR: here is my playlist control initializer. I try to pass PLT to it every time I pull a ne PL's Ts, in order to manipulate that Pl's data. It seems like if I call it in the wrong place (as I tried on statistics.js 76, and commented out), it'll start looping over and over, and if you click the buttons enough it'll hang indefinitely.
+// JR: here is my playlist control initializer. I try to pass PLT to it every time I pull a new PL's Ts, in order to manipulate that Pl's data. It seems like if I call it in the wrong place (as I tried on statistics.js 76, and commented out), it'll start looping over and over, and if you click the buttons enough it'll hang indefinitely.
 function initializePlayListControl(playListTracks){
   BUTTON_IDS.forEach(function(buttonId) {
     $('#' + buttonId).off('click');
